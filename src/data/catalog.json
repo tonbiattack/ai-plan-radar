@@ -1,0 +1,749 @@
+{
+  "services": [
+    {
+      "id": "opencode",
+      "name": "OpenCode",
+      "slug": "opencode",
+      "category": "ターミナル・IDE",
+      "description": "複数のモデルプロバイダーを接続できるオープンソースのコーディングクライアント。クライアントとモデル利用料は別です。",
+      "officialUrl": "https://opencode.ai/",
+      "pricingUrl": "https://opencode.ai/docs/",
+      "serviceType": "client",
+      "supportedPlatforms": ["Windows", "macOS", "Linux", "Web"],
+      "status": "active",
+      "relatedServiceIds": ["opencode-console"],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://opencode.ai/docs/",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anomalyco/opencode/dev/LICENSE",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "opencode-console",
+      "name": "OpenCode Console",
+      "slug": "opencode-console",
+      "category": "モデルAPI",
+      "description": "OpenCodeチームが検証したモデルを提供する任意のモデルプロバイダー。OpenCode本体とは別契約の従量課金です。",
+      "officialUrl": "https://opencode.ai/console",
+      "pricingUrl": "https://opencode.ai/docs/zen/",
+      "serviceType": "model_provider",
+      "supportedPlatforms": ["API"],
+      "status": "active",
+      "relatedServiceIds": ["opencode"],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://opencode.ai/docs/zen/",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cline",
+      "name": "Cline",
+      "slug": "cline",
+      "category": "ターミナル・IDE",
+      "description": "エディターとターミナルで動くオープンソースのエージェント。モデルは別契約のAPIやローカル環境から選べます。",
+      "officialUrl": "https://cline.bot/",
+      "pricingUrl": "https://docs.cline.bot/introduction/welcome",
+      "serviceType": "client",
+      "supportedPlatforms": ["VS Code", "JetBrains", "CLI"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://docs.cline.bot/introduction/welcome",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/cline/cline/main/LICENSE",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "slug": "cursor",
+      "category": "AIエディター",
+      "description": "エディターとクラウドエージェントを提供。プラン内の共有利用枠と、外部モデルの別途従量課金を分けて確認できます。",
+      "officialUrl": "https://cursor.com/",
+      "pricingUrl": "https://cursor.com/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["Windows", "macOS", "Linux"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://cursor.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "github-copilot",
+      "name": "GitHub Copilot",
+      "slug": "github-copilot",
+      "category": "ターミナル・IDE",
+      "description": "IDE・CLI・GitHubで使うコーディング支援。コード補完の枠と、エージェント等が消費するAIクレジットは別です。",
+      "officialUrl": "https://github.com/features/copilot",
+      "pricingUrl": "https://github.com/features/copilot/plans",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["VS Code", "JetBrains", "CLI", "Web"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://github.com/features/copilot/plans",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "slug": "claude-code",
+      "category": "ターミナル・IDE",
+      "description": "Anthropicのコーディングエージェント。Claude Pro / Max等の契約に含まれ、利用枠には時間窓と週単位の上限があります。",
+      "officialUrl": "https://www.anthropic.com/product/claude-code",
+      "pricingUrl": "https://www.anthropic.com/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["CLI", "IDE"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    }
+  ],
+  "plans": [
+    {
+      "id": "opencode-client",
+      "serviceId": "opencode",
+      "name": "クライアント本体",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://opencode.ai/docs/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "上限は接続先プロバイダーの契約に依存します。",
+          "sourceUrl": "https://opencode.ai/docs/"
+        }
+      ],
+      "features": [],
+      "notes": "MITライセンスの本体ソフトウェアのみ。無料で有料モデルを無制限に使える契約ではありません。モデル利用料・ローカル実行費用は別です。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://opencode.ai/docs/",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/anomalyco/opencode/dev/LICENSE",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "opencode-console-usage",
+      "serviceId": "opencode-console",
+      "name": "従量課金",
+      "billingType": "usage",
+      "priceStatus": "unresearched",
+      "price": null,
+      "pricingUrl": "https://opencode.ai/docs/zen/",
+      "modelAccess": [
+        {
+          "modelId": "gpt-6-1-sol",
+          "availability": "available",
+          "notes": "従量課金。入力コンテキスト長で料金が異なります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "予算設定は可能。固定の全体利用枠は未調査。",
+          "sourceUrl": "https://opencode.ai/docs/zen/"
+        }
+      ],
+      "features": [],
+      "notes": "モデル・入出力トークン数で課金。例: GPT 6.1 Sol（入力272K以下）は100万トークンあたり入力$2、出力$10。月額ではありません。クレジット購入に4.6% + $0.31の手数料。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://opencode.ai/docs/zen/",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cline-client",
+      "serviceId": "cline",
+      "name": "クライアント本体",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://docs.cline.bot/introduction/welcome",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "接続するプロバイダーごとに異なります。モデルごとの対応状況は未調査。",
+          "sourceUrl": "https://docs.cline.bot/introduction/welcome"
+        }
+      ],
+      "features": [],
+      "notes": "Apache 2.0のオープンソース本体。API接続先の料金やローカル実行費用は別です。ClinePassやCline usage-billingの契約を含みません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://docs.cline.bot/introduction/welcome",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/cline/cline/main/LICENSE",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cursor-free",
+      "serviceId": "cursor",
+      "name": "Free",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://cursor.com/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "Limited agent requests / Limited Chat requestsと記載。数値は非公開。",
+          "sourceUrl": "https://cursor.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "エージェント・チャットの利用に制限があります。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://cursor.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cursor-plus",
+      "serviceId": "cursor",
+      "name": "Plus",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 8,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税別",
+        "promotionNote": "公式はintroductory planと表記。終了日未確認。"
+      },
+      "pricingUrl": "https://cursor.com/pricing",
+      "modelAccess": [
+        {
+          "modelId": "grok",
+          "availability": "available",
+          "notes": "Grokモデルのみ。個別バージョンは未調査。"
+        },
+        {
+          "modelId": "claude-opus",
+          "availability": "unavailable",
+          "notes": "Plusは第三者モデル非対応。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "週",
+          "resetPolicy": "毎週リセット",
+          "overagePolicy": "追加購入、またはリセットまで待機",
+          "rolloverPolicy": "未調査",
+          "notes": "CursorとGrokの共有プール。",
+          "sourceUrl": "https://cursor.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "Grokモデルのみ。Grok APIは別途従量課金。共有利用枠の絶対量は非公開です。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://cursor.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cursor-premium",
+      "serviceId": "cursor",
+      "name": "Premium",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 30,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://cursor.com/pricing",
+      "modelAccess": [
+        {
+          "modelId": "grok",
+          "availability": "available",
+          "notes": "最新Grokモデル。個別バージョンは未調査。"
+        },
+        {
+          "modelId": "claude-opus",
+          "availability": "unknown",
+          "notes": "第三者モデル利用は可能ですが、このモデルの個別対応は未調査。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "週",
+          "resetPolicy": "毎週リセット",
+          "overagePolicy": "追加購入、またはリセットまで待機",
+          "rolloverPolicy": "未調査",
+          "notes": "Plusの4倍。絶対量は非公開。",
+          "sourceUrl": "https://cursor.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "Plusの4倍の利用量と表記。第三者モデルの使用料は月額に含まれずAPI定価で別途課金。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://cursor.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "github-copilot-free",
+      "serviceId": "github-copilot",
+      "name": "Free",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://github.com/features/copilot/plans",
+      "modelAccess": [
+        {
+          "modelId": "claude-haiku-4-5",
+          "availability": "available",
+          "notes": "Freeの紹介文に記載。"
+        },
+        {
+          "modelId": "gpt-5-mini",
+          "availability": "available",
+          "notes": "Freeの紹介文に記載。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "feature",
+          "targetId": "コード補完",
+          "metric": "補完数",
+          "status": "known",
+          "amount": 2000,
+          "unit": "回",
+          "window": "月",
+          "resetPolicy": "月ごと（基準日未調査）",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "コード補完の月間枠。チャット・エージェントは別枠で数値非公開。",
+          "sourceUrl": "https://github.com/features/copilot/plans"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "チャット・エージェント利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "チャットとエージェントの利用はLimitedと記載。",
+          "sourceUrl": "https://github.com/features/copilot/plans"
+        }
+      ],
+      "features": ["コード補完"],
+      "notes": "モデル一覧とプラン別の利用可否は一致しない場合があるため、確認できたモデルのみ記載。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://github.com/features/copilot/plans",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "github-copilot-pro",
+      "serviceId": "github-copilot",
+      "name": "Pro",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 10,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://github.com/features/copilot/plans",
+      "modelAccess": [
+        {
+          "modelId": "claude-haiku-4-5",
+          "availability": "available",
+          "notes": "Freeの機能を含む。"
+        },
+        {
+          "modelId": "gpt-5-mini",
+          "availability": "available",
+          "notes": "Freeの機能を含む。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "AIクレジット",
+          "status": "known",
+          "amount": 15,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "月ごと（基準日未調査）",
+          "overagePolicy": "追加クレジットを購入可能",
+          "rolloverPolicy": "未調査",
+          "notes": "AIクレジットは機能・モデルにより消費量が異なります。",
+          "sourceUrl": "https://github.com/features/copilot/plans"
+        },
+        {
+          "scope": "feature",
+          "targetId": "コード補完",
+          "metric": "補完数",
+          "status": "unlimited",
+          "amount": null,
+          "unit": "不明",
+          "window": "対象なし",
+          "resetPolicy": "対象なし",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "コード補完のみ公式にUnlimitedと記載。エージェント全体の無制限ではありません。",
+          "sourceUrl": "https://github.com/features/copilot/plans"
+        }
+      ],
+      "features": ["コード補完"],
+      "notes": "1ユーザーあたり月額。合計$15分のAIクレジット（基本$10 + 変動追加枠$5）。追加枠は変更される場合があります。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://github.com/features/copilot/plans",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "github-copilot-pro-plus",
+      "serviceId": "github-copilot",
+      "name": "Pro+",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 39,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://github.com/features/copilot/plans",
+      "modelAccess": [
+        {
+          "modelId": "claude-opus",
+          "availability": "available",
+          "notes": "Opusを含むプレミアムモデル。個別バージョンは未調査。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "AIクレジット",
+          "status": "known",
+          "amount": 70,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "月ごと（基準日未調査）",
+          "overagePolicy": "追加クレジットを購入可能",
+          "rolloverPolicy": "未調査",
+          "notes": "変動追加枠は変更される場合があります。",
+          "sourceUrl": "https://github.com/features/copilot/plans"
+        }
+      ],
+      "features": [],
+      "notes": "1ユーザーあたり月額。$70分の合計AIクレジット（基本$39 + 変動追加枠$31）。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://github.com/features/copilot/plans",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "claude-code-pro",
+      "serviceId": "claude-code",
+      "name": "Claude Pro",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 20,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://www.anthropic.com/pricing",
+      "modelAccess": [
+        {
+          "modelId": "claude-opus",
+          "availability": "unknown",
+          "notes": "料金表のClaude契約全体では対応。Claude Code内の利用条件・個別モデル版は未調査のため、対応状況不明として掲載。"
+        },
+        {
+          "modelId": "claude-sonnet",
+          "availability": "unknown",
+          "notes": "料金表のClaude契約全体では対応。Claude Code内の利用条件・個別モデル版は未調査のため、対応状況不明として掲載。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "5時間および週",
+          "resetPolicy": "5時間および週単位（起算時刻未調査）",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "Pro基準。固定リクエスト数は非公開。",
+          "sourceUrl": "https://www.anthropic.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "Claude契約にClaude Codeを含みます。Pro基準の利用量と表記。会話長・ファイル・モデルで到達量は変動。API別契約は含みません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "claude-code-max",
+      "serviceId": "claude-code",
+      "name": "Claude Max",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://www.anthropic.com/pricing",
+      "modelAccess": [
+        {
+          "modelId": "claude-opus",
+          "availability": "unknown",
+          "notes": "料金表のClaude契約全体では対応。Claude Code内の利用条件・個別モデル版は未調査のため、対応状況不明として掲載。"
+        },
+        {
+          "modelId": "claude-sonnet",
+          "availability": "unknown",
+          "notes": "料金表のClaude契約全体では対応。Claude Code内の利用条件・個別モデル版は未調査のため、対応状況不明として掲載。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "5時間および週",
+          "resetPolicy": "5時間および週単位（起算時刻未調査）",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "Proの5倍。固定リクエスト数は非公開。",
+          "sourceUrl": "https://www.anthropic.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "Claude契約にClaude Codeを含みます。Proの5倍の利用量と表記。会話長・ファイル・モデルで到達量は変動。API別契約は含みません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    }
+  ],
+  "models": [
+    {
+      "id": "gpt-6-1-sol",
+      "displayName": "GPT 6.1 Sol",
+      "provider": "OpenAI",
+      "aliases": ["gpt-6.1-sol", "GPT-6.1 Sol"]
+    },
+    {
+      "id": "gpt-5-mini",
+      "displayName": "GPT-5 mini",
+      "provider": "OpenAI",
+      "aliases": ["gpt-5-mini"]
+    },
+    {
+      "id": "claude-haiku-4-5",
+      "displayName": "Claude Haiku 4.5",
+      "provider": "Anthropic",
+      "aliases": ["Haiku 4.5", "claude-haiku-4-5"]
+    },
+    {
+      "id": "claude-opus",
+      "displayName": "Claude Opus（系列）",
+      "provider": "Anthropic",
+      "aliases": ["Opus"]
+    },
+    {
+      "id": "claude-sonnet",
+      "displayName": "Claude Sonnet（系列）",
+      "provider": "Anthropic",
+      "aliases": ["Sonnet"]
+    },
+    {
+      "id": "grok",
+      "displayName": "Grok（系列）",
+      "provider": "xAI",
+      "aliases": ["Grok"]
+    }
+  ],
+  "changes": []
+}

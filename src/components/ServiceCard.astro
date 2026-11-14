@@ -1,0 +1,60 @@
+---
+import { catalog } from '../lib/catalog';
+import type { Service } from '../lib/schema';
+import { typeLabels, formatPrice, formatDate, isStale, confidenceLabels } from '../lib/format';
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+const plans = catalog.plans.filter((p) => p.serviceId === service.id);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const models = [
+  ...new Set(
+    plans
+      .flatMap((p) =>
+        p.modelAccess
+          .filter((m) => ['available', 'conditional'].includes(m.availability))
+          .map((m) => catalog.models.find((item) => item.id === m.modelId)?.displayName),
+      )
+      .filter(Boolean),
+  ),
+];
+---
+
+<article class="service-card" data-service={service.id}>
+  <div class="service-heading">
+    <div>
+      <span class="type-label">{typeLabels[service.serviceType]}</span>
+      <h2>
+        <a href={`${base}/services/${service.slug}/`}>{service.name}</a>
+      </h2>
+    </div>
+    <span class="badge">{confidenceLabels[service.confidence]}</span>
+  </div>
+  <p class="service-description">{service.description}</p>
+  <div class="plan-preview">
+    {plans.map((plan) => (
+      <div>
+        <span>{plan.name}</span>
+        <strong>{formatPrice(plan)}</strong>
+      </div>
+    ))}
+  </div>
+  <p class="model-summary">
+    <span>掲載モデル</span>{' '}
+    {models.length ? models.join(' / ') : '確認済みの対応モデルなし（未調査項目あり）'}
+  </p>
+  <div class="card-bottom">
+    <span>
+      確認 <time datetime={service.verifiedAt}>{formatDate(service.verifiedAt)}</time>
+      <span data-verified={service.verifiedAt} class="stale" hidden={!isStale(service.verifiedAt)}>
+        {' '}
+        · 30日以上経過
+      </span>
+    </span>
+    <a href={service.officialUrl}>公式サイト</a>
+    <a class="detail-link" href={`${base}/services/${service.slug}/`}>
+      プラン・制限を見る
+    </a>
+  </div>
+</article>

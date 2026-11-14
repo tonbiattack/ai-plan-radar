@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { catalog } from '../lib/catalog';
+import { billingLabels, typeLabels } from '../lib/format';
+import { searchCatalog, defaults } from '../lib/search';
+const categories = [...new Set(catalog.services.map((s) => s.category))];
+---
+
+<Layout>
+  <section class="intro container">
+    <div>
+      <h1>
+        月額の、その先まで。
+        <br />
+        AIコーディングの利用枠を調べる。
+      </h1>
+      <p>
+        何が、どれだけ使えるのか。料金・モデル・制限を、
+        <br class="desktop-break" />
+        公式情報を根拠に整理しています。
+      </p>
+    </div>
+    <aside class="reading-note">
+      <strong>「無料」と「使い放題」は別です。</strong>
+      <p>
+        本体が無料でも、モデル利用料は別の場合があります。
+        <br />
+        未確認の上限を「制限なし」とは表示しません。
+      </p>
+    </aside>
+  </section>
+  <div class="catalog-layout container">
+    <section class="filters" aria-labelledby="filter-title">
+      <h2 id="filter-title">条件を絞り込む</h2>
+      <noscript>
+        <p>絞り込みにはJavaScriptが必要です。以下の全サービスの詳細はそのまま閲覧できます。</p>
+      </noscript>
+      <form id="filters" role="search">
+        <label>
+          キーワード
+          <input name="q" type="search" placeholder="サービス・プラン・モデル名" />
+        </label>
+        <label>
+          カテゴリ
+          <select name="category">
+            <option value="">すべて</option>
+            {categories.map((c) => (
+              <option>{c}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          サービスの種類
+          <select name="type">
+            <option value="">すべて</option>
+            {Object.entries(typeLabels).map(([value, label]) => (
+              <option value={value}>{label}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          課金方式
+          <select name="billing">
+            <option value="">すべて</option>
+            {Object.entries(billingLabels).map(([value, label]) => (
+              <option value={value}>{label}</option>
+            ))}
+          </select>
+        </label>
+        <label class="check-label">
+          <input name="free" type="checkbox" value="1" />
+          無料プランのあるサービス
+        </label>
+        <label>
+          対応モデル
+          <select name="model">
+            <option value="">すべて</option>
+            {catalog.models.map((m) => (
+              <option value={m.id}>{m.displayName}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          利用枠の公開状況
+          <select name="disclosure">
+            <option value="">すべて</option>
+            <option value="known">数値の公開あり</option>
+            <option value="unknown">非公開・未確認の項目あり</option>
+          </select>
+        </label>
+        <fieldset>
+          <legend>月額の上限</legend>
+          <div class="price-inputs">
+            <label>
+              通貨
+              <select name="currency">
+                <option>USD</option>
+                <option>JPY</option>
+              </select>
+            </label>
+            <label>
+              金額
+              <input name="max" type="number" min="0" step="any" placeholder="上限なし" />
+            </label>
+          </div>
+        </fieldset>
+        <p class="help">
+          元通貨で比較します。従量料金は対象外。定額＋従量は基本月額のみで、総額の上限ではありません。
+        </p>
+        <label>
+          並べ替え
+          <select name="sort">
+            <option value="name">サービス名順</option>
+            <option value="verified">最終確認日が新しい順</option>
+            <option value="price">基本月額が安い順（選択通貨内）</option>
+          </select>
+        </label>
+        <button type="reset" class="reset-button">
+          条件をリセット
+        </button>
+      </form>
+    </section>
+    <section class="results" aria-label="サービス一覧">
+      <div class="results-heading">
+        <p id="result-count" role="status" aria-live="polite">
+          {catalog.services.length}件のサービス
+        </p>
+        <span>AIコーディング分野</span>
+      </div>
+      <p class="result-note">
+        基本月額と利用料は別です。価格不明・選択通貨外は価格順の末尾。モデル一覧は確認できた範囲のみです。
+      </p>
+      <div id="service-list">
+        {searchCatalog(catalog, defaults).map((service) => (
+          <ServiceCard service={service} />
+        ))}
+      </div>
+      <div id="empty-state" class="empty-state" hidden>
+        <h2>条件に合うサービスがありません</h2>
+        <p>キーワードを短くするか、絞り込み条件を減らしてください。</p>
+        <button id="clear-empty" type="button">
+          すべての条件をリセット
+        </button>
+      </div>
+    </section>
+  </div>
+  <script src="../scripts/search.ts"></script>
+</Layout>

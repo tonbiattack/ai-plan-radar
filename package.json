@@ -1,0 +1,43 @@
+{
+  "name": "ai-plan-radar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "preview": "astro preview",
+    "validate": "tsx scripts/validate.ts",
+    "lint": "eslint .",
+    "typecheck": "astro check",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "build": "npm run validate && astro build",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "astro": "^7.4.12",
+    "zod": "^4.6.7"
+  },
+  "overrides": {
+    "minimatch": "^11.0.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^22.19.0",
+    "eslint": "^10.15.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "prettier": "^3.10.1",
+    "prettier-plugin-astro": "^1.1.2",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
+  }
+}

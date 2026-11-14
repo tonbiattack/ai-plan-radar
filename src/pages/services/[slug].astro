@@ -1,0 +1,194 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { catalog } from '../../lib/catalog';
+import {
+  formatPrice,
+  formatLimit,
+  formatDate,
+  billingLabels,
+  typeLabels,
+  accessLabels,
+  confidenceLabels,
+  isStale,
+} from '../../lib/format';
+export function getStaticPaths() {
+  return catalog.services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+const { service } = Astro.props;
+const plans = catalog.plans.filter((p) => p.serviceId === service.id);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout
+  title={`${service.name}の料金・モデル・利用制限 | AI Plan Radar`}
+  description={service.description}
+>
+  <div class="container detail-page">
+    <a class="back-link" href={`${base}/`}>
+      サービス一覧に戻る
+    </a>
+    <header class="detail-header">
+      <span class="type-label">
+        {typeLabels[service.serviceType]} / {service.category}
+      </span>
+      <h1>{service.name}</h1>
+      <p>{service.description}</p>
+      <p class="metadata">
+        {confidenceLabels[service.confidence]} · 最終確認{' '}
+        <time datetime={service.verifiedAt}>{formatDate(service.verifiedAt)}</time>
+        <span
+          class="stale"
+          data-verified={service.verifiedAt}
+          hidden={!isStale(service.verifiedAt)}
+        >
+          {' '}
+          · 確認から30日以上経過しています
+        </span>
+      </p>
+      <p>対応環境: {service.supportedPlatforms.join(' / ')}</p>
+      <div class="official-links">
+        <a href={service.officialUrl}>公式サイト</a>
+        <a href={service.pricingUrl}>公式料金・契約情報</a>
+      </div>
+    </header>
+    {service.serviceType === 'client' && (
+      <aside class="notice">
+        <strong>これはクライアント本体の情報です。</strong>
+        <p>
+          モデルを提供するプロバイダーとは別です。本体無料は、モデルの無料利用や無制限を意味しません。
+        </p>
+      </aside>
+    )}
+    {service.relatedServiceIds.length > 0 && (
+      <p>
+        別サービスとして掲載:{' '}
+        {service.relatedServiceIds.map((id) => {
+          const related = catalog.services.find((s) => s.id === id)!;
+          return (
+            <a class="related-link" href={`${base}/services/${related.slug}/`}>
+              {related.name}
+            </a>
+          );
+        })}
+      </p>
+    )}
+    <h2 class="section-title">プランと利用できる範囲</h2>
+    <p>
+      非公開＝公式に数値の記載なし、未調査＝まだ確認していない項目。どちらも「制限なし」ではありません。
+    </p>
+    <nav class="plan-nav" aria-label="プラン一覧">
+      {plans.map((plan) => (
+        <a href={`#${plan.id}`}>{plan.name}</a>
+      ))}
+    </nav>
+    {plans.map((plan) => (
+      <section class="plan-detail" id={plan.id}>
+        <div class="plan-title">
+          <h3>{plan.name}</h3>
+          <span class="badge">{billingLabels[plan.billingType]}</span>
+        </div>
+        <p class="plan-price">{formatPrice(plan)}</p>
+        <p>
+          {plan.price?.taxNote ?? '月額換算なし・料金の詳細は公式を確認'}
+          {plan.price?.promotionNote && ` / ${plan.price.promotionNote}`}
+        </p>
+        {plan.price?.period === 'year' && <p>年額を一括請求。月額換算は参考値です。</p>}
+        <p>{plan.notes}</p>
+        <h4>対応モデル</h4>
+        {plan.modelAccess.length ? (
+          <ul class="model-list">
+            {plan.modelAccess.map((access) => (
+              <li>
+                <strong>{catalog.models.find((m) => m.id === access.modelId)!.displayName}</strong>
+                <span
+                  class:list={[
+                    'access-status',
+                    { unavailable: access.availability === 'unavailable' },
+                  ]}
+                >
+                  {accessLabels[access.availability]}
+                </span>
+                <p>{access.notes}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>個別モデルの対応は未調査。接続先・契約条件を公式でご確認ください。</p>
+        )}
+        <h4>利用制限の明細</h4>
+        <div class="limits">
+          {plan.limits.map((limit) => (
+            <div class="limit-item">
+              <div class="limit-heading">
+                <strong>{limit.metric}</strong>
+                <span>{formatLimit(limit)}</span>
+              </div>
+              <dl>
+                <div>
+                  <dt>制限対象</dt>
+                  <dd>
+                    {{ plan: 'プラン全体', model: 'モデル別', feature: '機能別' }[limit.scope]}
+                    {limit.targetId && `: ${limit.targetId}`}
+                  </dd>
+                </div>
+                <div>
+                  <dt>時間窓</dt>
+                  <dd>{limit.window}</dd>
+                </div>
+                <div>
+                  <dt>リセット</dt>
+                  <dd>{limit.resetPolicy}</dd>
+                </div>
+                <div>
+                  <dt>超過時</dt>
+                  <dd>{limit.overagePolicy}</dd>
+                </div>
+                <div>
+                  <dt>繰越</dt>
+                  <dd>{limit.rolloverPolicy}</dd>
+                </div>
+              </dl>
+              <p>{limit.notes}</p>
+              <a href={limit.sourceUrl}>この制限の公式出典</a>
+            </div>
+          ))}
+        </div>
+        <div class="plan-sources">
+          <p>
+            {confidenceLabels[plan.confidence]} · 確認日{' '}
+            <time datetime={plan.verifiedAt}>{formatDate(plan.verifiedAt)}</time>
+          </p>
+          <a href={plan.pricingUrl}>公式プランページで最新情報を確認</a>
+          <details>
+            <summary>参照した公式出典（{plan.sources.length}件）</summary>
+            <ul>
+              {plan.sources.map((source) => (
+                <li>
+                  <a href={source.url}>{source.url}</a>（{formatDate(source.verifiedAt)}確認）
+                </li>
+              ))}
+            </ul>
+          </details>
+        </div>
+      </section>
+    ))}
+    <section class="service-sources">
+      <h2>サービス情報の出典</h2>
+      <ul>
+        {service.sources.map((s) => (
+          <li>
+            <a href={s.url}>{s.url}</a>（{formatDate(s.verifiedAt)}確認）
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+  <script>
+    import { isStale } from '../../lib/format';
+    for (const element of document.querySelectorAll<HTMLElement>('[data-verified]'))
+      element.hidden = !isStale(element.dataset.verified!);
+  </script>
+</Layout>

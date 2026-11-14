@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout title="ページが見つかりません | AI Plan Radar">
+  <div class="container prose">
+    <h1>ページが見つかりません</h1>
+    <p>URLが変更されたか、掲載されていないサービスです。</p>
+    <a href={`${base}/`}>サービス一覧へ戻る</a>
+  </div>
+</Layout>
