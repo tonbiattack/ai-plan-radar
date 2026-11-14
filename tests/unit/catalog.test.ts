@@ -64,7 +64,7 @@ describe('公式出典付きデータ', () => {
     expect(catalog.plans.find((p) => p.serviceId === 'opencode-console')?.price).toBeNull();
   });
   it('不明・非公開・制限なしを区別', () => {
-    const limit = catalog.plans[0].limits[0];
+    const limit = catalog.plans.find((p) => p.id === 'opencode-client')!.limits[0];
     expect(formatLimit(limit)).toBe('未調査');
     expect(formatLimit({ ...limit, status: 'undisclosed' })).toBe('非公開');
     expect(formatLimit({ ...limit, status: 'unlimited' })).toContain('制限なし');

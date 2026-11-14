@@ -20,9 +20,17 @@
 - [Cursor](https://cursor.com/pricing): Super / Ultraを追加。週単位の共有枠はそれぞれPlusの15倍／50倍で、絶対量は非公開。第三者モデルは別途従量課金。
 - [Claude](https://www.anthropic.com/pricing): Claude Ultraを追加。週間枠はProの10倍、5時間枠なしは認証済みアカウント限定。Claude Code内での個別モデル版は引き続き未調査。
 
-個人向け主要プランとモデルの一部を掲載しており、全モデル・法人プラン・年払いを網羅していません。[ClinePass](https://docs.cline.bot/getting-started/clinepass.md)は本体と別プロバイダーであり、今回のデータには未登録です。各モデルの上限詳細が未調査の場合は推測せず公式情報を確認してください。
+個人向け主要プランとモデルの一部を掲載しており、全モデル・法人プラン・年払いを網羅していません。各モデルの上限詳細が未調査の場合は推測せず公式情報を確認してください。
 
-Command Code、Logfare、Museはこの回では公式料金・プランの特定と確認を完了していないため保留。Codex、Windsurfは調査未完了のため保留。存在しない・非公開という判断ではない。出典を確認後に追加する。
+## 小規模サービスの追加確認（2026-11-14）
+
+- [Logfare API documentation](https://logfare.ai/docs)、[利用規約](https://logfare.ai/tos)、[プライバシーポリシー](https://logfare.ai/privacy)、[公開モデルAPI](https://logfare.ai/v1/models): Standard / Premium / Proは金銭的には無料。学習利用への同意とデータ販売への同意の有無を区別。全プランで通信内容が記録され、Discord連携が必要。通常の分・時間・日と新規24時間、同時実行をそれぞれ独立した制限として記載。公式の期間限定上限引き上げは通常枠と分離。公開モデルAPIでStandard対象のQwen 3.8 27B、Gemma 4 26B、DeepSeek V4.1 Flash Economy、Premium対象のGLM 5.2、GLM 5.3 Flash、Kimi K2.7 Codeを例として掲載。PII除去はベストエフォートで完全な匿名化ではなく、学習済みモデル・販売済みデータは撤回後も回収できない点を注記。APIのモデルリストは変動するため最新情報を公式で確認。
+- [Command Code料金](https://commandcode.ai/pricing)、[Go](https://commandcode.ai/docs/plans/go)、[GOAT](https://commandcode.ai/docs/plans/goat)、[Pro](https://commandcode.ai/docs/plans/pro)、[Max](https://commandcode.ai/docs/plans/max): Go / GOAT / Pro / Max 10× / Max 20×を掲載。Goは$1で共有$10相当、5時間$3・7日$6。モデル別の換算額は単独使用時の値で、合算不可と注記。GOATはモデル別枠と共有$100。Proは合計$110に加えモデル別・プレミアム別枠があり、Claude OpusとFableはMaxまたはProvider APIのみ。Maxは標準・プレミアムの別枠で、ブランド名ではなく請求区分で適用先が決まる。推定回数は公式の典型トークン前提付きで保証値ではない。掲載モデルは一部。Teams・Enterprise・Provider API・年払いは未掲載。
+- [ClinePass](https://docs.cline.bot/getting-started/clinepass.md): Cline本体やCline従量課金と別の定額プロバイダーとして登録。公式掲載のGLM 5.3 Flashを一例として表示。5時間・週・月の利用枠があり、具体的な上限数値は未確認。
+- [Cline usage-billing](https://docs.cline.bot/getting-started/cline-provider.md): 任意の前払いクレジット契約としてCline本体と分離。100以上のモデル、無料タグ、クレジット残高の消費を確認。固定月額・利用上限・繰越条件は未調査。
+- [Kilo Code料金](https://kilocode.ai/pricing)、[Kilo Pass](https://kilocode.ai/pricing/kilo-pass): Individualプラットフォームは無料だが推論やクラウド実行は別料金。Kilo Pass Starter / Pro / Expertを追加。支払額と同額の有料クレジットにボーナスが付き、有料分は1年有効、ボーナスは月次失効。ボーナス率は月払いの継続月数と年払いで変動し、固定割引ではない。Teams・Enterprise、500以上のモデル個別料金、Kilo Gatewayの従量課金は未掲載。
+
+Museは独立したサービスとしての公式料金・プランの特定と確認が未完了のため保留。Codex、Windsurfも調査未完了のため保留。存在しない・非公開という判断ではない。出典を確認後に追加する。
 
 ## 更新ルール
 

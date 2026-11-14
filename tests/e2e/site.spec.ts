@@ -1,5 +1,23 @@
 import { test, expect } from '@playwright/test';
 
+test('Logfareの同意条件と通常枠を表示', async ({ page }) => {
+  await page.goto('./services/logfare/');
+  await expect(page.getByRole('heading', { name: 'Logfare', level: 1 })).toBeVisible();
+  await expect(
+    page
+      .locator('#logfare-standard')
+      .getByText(/最初の24時間/)
+      .first(),
+  ).toBeVisible();
+  await expect(
+    page.locator('#logfare-standard').getByText(/送受信内容・メタデータは記録/),
+  ).toBeVisible();
+  await expect(
+    page.locator('#logfare-premium').getByText(/月額無料ですが、Premiumモデルには/),
+  ).toBeVisible();
+  await expect(page.locator('#logfare-pro').getByText(/第三者への販売/)).toBeVisible();
+});
+
 test('モデル別の利用枠と公式推定を詳細に表示', async ({ page }) => {
   await page.goto('./services/opencode-console/');
   const go = page.locator('#opencode-console-go');
@@ -39,7 +57,7 @@ test('サブパス・アセット・検索・履歴復元・詳細への遷移',
   await expect(favicon).toHaveAttribute('href', '/ai-plan-radar/favicon.svg');
   const iconResponse = await page.request.get('/ai-plan-radar/favicon.svg');
   expect(iconResponse.status()).toBe(200);
-  await expect(page.locator('#result-count')).toHaveText('6件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('10件のサービス');
   await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(244, 247, 250)');
   await page.getByLabel('キーワード').fill('gpt-5-mini');
   await expect(page.locator('#result-count')).toHaveText('1件のサービス');
@@ -64,7 +82,7 @@ test('モバイル横溢れなし、リセット、モデル利用不可の除�
   await page.goto('./?model=claude-opus&billing=free');
   await expect(page.locator('#result-count')).toHaveText('0件のサービス');
   await page.getByRole('button', { name: 'すべての条件をリセット' }).click();
-  await expect(page.locator('#result-count')).toHaveText('6件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('10件のサービス');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
@@ -82,7 +100,7 @@ test('全詳細ページの内部リンクとキーボード導線', async ({ pa
   const links = await page
     .locator('h2 a')
     .evaluateAll((elements) => elements.map((e) => (e as HTMLAnchorElement).href));
-  expect(links).toHaveLength(6);
+  expect(links).toHaveLength(10);
   for (const link of links) {
     const response = await page.goto(link);
     expect(response?.status()).toBe(200);
@@ -98,7 +116,7 @@ test('JavaScript無効でも一覧と詳細が閲覧可能', async ({ browser })
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:4321/ai-plan-radar/');
-  await expect(page.locator('[data-service]')).toHaveCount(6);
+  await expect(page.locator('[data-service]')).toHaveCount(10);
   await page.getByRole('heading', { name: 'OpenCode', exact: true }).getByRole('link').click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('OpenCode');
   await context.close();

@@ -57,7 +57,7 @@
       "serviceType": "client",
       "supportedPlatforms": ["VS Code", "JetBrains", "CLI"],
       "status": "active",
-      "relatedServiceIds": [],
+      "relatedServiceIds": ["cline-pass"],
       "verifiedAt": "2026-11-14",
       "sources": [
         {
@@ -133,9 +133,1163 @@
         }
       ],
       "confidence": "official"
+    },
+    {
+      "id": "logfare",
+      "name": "Logfare",
+      "slug": "logfare",
+      "category": "モデルAPI",
+      "description": "無料で複数モデルを提供するOpenAI互換API。プロンプト・応答等を記録し、モデル学習やデータ販売への同意によって利用可能なモデル・上限が変わります。",
+      "officialUrl": "https://logfare.ai/",
+      "pricingUrl": "https://logfare.ai/docs#rate-limits",
+      "serviceType": "model_provider",
+      "supportedPlatforms": ["API"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "command-code",
+      "name": "Command Code",
+      "slug": "command-code",
+      "category": "ターミナル・IDE",
+      "description": "オープンモデルを中心に使えるコーディングエージェント。プランによりモデル別の利用額換算枠とAPI利用可否が異なります。",
+      "officialUrl": "https://commandcode.ai/",
+      "pricingUrl": "https://commandcode.ai/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["Windows", "macOS", "Linux", "CLI"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" },
+        { "url": "https://commandcode.ai/docs/plans/goat", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cline-pass",
+      "name": "ClinePass",
+      "slug": "cline-pass",
+      "category": "モデルAPI",
+      "description": "Cline本体と別契約のモデルプロバイダー。選定されたオープンモデルを定額で提供し、Cline以外からもAPIで利用可能です。",
+      "officialUrl": "https://cline.bot/cline-pass",
+      "pricingUrl": "https://docs.cline.bot/getting-started/clinepass.md",
+      "serviceType": "model_provider",
+      "supportedPlatforms": ["API", "Cline"],
+      "status": "active",
+      "relatedServiceIds": ["cline"],
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://docs.cline.bot/getting-started/clinepass.md", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kilo-code",
+      "name": "Kilo Code",
+      "slug": "kilo-code",
+      "category": "ターミナル・IDE",
+      "description": "エディターやCLIで使うコーディングエージェント。プラットフォーム利用料、モデル推論料、クラウド実行料は別です。",
+      "officialUrl": "https://kilocode.ai/",
+      "pricingUrl": "https://kilocode.ai/pricing",
+      "serviceType": "client",
+      "supportedPlatforms": ["VS Code", "JetBrains", "CLI"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://kilocode.ai/pricing", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
     }
   ],
   "plans": [
+    {
+      "id": "logfare-standard",
+      "serviceId": "logfare",
+      "name": "Standard",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "無料",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://logfare.ai/docs#rate-limits",
+      "modelAccess": [
+        {
+          "modelId": "qwen-3-8-27b",
+          "availability": "available",
+          "notes": "Standard対象。プラン内の共有枠を消費します。モデル一覧は変動します。"
+        },
+        {
+          "modelId": "gemma-4-26b",
+          "availability": "available",
+          "notes": "公開モデルAPIではStandard対象かつリクエスト数のアカウント・ネットワーク枠の対象外。同時実行や提供元側の制限は適用。"
+        },
+        {
+          "modelId": "deepseek-v4-1-flash-economy",
+          "availability": "available",
+          "notes": "公開モデルAPIではStandard対象かつリクエスト数のアカウント・ネットワーク枠の対象外。同時実行や提供元側の制限は適用。通常版と別ID。"
+        },
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "unavailable",
+          "notes": "確認時点のモデルAPIではPremium対象。モデル学習への同意が必要。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 40,
+          "unit": "回",
+          "window": "分",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "通常時は1分40回。全対象モデル・API・アプリで共有。最初の24時間は1分10回。IP単位・提供元・モデル別の別制限も適用。期間限定の上限引上げは含めていません。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 1000,
+          "unit": "回",
+          "window": "時間",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "同じ通常アカウントの1時間あたりの上限。最初の24時間は200回。分・日・同時実行の枠とは別に判定されます。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 5000,
+          "unit": "回",
+          "window": "日",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "同じ通常アカウントの1日あたりの上限。最初の24時間は500回。分・時間・同時実行の枠とは別に判定されます。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントの同時リクエスト",
+          "status": "known",
+          "amount": 6,
+          "unit": "件",
+          "window": "同時",
+          "resetPolicy": "処理終了時に枠が空きます",
+          "overagePolicy": "空き待ち後タイムアウト時に429",
+          "rolloverPolicy": "対象なし",
+          "notes": "新規24時間は同時2件。アカウントごとの設定や全体の上限も適用されます。",
+          "sourceUrl": "https://logfare.ai/docs"
+        }
+      ],
+      "features": [],
+      "notes": "アカウントとDiscordサーバー在籍が必要。送受信内容・メタデータは記録されます。内部評価データへの利用には異議申立て可能。モデル学習・データ販売は別途同意制。2026-11-14 23:27 UTCまで一時的に上限増加の案内あり。上記は通常時の値です。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "logfare-premium",
+      "serviceId": "logfare",
+      "name": "Premium（学習利用への同意）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "無料",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://logfare.ai/docs#rate-limits",
+      "modelAccess": [
+        {
+          "modelId": "qwen-3-8-27b",
+          "availability": "available",
+          "notes": "Standard対象モデルも利用可能。"
+        },
+        {
+          "modelId": "gemma-4-26b",
+          "availability": "available",
+          "notes": "Standard対象。リクエスト枠対象外ですが同時実行・提供元側の制限は適用。"
+        },
+        {
+          "modelId": "deepseek-v4-1-flash-economy",
+          "availability": "available",
+          "notes": "Standard対象。リクエスト枠対象外ですが同時実行・提供元側の制限は適用。"
+        },
+        {
+          "modelId": "kimi-k2-7-code",
+          "availability": "conditional",
+          "notes": "公開モデルAPIではPremium対象。モデル学習利用への同意が必要。"
+        },
+        {
+          "modelId": "glm-5-2",
+          "availability": "conditional",
+          "notes": "公開モデルAPIではPremium対象。モデル学習利用への同意が必要。"
+        },
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "conditional",
+          "notes": "モデル学習への同意が必要。APIのモデル一覧は随時変更。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 80,
+          "unit": "回",
+          "window": "分",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "通常時は1分80回。全対象モデルで共有。最初の24時間は1分10回。IPやモデル側の制限も適用。期間限定の上限引上げは含めていません。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 2000,
+          "unit": "回",
+          "window": "時間",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "Premiumの1時間あたりの上限。最初の24時間は200回。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 10000,
+          "unit": "回",
+          "window": "日",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "Premiumの1日あたりの上限。最初の24時間は500回。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントの同時リクエスト",
+          "status": "known",
+          "amount": 12,
+          "unit": "件",
+          "window": "同時",
+          "resetPolicy": "処理終了時に枠が空きます",
+          "overagePolicy": "空き待ち後タイムアウト時に429",
+          "rolloverPolicy": "対象なし",
+          "notes": "Premiumの同時実行数。最初の24時間は2件。",
+          "sourceUrl": "https://logfare.ai/docs"
+        }
+      ],
+      "features": [],
+      "notes": "月額無料ですが、Premiumモデルにはコンテンツのモデル学習利用への同意が必要。送受信内容は記録され、同意撤回後も既に学習された内容を重みから除去できない場合があります。最初の24時間は新規枠。期間限定の上限引上げは通常枠に含めていません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "logfare-pro",
+      "serviceId": "logfare",
+      "name": "Pro（学習・データ販売への同意）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "無料",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://logfare.ai/docs#rate-limits",
+      "modelAccess": [
+        {
+          "modelId": "qwen-3-8-27b",
+          "availability": "available",
+          "notes": "Standard対象モデルも利用可能。"
+        },
+        {
+          "modelId": "gemma-4-26b",
+          "availability": "available",
+          "notes": "Standard対象。リクエスト枠対象外ですが同時実行・提供元側の制限は適用。"
+        },
+        {
+          "modelId": "deepseek-v4-1-flash-economy",
+          "availability": "available",
+          "notes": "Standard対象。リクエスト枠対象外ですが同時実行・提供元側の制限は適用。"
+        },
+        {
+          "modelId": "kimi-k2-7-code",
+          "availability": "conditional",
+          "notes": "公開モデルAPIではPremium対象。モデル学習利用への同意が必要。"
+        },
+        {
+          "modelId": "glm-5-2",
+          "availability": "conditional",
+          "notes": "公開モデルAPIではPremium対象。モデル学習利用への同意が必要。"
+        },
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "conditional",
+          "notes": "Premium対象モデル。学習利用への同意が必要。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 160,
+          "unit": "回",
+          "window": "分",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "通常時は1分160回。最初の24時間は1分10回。IPやモデル側の制限も適用。期間限定の上限引上げは含めていません。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 4000,
+          "unit": "回",
+          "window": "時間",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "Proの1時間あたりの上限。最初の24時間は200回。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントのリクエスト数",
+          "status": "known",
+          "amount": 20000,
+          "unit": "回",
+          "window": "日",
+          "resetPolicy": "UTC固定時間枠",
+          "overagePolicy": "429/503時はRetry-After以上待機",
+          "rolloverPolicy": "未調査",
+          "notes": "Proの1日あたりの上限。最初の24時間は500回。",
+          "sourceUrl": "https://logfare.ai/docs"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "通常アカウントの同時リクエスト",
+          "status": "known",
+          "amount": 24,
+          "unit": "件",
+          "window": "同時",
+          "resetPolicy": "処理終了時に枠が空きます",
+          "overagePolicy": "空き待ち後タイムアウト時に429",
+          "rolloverPolicy": "対象なし",
+          "notes": "Proの同時実行数。最初の24時間は2件。",
+          "sourceUrl": "https://logfare.ai/docs"
+        }
+      ],
+      "features": [],
+      "notes": "月額無料ですが、Proにはモデル学習への同意に加えて、内容の第三者への販売・ライセンス許諾に別途同意が必要。撤回後も既に販売済みの内容は回収できません。送受信内容は記録されます。最初の24時間は新規枠。期間限定の上限引上げは通常枠に含めていません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
+        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "command-code-go",
+      "serviceId": "command-code",
+      "name": "Go",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 1,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査。決済手数料は別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://commandcode.ai/pricing",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "Go対象。月$10相当はこのモデルだけを使った場合の換算であり、他モデルと合算できる別枠ではありません。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "Go対象。月$6相当はこのモデルだけを使った場合の換算であり、他モデルと合算できる別枠ではありません。"
+        },
+        {
+          "modelId": "qwen-3-8-27b",
+          "availability": "available",
+          "notes": "Go対象。月$10相当はこのモデルだけを使った場合の換算です。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "共有利用枠",
+          "status": "known",
+          "amount": 10,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "請求周期の開始時。5時間$3相当・7日$6相当の時間枠あり",
+          "overagePolicy": "追加クレジット購入または自動補充（任意）。追加分がなければ有料モデルは枠のリセットまで停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "複数モデルの使用は共有プールを割合に応じて消費。モデルごとに換算額が異なるため、各モデルの表記額を加算できません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/go"
+        },
+        {
+          "scope": "model",
+          "targetId": "glm-5-3-flash",
+          "metric": "単独使用時のモデル別月間利用額換算",
+          "status": "known",
+          "amount": 10,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ有料モデルは停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間1,770回、週3,540回、月5,900回。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回を仮定した目安で、保証される回数ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/go"
+        },
+        {
+          "scope": "model",
+          "targetId": "gpt-6-luna",
+          "metric": "単独使用時のモデル別月間利用額換算",
+          "status": "known",
+          "amount": 6,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ有料モデルは停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間2,730回、週5,450回、月9,090回。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回を仮定した目安で、保証される回数ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/go"
+        },
+        {
+          "scope": "model",
+          "targetId": "qwen-3-8-27b",
+          "metric": "単独使用時のモデル別月間利用額換算",
+          "status": "known",
+          "amount": 10,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ有料モデルは停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間1,030回、週2,050回、月3,420回。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回を仮定した目安で、保証される回数ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/go"
+        }
+      ],
+      "features": [],
+      "notes": "月額$1に決済手数料が追加。GoではAPIとクラウドを使えません。モデルごとの換算枠は共有プールから消費され、複数モデルの枠を合算できません。掲載モデルは一部です。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" },
+        { "url": "https://commandcode.ai/docs/plans/go", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "command-code-goat",
+      "serviceId": "command-code",
+      "name": "GOAT",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 10,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査。決済手数料は別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://commandcode.ai/docs/plans/goat",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "公式リストに記載。月額換算枠と回数はモデル・トークン数によって異なります。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "公式リストに記載。月額換算枠と回数はモデル・トークン数によって異なります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "model",
+          "targetId": "glm-5-3-flash",
+          "metric": "モデル別利用額換算の上限",
+          "status": "known",
+          "amount": 100,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間・7日・請求周期の枠を適用。モデル別の正確な枠は公式確認",
+          "overagePolicy": "追加クレジットがある場合は従量課金。なければ有料モデルはリセットまで停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式は5時間11,800回、週29,500回、月59,000回と推定。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回という典型例に基づく目安であり保証ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/goat"
+        },
+        {
+          "scope": "model",
+          "targetId": "gpt-6-luna",
+          "metric": "モデル別利用額換算の上限",
+          "status": "known",
+          "amount": 20,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間・7日・請求周期の枠を適用。モデル別の正確な枠は公式確認",
+          "overagePolicy": "追加クレジットがある場合は従量課金。なければ有料モデルはリセットまで停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式は5時間6,060回、週15,200回、月30,300回と推定。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回という典型例に基づく目安であり保証ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/goat"
+        }
+      ],
+      "features": [],
+      "notes": "月額$10に決済手数料が追加。利用額換算は現金残高ではなくモデルごとに異なり、全額をすべてのモデルで利用できるという意味ではありません。対応モデルは一部のみ掲載。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://commandcode.ai/docs/plans/goat", "verifiedAt": "2026-11-14" },
+        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "command-code-pro",
+      "serviceId": "command-code",
+      "name": "Pro",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 20,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査。決済手数料は別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://commandcode.ai/docs/plans/pro",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "Pro対象。月$110相当はこのモデル単独で使った場合の換算。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "Pro対象。月$30相当はこのモデル単独で使った場合の換算。"
+        },
+        {
+          "modelId": "claude-sonnet-5-5",
+          "availability": "available",
+          "notes": "Pro対象。プレミアムモデルはモデルごとに月$20相当が上限で、月$110の共有枠とは別に判定。"
+        },
+        {
+          "modelId": "claude-haiku-5-5",
+          "availability": "available",
+          "notes": "Pro対象。月$30相当。個別バージョンの利用条件は公式一覧を確認。"
+        },
+        {
+          "modelId": "claude-opus",
+          "availability": "unavailable",
+          "notes": "公式にClaude OpusはMaxプランまたはProvider APIの従量課金が必要と記載。"
+        },
+        {
+          "modelId": "qwen-3-8-max",
+          "availability": "available",
+          "notes": "Pro対象。月$30相当はこのモデル単独で使った場合の換算。"
+        },
+        {
+          "modelId": "minimax-m3",
+          "availability": "available",
+          "notes": "Pro対象。月$57相当。公式の50%割引適用時の換算。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "合計利用枠",
+          "status": "known",
+          "amount": 110,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "請求周期の開始時。5時間$22相当・7日$55相当の時間枠あり",
+          "overagePolicy": "追加クレジットがある場合は従量課金。なければ有料モデルは停止し、無料モデルは継続可能",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式は5時間$22、7日$55、月$110と記載。モデル別の枠もこの合計とは別に適用されるため、合計額を各モデルで自由に配分できるわけではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/pro"
+        },
+        {
+          "scope": "model",
+          "targetId": "glm-5-3-flash",
+          "metric": "単独使用時のモデル別月間利用額換算",
+          "status": "known",
+          "amount": 110,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間13,000回、週32,400回、月64,900回。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回を仮定した目安で、保証値ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/pro"
+        },
+        {
+          "scope": "model",
+          "targetId": "gpt-6-luna",
+          "metric": "単独使用時のモデル別月間利用額換算",
+          "status": "known",
+          "amount": 30,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間9,090回、週22,700回、月45,500回。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回を仮定した目安で、保証値ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/pro"
+        },
+        {
+          "scope": "model",
+          "targetId": "claude-sonnet-5-5",
+          "metric": "プレミアムモデル別月間利用額換算",
+          "status": "known",
+          "amount": 20,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間476回、週1,190回、月2,380回。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回を仮定した目安で、保証値ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/pro"
+        },
+        {
+          "scope": "model",
+          "targetId": "claude-haiku-5-5",
+          "metric": "プレミアムモデル別月間利用額換算",
+          "status": "known",
+          "amount": 30,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間8,960回、週22,400回、月44,800回。モデル・トークン数によって変動し、保証値ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/pro"
+        },
+        {
+          "scope": "model",
+          "targetId": "qwen-3-8-max",
+          "metric": "単独使用時のモデル別月間利用額換算",
+          "status": "known",
+          "amount": 30,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間392回、週980回、月1,960回。入力約800・キャッシュ読取約50,000・出力約125〜200トークン/回を仮定した目安で、保証値ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/pro"
+        },
+        {
+          "scope": "model",
+          "targetId": "minimax-m3",
+          "metric": "単独使用時のモデル別月間利用額換算",
+          "status": "known",
+          "amount": 57,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間3,360回、週8,410回、月16,800回。掲載価格は期間限定50%割引時のもの。終了日・通常価格は公式で確認してください。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/pro"
+        }
+      ],
+      "features": [],
+      "notes": "月額$20に決済手数料が追加。Claude OpusとFableは対象外。APIとクラウドを利用可能。モデル別・プレミアム別の枠と合計枠が併存し、交互に消費される条件は公式で確認してください。掲載モデルは一部です。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://commandcode.ai/docs/plans/pro", "verifiedAt": "2026-11-14" },
+        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "command-code-max-10",
+      "serviceId": "command-code",
+      "name": "Max 10×",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査。決済手数料は別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://commandcode.ai/docs/plans/max",
+      "modelAccess": [
+        {
+          "modelId": "claude-opus",
+          "availability": "available",
+          "notes": "MaxはClaude Opusを含む全100モデルが対象。バージョン別の条件は公式一覧を確認。"
+        },
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "標準モデル枠$150相当の対象。"
+        },
+        {
+          "modelId": "claude-sonnet-5-5",
+          "availability": "available",
+          "notes": "請求区分は標準モデル扱い。標準枠$150相当の対象。"
+        },
+        {
+          "modelId": "claude-haiku-5-5",
+          "availability": "available",
+          "notes": "請求区分は標準モデル扱い。標準枠$150相当の対象。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "プレミアムとして案内されるが、実際の請求区分は標準モデル。標準枠$150相当の対象。"
+        },
+        {
+          "modelId": "qwen-3-8-max",
+          "availability": "available",
+          "notes": "標準モデル枠$150相当の対象。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "標準モデル利用枠",
+          "status": "known",
+          "amount": 150,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "請求周期の開始時。5時間$45相当・7日$90相当の時間枠あり",
+          "overagePolicy": "追加クレジットは全モデルで利用可能。上限なし",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "標準モデル向けの月間枠。5時間$45、7日$90。プレミアム区分のモデルには別枠$100が適用され、合計$250が単純に1つの財布に入るわけではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/max"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "プレミアムモデル利用枠",
+          "status": "known",
+          "amount": 100,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "請求周期の開始時",
+          "overagePolicy": "追加クレジットは全モデルで利用可能",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "Claude OpusやFableなどプレミアム請求区分向け。ブランド名ではなく請求区分で標準・プレミアムのどちらから消費するかが決まります。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/max"
+        },
+        {
+          "scope": "model",
+          "targetId": "claude-opus",
+          "metric": "プレミアムモデル別月間利用額換算",
+          "status": "known",
+          "amount": 100,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "標準枠・追加クレジットの適用条件は公式で確認",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定はOpus 5.5で5時間1,790回・週3,570回・月5,950回、Opus 5と4.8で5時間896回・週1,790回・月2,990回。版によって料金と回数が異なります。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/max"
+        },
+        {
+          "scope": "model",
+          "targetId": "glm-5-3-flash",
+          "metric": "標準モデル別月間利用額換算",
+          "status": "known",
+          "amount": 150,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間26,500回、週53,100回、月88,500回。典型トークン数に基づく目安で保証値ではありません。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/max"
+        },
+        {
+          "scope": "model",
+          "targetId": "gpt-6-luna",
+          "metric": "標準モデル別月間利用額換算",
+          "status": "known",
+          "amount": 150,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "共有の5時間・7日・月の枠に従う",
+          "overagePolicy": "追加クレジットがなければ停止",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "公式推定は5時間68,200回、週136,000回、月227,000回。プレミアムとして案内されますが請求は標準区分です。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/max"
+        }
+      ],
+      "features": [],
+      "notes": "月額$100に決済手数料が追加。掲載は一部モデルのみ。標準とプレミアムで別の枠があり、公式の~230Kリクエストは標準43%・プレミアム57%の混在を仮定した推定です。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://commandcode.ai/docs/plans/max", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "command-code-max-20",
+      "serviceId": "command-code",
+      "name": "Max 20×",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 200,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査。決済手数料は別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://commandcode.ai/docs/plans/max",
+      "modelAccess": [
+        {
+          "modelId": "claude-opus",
+          "availability": "available",
+          "notes": "MaxはClaude Opusを含む全100モデルが対象。"
+        },
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "標準モデル枠$300相当の対象。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "プレミアムとして案内されるが請求区分は標準。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "標準モデル利用枠",
+          "status": "known",
+          "amount": 300,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "請求周期の開始時。5時間$90相当・7日$180相当の時間枠あり",
+          "overagePolicy": "追加クレジットは全モデルで利用可能。上限なし",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "Max 10×の2倍。5時間$90、7日$180。プレミアム枠$200は別に適用されます。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/max"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "プレミアムモデル利用枠",
+          "status": "known",
+          "amount": 200,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "請求周期の開始時",
+          "overagePolicy": "追加クレジットは全モデルで利用可能",
+          "rolloverPolicy": "追加購入分は繰越・失効なし。定額分は未調査",
+          "notes": "Claude OpusやFableなどプレミアム請求区分向け。標準枠とは別に判定されます。",
+          "sourceUrl": "https://commandcode.ai/docs/plans/max"
+        }
+      ],
+      "features": [],
+      "notes": "月額$200に決済手数料が追加。公式の~370Kリクエストは標準43%・プレミアム57%の混在を仮定した推定。掲載モデルは一部です。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://commandcode.ai/docs/plans/max", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "cline-pass-standard",
+      "serviceId": "cline-pass",
+      "name": "ClinePass",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 9.99,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://docs.cline.bot/getting-started/clinepass.md",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "公式対応モデルに記載。個別の数値上限は未確認。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "5時間・週・月",
+          "resetPolicy": "5時間はローリング、週・月は暦単位",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "公式はAPI標準レートと比較して2〜5倍の利用量と説明。固定リクエスト数や各期間の金額枠は確認できていません。",
+          "sourceUrl": "https://docs.cline.bot/getting-started/clinepass.md"
+        }
+      ],
+      "features": [],
+      "notes": "Cline本体およびCline従量課金とは別プロバイダー。対応モデルの一部のみ掲載。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://docs.cline.bot/getting-started/clinepass.md", "verifiedAt": "2026-11-14" }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kilo-code-individual",
+      "serviceId": "kilo-code",
+      "name": "Individual",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "無料",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://kilocode.ai/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "プラットフォーム利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "モデル推論やクラウド実行は別料金の場合あり",
+          "rolloverPolicy": "未調査",
+          "notes": "利用枠は接続先、無料モデル、クラウド実行の利用形態により異なります。",
+          "sourceUrl": "https://kilocode.ai/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "プラットフォームは無料。外部APIやKilo Gatewayのモデル推論は別料金、クラウド実行も別課金。無料モデルやローカルモデルを選択可能。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://kilocode.ai/pricing", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "kilo-pass-starter",
+      "serviceId": "kilo-code",
+      "name": "Kilo Pass Starter",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 19,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": "月払いは初月10%、2か月目50%、その後継続月数に応じて最大40%のボーナスクレジット。年払いは毎月50%。"
+      },
+      "pricingUrl": "https://kilocode.ai/pricing/kilo-pass",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 19,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "月次。有料クレジットは発行から1年で失効（年払い分も同様）",
+          "overagePolicy": "追加クレジットを任意購入可能。5%の決済手数料",
+          "rolloverPolicy": "有料分は1年有効。ボーナス分は各月の期限で失効",
+          "notes": "支払額と同額のクレジットに加え、ボーナスで最大月$26.60相当。公式は月払いのボーナスを初月10%・2か月目50%・その後最大40%、年払いを毎月50%と説明。クレジットは期限が早い順に消費。",
+          "sourceUrl": "https://kilocode.ai/pricing/kilo-pass"
+        }
+      ],
+      "features": [],
+      "notes": "支払額がそのままクレジットになる前払い型。モデル推論は500以上のモデルを実費で消費し、Markupなし。有料モデルに週・日・月のレート制限なし。クラウド実行は別課金。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://kilocode.ai/pricing/kilo-pass", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "kilo-pass-pro",
+      "serviceId": "kilo-code",
+      "name": "Kilo Pass Pro",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 49,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": "月払いのボーナス率はStarterと同じく初月10%、2か月目50%、その後最大40%。年払いは毎月50%。"
+      },
+      "pricingUrl": "https://kilocode.ai/pricing/kilo-pass",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 49,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "月次。有料クレジットは発行から1年で失効",
+          "overagePolicy": "追加クレジットを任意購入可能。5%の決済手数料",
+          "rolloverPolicy": "有料分は1年有効。ボーナス分は各月の期限で失効",
+          "notes": "ボーナス込みで最大月$68.60相当。ボーナス率・失効条件はStarterと同じ。",
+          "sourceUrl": "https://kilocode.ai/pricing/kilo-pass"
+        }
+      ],
+      "features": [],
+      "notes": "Starterと同じく前払いクレジット型。モデル推論・クラウド実行は別途消費。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://kilocode.ai/pricing/kilo-pass", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "kilo-pass-expert",
+      "serviceId": "kilo-code",
+      "name": "Kilo Pass Expert",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 199,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": "月払いのボーナス率はStarterと同じ。年払いは毎月50%。"
+      },
+      "pricingUrl": "https://kilocode.ai/pricing/kilo-pass",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 199,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "月次。有料クレジットは発行から1年で失効",
+          "overagePolicy": "追加クレジットを任意購入可能。5%の決済手数料",
+          "rolloverPolicy": "有料分は1年有効。ボーナス分は各月の期限で失効",
+          "notes": "ボーナス込みで最大月$278.60相当。公式の年払い例では12か月で$588支払い、ボーナス$188.65、合計$776.65相当。",
+          "sourceUrl": "https://kilocode.ai/pricing/kilo-pass"
+        }
+      ],
+      "features": [],
+      "notes": "Starterと同じく前払いクレジット型。ボーナスは継続月数と支払周期で変動し、固定の割引率ではありません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://kilocode.ai/pricing/kilo-pass", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "cline-usage-billing",
+      "serviceId": "cline",
+      "name": "Cline 従量課金",
+      "billingType": "usage",
+      "priceStatus": "unresearched",
+      "price": null,
+      "pricingUrl": "https://docs.cline.bot/getting-started/cline-provider.md",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "unknown",
+          "notes": "Cline経由で100以上のモデルに対応と説明。個別モデルの提供状況・料金は未調査。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "クレジット残高を使い切ると追加が必要",
+          "rolloverPolicy": "未調査",
+          "notes": "Clineクレジットを前払いし、選択した有料モデルごとに従量消費。固定月額や全体の利用上限は確認できていません。無料タグのモデルもあり。",
+          "sourceUrl": "https://docs.cline.bot/getting-started/cline-provider.md"
+        }
+      ],
+      "features": [],
+      "notes": "Cline本体の無料プランとは別の、任意のモデルアクセス契約。ClinePassとも別プロバイダー。料金はモデルとトークン量で決まり、月額はありません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        {
+          "url": "https://docs.cline.bot/getting-started/cline-provider.md",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
     {
       "id": "opencode-client",
       "serviceId": "opencode",
@@ -1089,6 +2243,55 @@
     }
   ],
   "models": [
+    {
+      "id": "claude-sonnet-5-5",
+      "displayName": "Claude Sonnet 5.5",
+      "provider": "Anthropic",
+      "aliases": ["claude-sonnet-5.5", "Sonnet 5.5"]
+    },
+    {
+      "id": "claude-haiku-5-5",
+      "displayName": "Claude Haiku 5.5",
+      "provider": "Anthropic",
+      "aliases": ["claude-haiku-5.5", "Haiku 5.5"]
+    },
+    {
+      "id": "qwen-3-8-max",
+      "displayName": "Qwen 3.8 Max",
+      "provider": "Alibaba",
+      "aliases": ["qwen3.8-max", "Qwen3.8 Max"]
+    },
+    {
+      "id": "minimax-m3",
+      "displayName": "MiniMax M3",
+      "provider": "MiniMax",
+      "aliases": ["minimax-m3"]
+    },
+    {
+      "id": "gemma-4-26b",
+      "displayName": "Gemma 4 26B",
+      "provider": "Google",
+      "aliases": ["gemma-4-26b"]
+    },
+    {
+      "id": "deepseek-v4-1-flash-economy",
+      "displayName": "DeepSeek V4.1 Flash (Economy)",
+      "provider": "DeepSeek",
+      "aliases": ["economy/deepseek-v4.1-flash", "deepseek-v4.1-flash-eco"]
+    },
+    {
+      "id": "kimi-k2-7-code",
+      "displayName": "Kimi K2.7 Code",
+      "provider": "Moonshot AI",
+      "aliases": ["kimi-k2.7-code"]
+    },
+    { "id": "glm-5-2", "displayName": "GLM 5.2", "provider": "Z.ai", "aliases": ["glm-5.2"] },
+    {
+      "id": "qwen-3-8-27b",
+      "displayName": "Qwen 3.8 27B",
+      "provider": "Alibaba",
+      "aliases": ["qwen-3.8-27b", "Qwen3.8 27B"]
+    },
     {
       "id": "glm-5-3-flash",
       "displayName": "GLM-5.3-Flash",
