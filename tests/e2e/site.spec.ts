@@ -1,5 +1,17 @@
 import { test, expect } from '@playwright/test';
 
+test('検索入力の直後、最初のクリックで詳細に遷移できる', async ({ page }) => {
+  await page.goto('./');
+  await page.getByLabel('キーワード').fill('gpt-5-mini');
+  await expect(page.getByRole('status')).toHaveText('1件のサービス');
+  await page
+    .getByRole('heading', { name: 'GitHub Copilot', exact: true })
+    .getByRole('link')
+    .click();
+  await expect(page).toHaveURL(/\/services\/github-copilot\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('GitHub Copilot');
+});
+
 test('サブパス・アセット・検索・履歴復元・詳細への遷移', async ({ page }) => {
   const failures: string[] = [];
   page.on('pageerror', (error) => failures.push(error.message));

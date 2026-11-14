@@ -56,7 +56,11 @@ form.addEventListener('submit', (event) => {
 form.addEventListener('input', (event) => {
   if ((event.target as HTMLInputElement).name === 'q') update();
 });
-form.addEventListener('change', update);
+form.addEventListener('change', (event) => {
+  // Search already updates on input. Reparenting result cards on its blur
+  // would detach a clicked link between pointerdown and click.
+  if ((event.target as HTMLInputElement).name !== 'q') update();
+});
 form.addEventListener('reset', () => {
   queueMicrotask(update);
 });
