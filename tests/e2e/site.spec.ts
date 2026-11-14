@@ -55,10 +55,7 @@ test('検索入力の直後、最初のクリックで詳細に遷移できる',
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('AIサービスのニュース');
   await page.getByLabel('キーワード').fill('gpt-5-mini');
   await expect(page.locator('#result-count')).toHaveText('1件のサービス');
-  await page
-    .getByRole('heading', { name: 'GitHub Copilot', exact: true })
-    .getByRole('link')
-    .click();
+  await page.locator('#service-table-body tr:not([hidden]) th a').first().click();
   await expect(page).toHaveURL(/\/services\/github-copilot\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('GitHub Copilot');
 });
@@ -80,6 +77,8 @@ test('サブパス・アセット・検索・履歴復元・詳細への遷移',
   await page.getByLabel('キーワード').fill('gpt-5-mini');
   await expect(page.locator('#result-count')).toHaveText('1件のサービス');
   await expect(page).toHaveURL(/q=gpt-5-mini/);
+  await expect(page.locator('#service-table-body tr:not([hidden])')).toHaveCount(1);
+  await page.locator('#filter-panel > summary').click();
   await page.getByRole('combobox', { name: '課金方式', exact: true }).selectOption('subscription');
   await expect(page.getByRole('heading', { name: '条件に合うサービスがありません' })).toBeVisible();
   await page.goBack();
@@ -87,20 +86,47 @@ test('サブパス・アセット・検索・履歴復元・詳細への遷移',
   await expect(page.getByRole('combobox', { name: '課金方式', exact: true })).toHaveValue('');
   await page.reload();
   await expect(page.getByLabel('キーワード')).toHaveValue('gpt-5-mini');
-  await page
-    .getByRole('heading', { name: 'GitHub Copilot', exact: true })
-    .getByRole('link')
-    .click();
+  await page.locator('#service-table-body tr:not([hidden]) th a').first().click();
   await expect(page).toHaveURL(/\/ai-plan-radar\/services\/github-copilot\//);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('GitHub Copilot');
   await expect(page.getByText('2,000 回 / 月', { exact: true })).toBeVisible();
   expect(failures).toEqual([]);
+});
+test('表・プラン表・カードを切り替えられ、URLに反映される', async ({ page }) => {
+  await page.goto('./');
+  const serviceTable = page.locator('#view-table');
+  const planTable = page.locator('#view-plans');
+  const cards = page.locator('#view-cards');
+  await expect(serviceTable).toBeVisible();
+  await expect(page.locator('#service-table tbody tr')).toHaveCount(10);
+  await page.getByRole('button', { name: /^プラン表/ }).click();
+  await expect(planTable).toBeVisible();
+  await expect(serviceTable).toBeHidden();
+  await expect(page).toHaveURL(/view=plans/);
+  await expect(page.locator('#result-count')).toHaveText(/\d+件のプラン/);
+  await expect(page.locator('#plan-table tbody tr:not([hidden])')).toHaveCount(32);
+  await page.getByRole('button', { name: 'カード' }).click();
+  await expect(cards).toBeVisible();
+  await expect(page).toHaveURL(/view=cards/);
+  await page.goBack();
+  await expect(planTable).toBeVisible();
+  await page.goto('./?view=plans&billing=subscription');
+  await expect(planTable).toBeVisible();
+  await expect(page.locator('#result-count')).toHaveText(/\d+件のプラン/);
+  await expect(page.getByRole('button', { name: /^プラン表/ })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
 });
 test('モバイル横溢れなし、リセット、モデル利用不可の除外', async ({ page }) => {
   await page.goto('./?model=claude-opus&billing=free');
   await expect(page.locator('#result-count')).toHaveText('0件のサービス');
   await page.getByRole('button', { name: 'すべての条件をリセット' }).click();
   await expect(page.locator('#result-count')).toHaveText('10件のサービス');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await page.getByRole('button', { name: /^プラン表/ }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
@@ -116,7 +142,7 @@ test('全詳細ページの内部リンクとキーボード導線', async ({ pa
   await expect(page.getByRole('link', { name: '本文へ移動' })).toBeFocused();
   await page.screenshot({ path: testInfo.outputPath('list.png'), fullPage: true });
   const links = await page
-    .locator('h2 a')
+    .locator('#service-table-body tr:not([hidden]) th a')
     .evaluateAll((elements) => elements.map((e) => (e as HTMLAnchorElement).href));
   expect(links).toHaveLength(10);
   for (const link of links) {
@@ -130,12 +156,13 @@ test('全詳細ページの内部リンクとキーボード導線', async ({ pa
   }
   await page.screenshot({ path: testInfo.outputPath('detail.png'), fullPage: true });
 });
-test('JavaScript無効でも一覧と詳細が閲覧可能', async ({ browser }) => {
+test('JavaScript無効でもサービス表と詳細が閲覧可能', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:4321/ai-plan-radar/');
-  await expect(page.locator('[data-service]')).toHaveCount(10);
-  await page.getByRole('heading', { name: 'OpenCode', exact: true }).getByRole('link').click();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('OpenCode');
+  await expect(page.locator('#service-table tbody tr')).toHaveCount(10);
+  await expect(page.locator('#plan-table tbody tr')).toHaveCount(32);
+  await page.locator('#service-table-body tr:not([hidden]) th a').first().click();
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await context.close();
 });
