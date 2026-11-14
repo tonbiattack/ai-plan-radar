@@ -2,6 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test('検索入力の直後、最初のクリックで詳細に遷移できる', async ({ page }) => {
   await page.goto('./');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'AIコーディングサービスの料金・利用制限',
+  );
   await page.getByLabel('キーワード').fill('gpt-5-mini');
   await expect(page.getByRole('status')).toHaveText('1件のサービス');
   await page
