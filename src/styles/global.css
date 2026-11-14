@@ -1,4 +1,71 @@
 @charset "UTF-8";
+.news {
+  padding-block: 40px 20px;
+}
+.news > p {
+  font-size: 0.9rem;
+}
+.news-filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 16px;
+}
+.news-filters label {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.news-item {
+  background: white;
+  border-top: 1px solid #d5dfe7;
+  padding: 20px;
+}
+.news-item h2 {
+  font-size: 1.15rem;
+  margin: 10px 0;
+}
+.news-item p {
+  font-size: 0.85rem;
+  margin: 8px 0;
+}
+.news-related {
+  margin-top: 12px;
+  padding: 12px 0;
+  border-top: 1px solid #d5dfe7;
+}
+.news-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+}
+.news-status {
+  padding: 3px 8px;
+  background: #fdf0db;
+  color: #754000;
+  border-radius: 4px;
+  font-weight: 700;
+}
+.news-status.verified {
+  background: #e4f3f1;
+  color: #005c60;
+}
+.news-status.retracted,
+.news-status.corrected {
+  background: #f8e7e7;
+  color: #882727;
+}
+.news-warning {
+  color: #754000;
+}
+@media (max-width: 620px) {
+  .news-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .news-filters label:first-child {
+    grid-column: 1 / -1;
+  }
+}
 :root {
   font-family: 'BIZ UDPGothic', 'Yu Gothic', Meiryo, sans-serif;
   color: #192e46;

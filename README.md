@@ -32,7 +32,9 @@ npm run preview    # ビルド成果物をローカル確認
 - 同一サービスの異なるプランを跨いで検索条件を満たしたことにしない。
 - 価格順・上限は選択通貨内の基本月額。年額は12分割の参考値、買い切り・従量・不明は対象外。ハイブリッドの追加費用を含む総額ではない。
 
-初期調査の範囲・保留候補は [docs/DATA_REVIEW.md](docs/DATA_REVIEW.md)。履歴・比較・自動収集はPhase 2以降で、今回は実装対象外です。変更履歴のスキーマのみ先行定義しています。
+初期調査の範囲・保留候補は [docs/DATA_REVIEW.md](docs/DATA_REVIEW.md)。比較・料金の変更履歴画面は未実装です。料金の変更履歴スキーマのみ先行定義しています。
+
+速報候補の手動登録と共通JSONの検証は [docs/CONTRIBUTING-NEWS.md](docs/CONTRIBUTING-NEWS.md)、RSS・GitHub Releasesの監視と制限は [docs/WATCH-SOURCES.md](docs/WATCH-SOURCES.md) を参照してください。AI抽出・自動公開は未実装です。
 
 ## GitHub Pages
 

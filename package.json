@@ -12,6 +12,8 @@
     "format:check": "prettier --check .",
     "preview": "astro preview",
     "validate": "tsx scripts/validate.ts",
+    "news:add": "tsx scripts/news-add.ts",
+    "news:watch": "tsx scripts/watch.ts",
     "lint": "eslint .",
     "typecheck": "astro check",
     "test": "vitest run",
@@ -21,6 +23,8 @@
   },
   "dependencies": {
     "astro": "^7.4.12",
+    "fast-xml-parser": "^5.12.1",
+    "robots-parser": "^3.0.1",
     "zod": "^4.6.7"
   },
   "overrides": {

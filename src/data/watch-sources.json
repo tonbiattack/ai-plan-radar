@@ -1,0 +1,22 @@
+[
+  {
+    "id": "opencode-releases",
+    "serviceId": "opencode",
+    "serviceName": "OpenCode",
+    "kind": "github_releases",
+    "urlOrQuery": "https://api.github.com/repos/anomalyco/opencode/releases?per_page=10",
+    "enabled": true,
+    "priority": 1,
+    "pollIntervalMinutes": 60
+  },
+  {
+    "id": "github-copilot-changelog",
+    "serviceId": "github-copilot",
+    "serviceName": "GitHub Copilot",
+    "kind": "rss",
+    "urlOrQuery": "https://github.blog/changelog/label/copilot/feed/",
+    "enabled": true,
+    "priority": 2,
+    "pollIntervalMinutes": 60
+  }
+]

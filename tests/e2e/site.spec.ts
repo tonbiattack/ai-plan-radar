@@ -2,11 +2,9 @@ import { test, expect } from '@playwright/test';
 
 test('検索入力の直後、最初のクリックで詳細に遷移できる', async ({ page }) => {
   await page.goto('./');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'AIコーディングサービスの料金・利用制限',
-  );
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('AIサービスのニュース');
   await page.getByLabel('キーワード').fill('gpt-5-mini');
-  await expect(page.getByRole('status')).toHaveText('1件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('1件のサービス');
   await page
     .getByRole('heading', { name: 'GitHub Copilot', exact: true })
     .getByRole('link')
@@ -27,15 +25,15 @@ test('サブパス・アセット・検索・履歴復元・詳細への遷移',
   await expect(favicon).toHaveAttribute('href', '/ai-plan-radar/favicon.svg');
   const iconResponse = await page.request.get('/ai-plan-radar/favicon.svg');
   expect(iconResponse.status()).toBe(200);
-  await expect(page.getByRole('status')).toHaveText('6件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('6件のサービス');
   await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(244, 247, 250)');
   await page.getByLabel('キーワード').fill('gpt-5-mini');
-  await expect(page.getByRole('status')).toHaveText('1件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('1件のサービス');
   await expect(page).toHaveURL(/q=gpt-5-mini/);
   await page.getByRole('combobox', { name: '課金方式', exact: true }).selectOption('subscription');
   await expect(page.getByRole('heading', { name: '条件に合うサービスがありません' })).toBeVisible();
   await page.goBack();
-  await expect(page.getByRole('status')).toHaveText('1件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('1件のサービス');
   await expect(page.getByRole('combobox', { name: '課金方式', exact: true })).toHaveValue('');
   await page.reload();
   await expect(page.getByLabel('キーワード')).toHaveValue('gpt-5-mini');
@@ -50,9 +48,9 @@ test('サブパス・アセット・検索・履歴復元・詳細への遷移',
 });
 test('モバイル横溢れなし、リセット、モデル利用不可の除外', async ({ page }) => {
   await page.goto('./?model=claude-opus&billing=free');
-  await expect(page.getByRole('status')).toHaveText('0件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('0件のサービス');
   await page.getByRole('button', { name: 'すべての条件をリセット' }).click();
-  await expect(page.getByRole('status')).toHaveText('6件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('6件のサービス');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );

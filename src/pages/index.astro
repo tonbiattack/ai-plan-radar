@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
+import NewsFeed from '../components/NewsFeed.astro';
 import { catalog } from '../lib/catalog';
 import { billingLabels, typeLabels } from '../lib/format';
 import { searchCatalog, defaults } from '../lib/search';
@@ -8,9 +9,10 @@ const categories = [...new Set(catalog.services.map((s) => s.category))];
 ---
 
 <Layout>
+  <NewsFeed />
   <section class="intro container">
     <div>
-      <h1>AIコーディングサービスの料金・利用制限</h1>
+      <h2>AIコーディングサービスの料金・利用制限</h2>
       <p>
         サービスごとの料金、対応モデル、利用枠を検索できます。
         <br class="desktop-break" />
