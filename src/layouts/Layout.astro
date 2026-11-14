@@ -41,6 +41,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <nav aria-label="メインナビゲーション">
           <a href={`${base}/#news`}>ニュース</a>
           <a href={`${base}/`}>サービスを探す</a>
+          <a href={`${base}/models/`}>モデル性能</a>
           <a href={`${base}/about/`}>掲載方針</a>
         </nav>
       </div>
@@ -54,7 +55,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <p>
           各サービスとは提携していない非公式の情報サイトです。料金・モデル・制限の最新性は保証しません。購入前に必ず公式ページをご確認ください。
         </p>
-        <a href={`${base}/about/`}>データの読み方・掲載方針</a>
+        <a href={`${base}/about/`}>データの読み方・掲載方針</a>{' '}
         <a href="https://github.com/tonbiattack/ai-plan-radar/issues">誤りを報告する</a>
       </div>
     </footer>

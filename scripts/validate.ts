@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { catalogSchema } from '../src/lib/schema';
 import { validateNews } from '../src/lib/news';
 import { watchSourcesSchema } from '../src/lib/watch';
+import { benchmarkDataSchema } from '../src/lib/benchmark';
 
 const data = catalogSchema.parse(
   JSON.parse(readFileSync(new URL('../src/data/catalog.json', import.meta.url), 'utf8')),
@@ -21,3 +22,13 @@ for (const source of sources)
   if (source.serviceId && !data.services.some((s) => s.id === source.serviceId))
     throw new Error(`監視元のサービス参照が不正です: ${source.id}`);
 console.log(`監視ソース検証成功: ${sources.length}件`);
+
+const benchmarks = benchmarkDataSchema.parse(
+  JSON.parse(readFileSync(new URL('../src/data/swebench-verified.json', import.meta.url), 'utf8')),
+);
+const modelIds = new Set(data.models.map((model) => model.id));
+for (const result of benchmarks.results) {
+  if (result.modelId && !modelIds.has(result.modelId))
+    throw new Error(`ベンチマークのモデル参照が不正です: ${result.id}`);
+}
+console.log(`ベンチマーク結果検証成功: ${benchmarks.results.length}件`);

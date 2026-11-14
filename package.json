@@ -14,6 +14,7 @@
     "validate": "tsx scripts/validate.ts",
     "news:add": "tsx scripts/news-add.ts",
     "news:watch": "tsx scripts/watch.ts",
+    "bench:sync": "tsx scripts/sync-swebench.ts",
     "lint": "eslint .",
     "typecheck": "astro check",
     "test": "vitest run",

@@ -1,5 +1,23 @@
 import { test, expect } from '@playwright/test';
 
+test('モデル性能ページに評価条件と出典を表示', async ({ page }) => {
+  await page.goto('./models/');
+  await expect(page.getByRole('heading', { name: 'モデル性能', level: 1 })).toBeVisible();
+  await expect(page.getByRole('rowheader', { name: /Claude 4\.5 Opus/ })).toBeVisible();
+  await expect(page.getByText('mini-SWE-agent（全結果で共通）')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'SWE-bench公式リーダーボード' })).toHaveAttribute(
+    'href',
+    'https://www.swebench.com/verified.html',
+  );
+  await expect(page.getByText(/製品での実利用性能を保証しません/)).toBeVisible();
+  const scoreCell = page.locator('td[data-label="解決率"]').first();
+  await expect(scoreCell).toBeVisible();
+  await expect(scoreCell).toContainText('74.4%');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+});
+
 test('Logfareの同意条件と通常枠を表示', async ({ page }) => {
   await page.goto('./services/logfare/');
   await expect(page.getByRole('heading', { name: 'Logfare', level: 1 })).toBeVisible();

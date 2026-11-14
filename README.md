@@ -36,6 +36,8 @@ npm run preview    # ビルド成果物をローカル確認
 
 速報候補の手動登録と共通JSONの検証は [docs/CONTRIBUTING-NEWS.md](docs/CONTRIBUTING-NEWS.md)、RSS・GitHub Releasesの監視と制限は [docs/WATCH-SOURCES.md](docs/WATCH-SOURCES.md) を参照してください。AI抽出・自動公開は未実装です。
 
+モデル性能は `/models/` にSWE-bench Verified（Bash Only）の公式確認済み結果を掲載しています。`npm run bench:sync` で `src/data/swebench-verified.json` を再生成し、`npm run validate` が出典・評価日・ハーネスの統一を検証します。
+
 ## GitHub Pages
 
 `astro.config.mjs` に `site=https://tonbiattack.github.io`、`base=/ai-plan-radar` を設定。生成物は `dist/`。CSS/JS/内部リンクはサブパスに対応します。

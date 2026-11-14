@@ -807,3 +807,222 @@ details li,
     padding: 28px 20px;
   }
 }
+
+.benchmark-page {
+  padding-block: 40px 64px;
+}
+.benchmark-header h1 {
+  margin-bottom: 12px;
+}
+.benchmark-header p {
+  max-width: 75ch;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.benchmark-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+  margin-top: 24px;
+}
+.benchmark-title {
+  display: flex;
+  gap: 16px;
+  align-items: start;
+  justify-content: space-between;
+}
+.benchmark-title h2 {
+  margin-bottom: 8px;
+}
+.benchmark-title p {
+  font-size: 0.86rem;
+  max-width: 70ch;
+}
+.benchmark-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px 24px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: 16px;
+  font-size: 0.82rem;
+}
+.benchmark-facts dt {
+  font-size: 0.72rem;
+}
+.benchmark-facts dd {
+  margin: 2px 0 0;
+  font-weight: 700;
+}
+.benchmark-table-scroll {
+  overflow-x: auto;
+}
+.benchmark-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  min-width: 680px;
+}
+.benchmark-table caption {
+  text-align: left;
+  font-size: 0.76rem;
+  color: var(--muted);
+  padding-block: 16px 8px;
+}
+.benchmark-table th,
+.benchmark-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+}
+.benchmark-table thead th {
+  font-size: 0.74rem;
+  color: var(--muted);
+  border-bottom: 2px solid var(--ink);
+  white-space: nowrap;
+}
+.benchmark-table tbody th {
+  font-weight: 400;
+}
+.benchmark-model {
+  display: block;
+  font-weight: 700;
+}
+.benchmark-org {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.benchmark-score {
+  display: block;
+  font-weight: 700;
+}
+.benchmark-bar {
+  display: block;
+  height: 4px;
+  background: #e1e8ee;
+  border-radius: 2px;
+  margin-top: 6px;
+  max-width: 120px;
+}
+.benchmark-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+  border-radius: 2px;
+}
+.benchmark-note,
+.benchmark-caveats {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.benchmark-caveats {
+  padding-left: 1.2em;
+}
+.benchmark-caveats li {
+  margin-bottom: 8px;
+}
+.benchmark-links {
+  list-style: none;
+  padding: 0;
+  font-size: 0.84rem;
+}
+.benchmark-links li {
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: baseline;
+}
+.benchmark-links span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+@media (max-width: 620px) {
+  .benchmark-card {
+    padding: 18px;
+  }
+  .benchmark-title {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 620px) {
+  .benchmark-table-scroll {
+    overflow-x: visible;
+  }
+  .benchmark-table {
+    min-width: 0;
+    font-size: 0.82rem;
+  }
+  .benchmark-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .benchmark-table,
+  .benchmark-table tbody,
+  .benchmark-table tr,
+  .benchmark-table th,
+  .benchmark-table td {
+    display: block;
+  }
+  .benchmark-table tr {
+    border-bottom: 1px solid var(--line);
+    padding-block: 12px;
+  }
+  .benchmark-table tr:last-child {
+    border-bottom: 0;
+  }
+  .benchmark-table th,
+  .benchmark-table td {
+    border: 0;
+    padding: 3px 0;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .benchmark-table td::before,
+  .benchmark-table tbody th::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+  .benchmark-table tbody th {
+    display: block;
+    padding-bottom: 6px;
+  }
+  .benchmark-table tbody th::before {
+    display: none;
+  }
+  .benchmark-table .benchmark-model {
+    font-size: 0.95rem;
+  }
+  .benchmark-rank {
+    display: none !important;
+  }
+  .benchmark-score {
+    display: inline;
+  }
+  .benchmark-table td[data-label='解決率'] {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .benchmark-bar {
+    display: inline-block;
+    width: auto;
+    flex: 1;
+    max-width: 90px;
+    margin: 0;
+    vertical-align: middle;
+  }
+}
