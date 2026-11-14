@@ -13,6 +13,15 @@
 
 本文取得時の表記を優先し、過去の料金知識から補完していない。たとえばClaude Proの年払い換算$17ではなく月払い$20を掲載。Cursorの旧プラン名・旧料金は使っていない。
 
+## プラン・モデル利用枠の追加確認（2026-11-14）
+
+- [OpenCode Go](https://opencode.ai/docs/console/go): Go / Go Plus / Go TeamsをConsole従量課金とは別のプランとして追加。公式が示すモデル別月額換算枠と5時間20%・週50%を確認。モデル別の掲載はGLM-5.3-FlashとGPT 6 Lunaのみで、他モデルは公式一覧を参照。各回数は公式のトークン数前提に基づく推定であり、上限の保証ではない。USD相当は課金額ではなく枠消費計算の単位。Teamsは1メンバー単位、Extra Usageは初期設定で有効。
+- [GitHub Copilot個人向け課金](https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals): Pro / Pro+ / Maxの月間AIクレジット、毎月1日00:00 UTCのリセット、繰越なしを確認。モデルとトークンにより消費量が変わり固定回数にはできない。Freeは自動モデル選択のみ。Maxを追加。
+- [Cursor](https://cursor.com/pricing): Super / Ultraを追加。週単位の共有枠はそれぞれPlusの15倍／50倍で、絶対量は非公開。第三者モデルは別途従量課金。
+- [Claude](https://www.anthropic.com/pricing): Claude Ultraを追加。週間枠はProの10倍、5時間枠なしは認証済みアカウント限定。Claude Code内での個別モデル版は引き続き未調査。
+
+個人向け主要プランとモデルの一部を掲載しており、全モデル・法人プラン・年払いを網羅していません。[ClinePass](https://docs.cline.bot/getting-started/clinepass.md)は本体と別プロバイダーであり、今回のデータには未登録です。各モデルの上限詳細が未調査の場合は推測せず公式情報を確認してください。
+
 Command Code、Logfare、Museはこの回では公式料金・プランの特定と確認を完了していないため保留。Codex、Windsurfは調査未完了のため保留。存在しない・非公開という判断ではない。出典を確認後に追加する。
 
 ## 更新ルール

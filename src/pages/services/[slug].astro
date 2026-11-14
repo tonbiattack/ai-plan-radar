@@ -97,7 +97,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         </p>
         {plan.price?.period === 'year' && <p>年額を一括請求。月額換算は参考値です。</p>}
         <p>{plan.notes}</p>
-        <h4>対応モデル</h4>
+        <h4>モデルごとの対応・利用枠</h4>
+        <p>
+          掲載モデルは確認できた範囲です。モデル別の数値がない場合はプラン全体の共有枠や別契約の条件も確認してください。
+        </p>
         {plan.modelAccess.length ? (
           <ul class="model-list">
             {plan.modelAccess.map((access) => (
@@ -112,6 +115,33 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
                   {accessLabels[access.availability]}
                 </span>
                 <p>{access.notes}</p>
+                {plan.limits.filter(
+                  (limit) => limit.scope === 'model' && limit.targetId === access.modelId,
+                ).length ? (
+                  <ul class="model-limits">
+                    {plan.limits
+                      .filter(
+                        (limit) => limit.scope === 'model' && limit.targetId === access.modelId,
+                      )
+                      .map((limit) => (
+                        <li>
+                          <strong>
+                            {limit.metric}: {formatLimit(limit)}
+                          </strong>
+                          <p>{limit.notes}</p>
+                          <p>
+                            リセット: {limit.resetPolicy} / 超過時: {limit.overagePolicy}
+                          </p>
+                          <a href={limit.sourceUrl}>モデル別利用枠の公式出典</a>
+                        </li>
+                      ))}
+                  </ul>
+                ) : (
+                  <p>
+                    このモデル単独の利用枠:
+                    未調査またはプラン共通。下記の利用制限を確認してください。
+                  </p>
+                )}
               </li>
             ))}
           </ul>
@@ -120,42 +150,47 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         )}
         <h4>利用制限の明細</h4>
         <div class="limits">
-          {plan.limits.map((limit) => (
-            <div class="limit-item">
-              <div class="limit-heading">
-                <strong>{limit.metric}</strong>
-                <span>{formatLimit(limit)}</span>
+          {plan.limits
+            .filter((limit) => limit.scope !== 'model')
+            .map((limit) => (
+              <div class="limit-item">
+                <div class="limit-heading">
+                  <strong>{limit.metric}</strong>
+                  <span>{formatLimit(limit)}</span>
+                </div>
+                <dl>
+                  <div>
+                    <dt>制限対象</dt>
+                    <dd>
+                      {{ plan: 'プラン全体', model: 'モデル別', feature: '機能別' }[limit.scope]}
+                      {limit.targetId && `: ${limit.targetId}`}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>時間窓</dt>
+                    <dd>{limit.window}</dd>
+                  </div>
+                  <div>
+                    <dt>リセット</dt>
+                    <dd>{limit.resetPolicy}</dd>
+                  </div>
+                  <div>
+                    <dt>超過時</dt>
+                    <dd>{limit.overagePolicy}</dd>
+                  </div>
+                  <div>
+                    <dt>繰越</dt>
+                    <dd>{limit.rolloverPolicy}</dd>
+                  </div>
+                </dl>
+                <p>{limit.notes}</p>
+                <a href={limit.sourceUrl}>この制限の公式出典</a>
               </div>
-              <dl>
-                <div>
-                  <dt>制限対象</dt>
-                  <dd>
-                    {{ plan: 'プラン全体', model: 'モデル別', feature: '機能別' }[limit.scope]}
-                    {limit.targetId && `: ${limit.targetId}`}
-                  </dd>
-                </div>
-                <div>
-                  <dt>時間窓</dt>
-                  <dd>{limit.window}</dd>
-                </div>
-                <div>
-                  <dt>リセット</dt>
-                  <dd>{limit.resetPolicy}</dd>
-                </div>
-                <div>
-                  <dt>超過時</dt>
-                  <dd>{limit.overagePolicy}</dd>
-                </div>
-                <div>
-                  <dt>繰越</dt>
-                  <dd>{limit.rolloverPolicy}</dd>
-                </div>
-              </dl>
-              <p>{limit.notes}</p>
-              <a href={limit.sourceUrl}>この制限の公式出典</a>
-            </div>
-          ))}
+            ))}
         </div>
+        {!plan.limits.some((limit) => limit.scope !== 'model') && (
+          <p>モデル共通の利用制限は未調査。モデル別の枠を上記に表示しています。</p>
+        )}
         <div class="plan-sources">
           <p>
             {confidenceLabels[plan.confidence]} · 確認日{' '}

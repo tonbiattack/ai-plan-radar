@@ -1,5 +1,19 @@
 import { test, expect } from '@playwright/test';
 
+test('モデル別の利用枠と公式推定を詳細に表示', async ({ page }) => {
+  await page.goto('./services/opencode-console/');
+  const go = page.locator('#opencode-console-go');
+  await expect(go.getByRole('heading', { name: 'Go', exact: true })).toBeVisible();
+  await expect(go.getByText('GLM-5.3-Flash', { exact: true })).toBeVisible();
+  await expect(go.getByText('モデル別利用額換算の上限: 60 USD相当 / 月')).toBeVisible();
+  await expect(go.getByText(/5時間6,320回/)).toBeVisible();
+  await expect(go.getByText(/保証値ではありません/).first()).toBeVisible();
+  await expect(go.getByRole('link', { name: 'モデル別利用枠の公式出典' }).first()).toHaveAttribute(
+    'href',
+    'https://opencode.ai/docs/console/go',
+  );
+});
+
 test('検索入力の直後、最初のクリックで詳細に遷移できる', async ({ page }) => {
   await page.goto('./');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('AIサービスのニュース');

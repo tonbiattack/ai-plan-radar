@@ -30,7 +30,7 @@
       "name": "OpenCode Console",
       "slug": "opencode-console",
       "category": "モデルAPI",
-      "description": "OpenCodeチームが検証したモデルを提供する任意のモデルプロバイダー。OpenCode本体とは別契約の従量課金です。",
+      "description": "OpenCodeチームが検証したモデルを提供する任意のモデルプロバイダー。OpenCode本体とは別契約で、従量課金とGo定額プランがあります。",
       "officialUrl": "https://opencode.ai/console",
       "pricingUrl": "https://opencode.ai/docs/zen/",
       "serviceType": "model_provider",
@@ -436,12 +436,12 @@
         {
           "modelId": "claude-haiku-4-5",
           "availability": "available",
-          "notes": "Freeの紹介文に記載。"
+          "notes": "Freeの紹介文に記載。個人Freeでは自動モデル選択のみ。手動選択はできません。"
         },
         {
           "modelId": "gpt-5-mini",
           "availability": "available",
-          "notes": "Freeの紹介文に記載。"
+          "notes": "Freeの紹介文に記載。個人Freeでは自動モデル選択のみ。手動選択はできません。"
         }
       ],
       "limits": [
@@ -475,11 +475,15 @@
         }
       ],
       "features": ["コード補完"],
-      "notes": "モデル一覧とプラン別の利用可否は一致しない場合があるため、確認できたモデルのみ記載。",
+      "notes": "個人Freeは自動モデル選択のみ。表示されたモデルを手動で指定できることは意味しません。",
       "verifiedAt": "2026-11-14",
       "sources": [
         {
           "url": "https://github.com/features/copilot/plans",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
           "verifiedAt": "2026-11-14"
         }
       ],
@@ -520,11 +524,11 @@
           "amount": 15,
           "unit": "USD相当",
           "window": "月",
-          "resetPolicy": "月ごと（基準日未調査）",
+          "resetPolicy": "毎月1日 00:00 UTC（日本時間9:00）",
           "overagePolicy": "追加クレジットを購入可能",
-          "rolloverPolicy": "未調査",
-          "notes": "AIクレジットは機能・モデルにより消費量が異なります。",
-          "sourceUrl": "https://github.com/features/copilot/plans"
+          "rolloverPolicy": "未使用分は翌月に繰り越されません",
+          "notes": "1 AIクレジットは$0.01相当。モデル・入出力・キャッシュのトークン数に応じて消費。$15相当は1,500クレジット（基本1,000、変動追加500）。モデル別の固定回数ではありません。",
+          "sourceUrl": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals"
         },
         {
           "scope": "feature",
@@ -547,6 +551,10 @@
       "sources": [
         {
           "url": "https://github.com/features/copilot/plans",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
           "verifiedAt": "2026-11-14"
         }
       ],
@@ -582,11 +590,11 @@
           "amount": 70,
           "unit": "USD相当",
           "window": "月",
-          "resetPolicy": "月ごと（基準日未調査）",
+          "resetPolicy": "毎月1日 00:00 UTC（日本時間9:00）",
           "overagePolicy": "追加クレジットを購入可能",
-          "rolloverPolicy": "未調査",
-          "notes": "変動追加枠は変更される場合があります。",
-          "sourceUrl": "https://github.com/features/copilot/plans"
+          "rolloverPolicy": "未使用分は翌月に繰り越されません",
+          "notes": "1 AIクレジットは$0.01相当。合計7,000クレジット（基本3,900、変動追加3,100）。モデルとトークン数に応じて消費し、変動追加枠は変更される場合があります。",
+          "sourceUrl": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals"
         }
       ],
       "features": [],
@@ -596,8 +604,195 @@
         {
           "url": "https://github.com/features/copilot/plans",
           "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
+          "verifiedAt": "2026-11-14"
         }
       ],
+      "confidence": "official"
+    },
+    {
+      "id": "github-copilot-max",
+      "serviceId": "github-copilot",
+      "name": "Max",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://github.com/features/copilot/plans",
+      "modelAccess": [
+        {
+          "modelId": "claude-opus",
+          "availability": "available",
+          "notes": "Pro+を含むプラン。Opus系列の個別版の条件は公式モデル一覧を確認。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "AIクレジット",
+          "status": "known",
+          "amount": 200,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "毎月1日 00:00 UTC（日本時間9:00）",
+          "overagePolicy": "追加予算を設定し購入可能。上限が設定される場合あり",
+          "rolloverPolicy": "未使用分は翌月に繰り越されません",
+          "notes": "20,000クレジット（基本10,000、変動追加10,000）。モデル・入出力・キャッシュのトークン数で消費量が変動。固定回数ではありません。",
+          "sourceUrl": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals"
+        }
+      ],
+      "features": [],
+      "notes": "1ユーザーあたり月額。変動追加枠は変更される場合があります。",
+      "verifiedAt": "2026-11-14",
+      "sources": [
+        { "url": "https://github.com/features/copilot/plans", "verifiedAt": "2026-11-14" },
+        {
+          "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "cursor-super",
+      "serviceId": "cursor",
+      "name": "Super",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://cursor.com/pricing",
+      "modelAccess": [
+        {
+          "modelId": "grok",
+          "availability": "available",
+          "notes": "Grokモデル。個別バージョンは未調査。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "共有AI利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "週",
+          "resetPolicy": "毎週リセット",
+          "overagePolicy": "追加購入またはリセットまで待機",
+          "rolloverPolicy": "未調査",
+          "notes": "Plusの15倍の共有利用量。絶対値は非公開。第三者モデルはAPI定価で別途課金。",
+          "sourceUrl": "https://cursor.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "第三者モデルの利用料は月額に含まれません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://cursor.com/pricing", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "cursor-ultra",
+      "serviceId": "cursor",
+      "name": "Ultra",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 200,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://cursor.com/pricing",
+      "modelAccess": [
+        {
+          "modelId": "grok",
+          "availability": "available",
+          "notes": "Grokモデル。個別バージョンは未調査。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "共有AI利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "週",
+          "resetPolicy": "毎週リセット",
+          "overagePolicy": "追加購入またはリセットまで待機",
+          "rolloverPolicy": "未調査",
+          "notes": "Plusの50倍の共有利用量。絶対値は非公開。第三者モデルはAPI定価で別途課金。",
+          "sourceUrl": "https://cursor.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "第三者モデルの利用料は月額に含まれません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://cursor.com/pricing", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "claude-code-ultra",
+      "serviceId": "claude-code",
+      "name": "Claude Ultra",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 200,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税別",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://www.anthropic.com/pricing",
+      "modelAccess": [
+        {
+          "modelId": "claude-opus",
+          "availability": "unknown",
+          "notes": "Claude契約全体では対応。Claude Code内の個別モデル版は未調査。"
+        },
+        {
+          "modelId": "claude-sonnet",
+          "availability": "unknown",
+          "notes": "Claude契約全体では対応。Claude Code内の個別モデル版は未調査。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "週間利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "不明",
+          "window": "週",
+          "resetPolicy": "週単位（起算時刻未調査）",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未調査",
+          "notes": "Proの10倍の週間利用量。5時間枠なしは認証済みアカウントに限るため、プラン全体の無制限とは扱いません。",
+          "sourceUrl": "https://www.anthropic.com/pricing"
+        }
+      ],
+      "features": [],
+      "notes": "Claude契約にClaude Codeを含みます。5時間枠なしは認証済みアカウントが条件。モデル・会話長などで実際の利用量は変動。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://www.anthropic.com/pricing", "verifiedAt": "2026-11-14" }],
       "confidence": "official"
     },
     {
@@ -705,9 +900,207 @@
         }
       ],
       "confidence": "official"
+    },
+    {
+      "id": "opencode-console-go",
+      "serviceId": "opencode-console",
+      "name": "Go",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 10,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://opencode.ai/docs/console/go",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "掲載枠はこのモデル固有の利用額換算。通常の月額料金に加えて請求される金額ではありません。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "掲載枠はこのモデル固有の利用額換算。通常の月額料金に加えて請求される金額ではありません。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "model",
+          "targetId": "glm-5-3-flash",
+          "metric": "モデル別利用額換算の上限",
+          "status": "known",
+          "amount": 60,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間20%、週50%、月100%の各枠。起算時刻は未調査",
+          "overagePolicy": "Extra Usage有効時はConsole残高による従量課金。それ以外は無料モデルを利用可能",
+          "rolloverPolicy": "未調査",
+          "notes": "GLM-5.3-Flash: 月$60相当、5時間$12相当、週$30相当。公式の推定は5時間6,320回・週15,790回・月31,580回。入力1,000・キャッシュ読取55,000・出力200トークン/回を前提とした目安で、保証値ではありません。100万トークンあたり入力$0.15、出力$0.50、キャッシュ読取$0.03を枠消費の計算に使用。",
+          "sourceUrl": "https://opencode.ai/docs/console/go"
+        },
+        {
+          "scope": "model",
+          "targetId": "gpt-6-luna",
+          "metric": "モデル別利用額換算の上限",
+          "status": "known",
+          "amount": 15,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間20%、週50%、月100%の各枠。起算時刻は未調査",
+          "overagePolicy": "Extra Usage有効時はConsole残高による従量課金。それ以外は無料モデルを利用可能",
+          "rolloverPolicy": "未調査",
+          "notes": "GPT 6 Luna: 月$15相当、5時間$3相当、週$7.50相当。公式の推定は5時間4,230回・週10,560回・月21,130回。入力1,000・キャッシュ読取50,000・出力220トークン/回を前提とした目安で、保証値ではありません。入力272K以下では100万トークンあたり入力$0.10、出力$0.50、キャッシュ読取$0.01、書込$0.125を枠消費の計算に使用。",
+          "sourceUrl": "https://opencode.ai/docs/console/go"
+        }
+      ],
+      "features": [],
+      "notes": "単一メンバー用。対応モデルの一部のみ掲載。公式のモデル一覧・制限は変更されることがあります。上限のUSD相当額は利用枠の計算単位であり、現金残高や追加請求額ではありません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://opencode.ai/docs/console/go", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "opencode-console-go-plus",
+      "serviceId": "opencode-console",
+      "name": "Go Plus",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 40,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://opencode.ai/docs/console/go",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "モデル固有の利用額換算枠。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "モデル固有の利用額換算枠。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "model",
+          "targetId": "glm-5-3-flash",
+          "metric": "モデル別利用額換算の上限",
+          "status": "known",
+          "amount": 180,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間20%、週50%、月100%の各枠。起算時刻は未調査",
+          "overagePolicy": "Extra Usage有効時はConsole残高による従量課金",
+          "rolloverPolicy": "未調査",
+          "notes": "5時間$36相当、週$90相当。公式の推定は5時間18,960回・週47,370回・月94,740回。入力1,000・キャッシュ読取55,000・出力200トークン/回を前提とした目安。",
+          "sourceUrl": "https://opencode.ai/docs/console/go"
+        },
+        {
+          "scope": "model",
+          "targetId": "gpt-6-luna",
+          "metric": "モデル別利用額換算の上限",
+          "status": "known",
+          "amount": 60,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間20%、週50%、月100%の各枠。起算時刻は未調査",
+          "overagePolicy": "Extra Usage有効時はConsole残高による従量課金",
+          "rolloverPolicy": "未調査",
+          "notes": "5時間$12相当、週$30相当。公式の推定は5時間16,920回・週42,240回・月84,520回。入力1,000・キャッシュ読取50,000・出力220トークン/回を前提とした目安。",
+          "sourceUrl": "https://opencode.ai/docs/console/go"
+        }
+      ],
+      "features": [],
+      "notes": "単一メンバー用。対応モデルの一部のみ掲載。利用額換算は枠消費の計算単位であり追加請求額ではありません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://opencode.ai/docs/console/go", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
+    },
+    {
+      "id": "opencode-console-go-teams",
+      "serviceId": "opencode-console",
+      "name": "Go Teams",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 20,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未調査",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://opencode.ai/docs/console/go",
+      "modelAccess": [
+        {
+          "modelId": "glm-5-3-flash",
+          "availability": "available",
+          "notes": "各メンバーに別のモデル固有枠があります。"
+        },
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "available",
+          "notes": "各メンバーに別のモデル固有枠があります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "model",
+          "targetId": "glm-5-3-flash",
+          "metric": "1メンバーあたりモデル別利用額換算の上限",
+          "status": "known",
+          "amount": 65,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間20%、週50%、月100%の各枠。起算時刻は未調査",
+          "overagePolicy": "Extra Usageは初期設定で有効、無効化可能。超過分はConsole残高から従量課金",
+          "rolloverPolicy": "未調査",
+          "notes": "5時間$13相当、週$32.50相当。公式の推定は5時間6,847回・週17,110回・月34,210回。入力1,000・キャッシュ読取55,000・出力200トークン/回を前提とした目安。",
+          "sourceUrl": "https://opencode.ai/docs/console/go"
+        },
+        {
+          "scope": "model",
+          "targetId": "gpt-6-luna",
+          "metric": "1メンバーあたりモデル別利用額換算の上限",
+          "status": "known",
+          "amount": 20,
+          "unit": "USD相当",
+          "window": "月",
+          "resetPolicy": "5時間20%、週50%、月100%の各枠。起算時刻は未調査",
+          "overagePolicy": "Extra Usageは初期設定で有効、無効化可能。超過分はConsole残高から従量課金",
+          "rolloverPolicy": "未調査",
+          "notes": "5時間$4相当、週$10相当。公式の推定は5時間5,640回・週14,080回・月28,170回。入力1,000・キャッシュ読取50,000・出力220トークン/回を前提とした目安。",
+          "sourceUrl": "https://opencode.ai/docs/console/go"
+        }
+      ],
+      "features": [],
+      "notes": "1メンバーあたり月額$20。対応モデルの一部のみ掲載。利用額換算は枠消費の計算単位であり追加請求額ではありません。",
+      "verifiedAt": "2026-11-14",
+      "sources": [{ "url": "https://opencode.ai/docs/console/go", "verifiedAt": "2026-11-14" }],
+      "confidence": "official"
     }
   ],
   "models": [
+    {
+      "id": "glm-5-3-flash",
+      "displayName": "GLM-5.3-Flash",
+      "provider": "Z.ai",
+      "aliases": ["glm-5.3-flash"]
+    },
+    {
+      "id": "gpt-6-luna",
+      "displayName": "GPT 6 Luna",
+      "provider": "OpenAI",
+      "aliases": ["gpt-6-luna", "GPT-6 Luna"]
+    },
     {
       "id": "gpt-6-1-sol",
       "displayName": "GPT 6.1 Sol",

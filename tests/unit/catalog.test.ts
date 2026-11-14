@@ -99,7 +99,7 @@ describe('検索・並べ替え', () => {
   });
   it('通貨外・不明価格を末尾にし、上限では除外', () => {
     const data = structuredClone(catalog);
-    data.plans.find((p) => p.serviceId === 'claude-code')!.price!.currency = 'JPY';
+    data.plans.find((p) => p.id === 'claude-code-pro')!.price!.currency = 'JPY';
     expect(searchCatalog(data, { ...defaults, currency: 'JPY', sort: 'price' })[0].id).toBe(
       'claude-code',
     );
