@@ -148,9 +148,18 @@
       "relatedServiceIds": [],
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://logfare.ai/docs",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/tos",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/v1/models",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -168,8 +177,14 @@
       "relatedServiceIds": [],
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" },
-        { "url": "https://commandcode.ai/docs/plans/goat", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://commandcode.ai/pricing",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://commandcode.ai/docs/plans/goat",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -187,7 +202,10 @@
       "relatedServiceIds": ["cline"],
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://docs.cline.bot/getting-started/clinepass.md", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://docs.cline.bot/getting-started/clinepass.md",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -204,7 +222,58 @@
       "status": "active",
       "relatedServiceIds": [],
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://kilocode.ai/pricing", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://kilocode.ai/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex",
+      "name": "OpenAI Codex",
+      "slug": "codex",
+      "category": "ターミナル・IDE",
+      "description": "OpenAIのコーディングエージェント。ChatGPTの契約に含まれる利用と、別料金のAPIキー利用を区別します。",
+      "officialUrl": "https://developers.openai.com/codex/",
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["CLI", "IDE", "デスクトップ", "Web"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "devin",
+      "name": "Devin",
+      "slug": "devin",
+      "category": "ターミナル・IDE",
+      "description": "Cognitionのコーディングエージェント。デスクトップとクラウドの提供範囲や利用枠はプランで異なります。",
+      "officialUrl": "https://devin.ai/",
+      "pricingUrl": "https://devin.ai/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["デスクトップ", "Web"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://devin.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
       "confidence": "official"
     }
   ],
@@ -307,9 +376,18 @@
       "notes": "アカウントとDiscordサーバー在籍が必要。送受信内容・メタデータは記録されます。内部評価データへの利用には異議申立て可能。モデル学習・データ販売は別途同意制。2026-11-14 23:27 UTCまで一時的に上限増加の案内あり。上記は通常時の値です。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://logfare.ai/docs",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/tos",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/v1/models",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -421,9 +499,18 @@
       "notes": "月額無料ですが、Premiumモデルにはコンテンツのモデル学習利用への同意が必要。送受信内容は記録され、同意撤回後も既に学習された内容を重みから除去できない場合があります。最初の24時間は新規枠。期間限定の上限引上げは通常枠に含めていません。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://logfare.ai/docs",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/tos",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/v1/models",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -535,9 +622,18 @@
       "notes": "月額無料ですが、Proにはモデル学習への同意に加えて、内容の第三者への販売・ライセンス許諾に別途同意が必要。撤回後も既に販売済みの内容は回収できません。送受信内容は記録されます。最初の24時間は新規枠。期間限定の上限引上げは通常枠に含めていません。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://logfare.ai/docs", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/tos", "verifiedAt": "2026-11-14" },
-        { "url": "https://logfare.ai/v1/models", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://logfare.ai/docs",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/tos",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://logfare.ai/v1/models",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -634,8 +730,14 @@
       "notes": "月額$1に決済手数料が追加。GoではAPIとクラウドを使えません。モデルごとの換算枠は共有プールから消費され、複数モデルの枠を合算できません。掲載モデルは一部です。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" },
-        { "url": "https://commandcode.ai/docs/plans/go", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://commandcode.ai/pricing",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://commandcode.ai/docs/plans/go",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -699,8 +801,14 @@
       "notes": "月額$10に決済手数料が追加。利用額換算は現金残高ではなくモデルごとに異なり、全額をすべてのモデルで利用できるという意味ではありません。対応モデルは一部のみ掲載。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://commandcode.ai/docs/plans/goat", "verifiedAt": "2026-11-14" },
-        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://commandcode.ai/docs/plans/goat",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://commandcode.ai/pricing",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -859,8 +967,14 @@
       "notes": "月額$20に決済手数料が追加。Claude OpusとFableは対象外。APIとクラウドを利用可能。モデル別・プレミアム別の枠と合計枠が併存し、交互に消費される条件は公式で確認してください。掲載モデルは一部です。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://commandcode.ai/docs/plans/pro", "verifiedAt": "2026-11-14" },
-        { "url": "https://commandcode.ai/pricing", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://commandcode.ai/docs/plans/pro",
+          "verifiedAt": "2026-11-14"
+        },
+        {
+          "url": "https://commandcode.ai/pricing",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -985,7 +1099,12 @@
       "features": [],
       "notes": "月額$100に決済手数料が追加。掲載は一部モデルのみ。標準とプレミアムで別の枠があり、公式の~230Kリクエストは標準43%・プレミアム57%の混在を仮定した推定です。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://commandcode.ai/docs/plans/max", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://commandcode.ai/docs/plans/max",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1052,7 +1171,12 @@
       "features": [],
       "notes": "月額$200に決済手数料が追加。公式の~370Kリクエストは標準43%・プレミアム57%の混在を仮定した推定。掲載モデルは一部です。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://commandcode.ai/docs/plans/max", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://commandcode.ai/docs/plans/max",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1096,7 +1220,10 @@
       "notes": "Cline本体およびCline従量課金とは別プロバイダー。対応モデルの一部のみ掲載。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://docs.cline.bot/getting-started/clinepass.md", "verifiedAt": "2026-11-14" }
+        {
+          "url": "https://docs.cline.bot/getting-started/clinepass.md",
+          "verifiedAt": "2026-11-14"
+        }
       ],
       "confidence": "official"
     },
@@ -1134,7 +1261,12 @@
       "features": [],
       "notes": "プラットフォームは無料。外部APIやKilo Gatewayのモデル推論は別料金、クラウド実行も別課金。無料モデルやローカルモデルを選択可能。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://kilocode.ai/pricing", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://kilocode.ai/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1171,7 +1303,12 @@
       "features": [],
       "notes": "支払額がそのままクレジットになる前払い型。モデル推論は500以上のモデルを実費で消費し、Markupなし。有料モデルに週・日・月のレート制限なし。クラウド実行は別課金。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://kilocode.ai/pricing/kilo-pass", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://kilocode.ai/pricing/kilo-pass",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1208,7 +1345,12 @@
       "features": [],
       "notes": "Starterと同じく前払いクレジット型。モデル推論・クラウド実行は別途消費。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://kilocode.ai/pricing/kilo-pass", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://kilocode.ai/pricing/kilo-pass",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1245,7 +1387,12 @@
       "features": [],
       "notes": "Starterと同じく前払いクレジット型。ボーナスは継続月数と支払周期で変動し、固定の割引率ではありません。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://kilocode.ai/pricing/kilo-pass", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://kilocode.ai/pricing/kilo-pass",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1807,7 +1954,10 @@
       "notes": "1ユーザーあたり月額。変動追加枠は変更される場合があります。",
       "verifiedAt": "2026-11-14",
       "sources": [
-        { "url": "https://github.com/features/copilot/plans", "verifiedAt": "2026-11-14" },
+        {
+          "url": "https://github.com/features/copilot/plans",
+          "verifiedAt": "2026-11-14"
+        },
         {
           "url": "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
           "verifiedAt": "2026-11-14"
@@ -1855,7 +2005,12 @@
       "features": [],
       "notes": "第三者モデルの利用料は月額に含まれません。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://cursor.com/pricing", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://cursor.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1898,7 +2053,12 @@
       "features": [],
       "notes": "第三者モデルの利用料は月額に含まれません。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://cursor.com/pricing", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://cursor.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -1946,7 +2106,12 @@
       "features": [],
       "notes": "Claude契約にClaude Codeを含みます。5時間枠なしは認証済みアカウントが条件。モデル・会話長などで実際の利用量は変動。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://www.anthropic.com/pricing", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://www.anthropic.com/pricing",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -2114,7 +2279,12 @@
       "features": [],
       "notes": "単一メンバー用。対応モデルの一部のみ掲載。公式のモデル一覧・制限は変更されることがあります。上限のUSD相当額は利用枠の計算単位であり、現金残高や追加請求額ではありません。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://opencode.ai/docs/console/go", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://opencode.ai/docs/console/go",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -2176,7 +2346,12 @@
       "features": [],
       "notes": "単一メンバー用。対応モデルの一部のみ掲載。利用額換算は枠消費の計算単位であり追加請求額ではありません。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://opencode.ai/docs/console/go", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://opencode.ai/docs/console/go",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
       "confidence": "official"
     },
     {
@@ -2238,7 +2413,558 @@
       "features": [],
       "notes": "1メンバーあたり月額$20。対応モデルの一部のみ掲載。利用額換算は枠消費の計算単位であり追加請求額ではありません。",
       "verifiedAt": "2026-11-14",
-      "sources": [{ "url": "https://opencode.ai/docs/console/go", "verifiedAt": "2026-11-14" }],
+      "sources": [
+        {
+          "url": "https://opencode.ai/docs/console/go",
+          "verifiedAt": "2026-11-14"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex-free",
+      "serviceId": "codex",
+      "name": "ChatGPT Free",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "modelAccess": [
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "conditional",
+          "notes": "デスクトップアプリのStandard速度。提供は段階的。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Codex利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "未公開",
+          "resetPolicy": "公式情報・利用画面を確認",
+          "overagePolicy": "Plus・Proは対象条件下で追加クレジットを購入可能。APIキー利用は別料金。",
+          "rolloverPolicy": "未確認",
+          "notes": "利用は限定的。Codex Cloudは含まれません。",
+          "sourceUrl": "https://developers.openai.com/codex/pricing/"
+        }
+      ],
+      "features": ["デスクトップでの限定利用"],
+      "notes": "ChatGPT契約に含まれる料金。API利用料は別です。提供状況や利用可能な画面は公式情報を確認。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex-go",
+      "serviceId": "codex",
+      "name": "ChatGPT Go",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 8,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "modelAccess": [
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "conditional",
+          "notes": "デスクトップアプリのStandard速度。提供は段階的。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Codex利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "未公開",
+          "resetPolicy": "公式情報・利用画面を確認",
+          "overagePolicy": "Plus・Proは対象条件下で追加クレジットを購入可能。APIキー利用は別料金。",
+          "rolloverPolicy": "未確認",
+          "notes": "利用は限定的。Codex Cloudは含まれません。",
+          "sourceUrl": "https://developers.openai.com/codex/pricing/"
+        }
+      ],
+      "features": ["デスクトップでの限定利用"],
+      "notes": "ChatGPT契約に含まれる料金。API利用料は別です。提供状況や利用可能な画面は公式情報を確認。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex-plus",
+      "serviceId": "codex",
+      "name": "ChatGPT Plus",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 20,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "modelAccess": [
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-sol",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-terra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Codex利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "5時間・週",
+          "resetPolicy": "公式情報・利用画面を確認",
+          "overagePolicy": "Plus・Proは対象条件下で追加クレジットを購入可能。APIキー利用は別料金。",
+          "rolloverPolicy": "未確認",
+          "notes": "公式の5時間あたりローカルメッセージ推定: GPT-6 Astra 5〜45、GPT-6.1 Sol 15〜160、GPT-6.1 Terra 35〜285、GPT-6 Luna 350〜3,000。固定上限ではなく、モデル・タスク・設定で変動。クラウドと共有し週上限も適用される場合があります。",
+          "sourceUrl": "https://developers.openai.com/codex/pricing/"
+        }
+      ],
+      "features": ["CLI", "IDE拡張", "Web", "クラウド", "GitHubコードレビュー"],
+      "notes": "ChatGPT Plusに含まれます。ChatGPT Workなどと枠を共有。推定回数は保証値ではありません。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex-pro-100",
+      "serviceId": "codex",
+      "name": "ChatGPT Pro 100",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "modelAccess": [
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-sol",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-terra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Codex利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "週など",
+          "resetPolicy": "公式情報・利用画面を確認",
+          "overagePolicy": "Plus・Proは対象条件下で追加クレジットを購入可能。APIキー利用は別料金。",
+          "rolloverPolicy": "未確認",
+          "notes": "公式によるとProに現在5時間上限はありません。週などの利用制限は残り、実際の消費量はモデルやタスクで変動します。",
+          "sourceUrl": "https://developers.openai.com/codex/pricing/"
+        }
+      ],
+      "features": ["CLI", "IDE拡張", "Web", "クラウド"],
+      "notes": "ChatGPT Pro 100の月額。Proの利用枠は段階別。Ultrafastは含まれません。 API利用料は別です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-plans",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex-pro-200",
+      "serviceId": "codex",
+      "name": "ChatGPT Pro 200",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 200,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "modelAccess": [
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-sol",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-terra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Codex利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "週など",
+          "resetPolicy": "公式情報・利用画面を確認",
+          "overagePolicy": "Plus・Proは対象条件下で追加クレジットを購入可能。APIキー利用は別料金。",
+          "rolloverPolicy": "未確認",
+          "notes": "公式によるとProに現在5時間上限はありません。週などの利用制限は残り、実際の消費量はモデルやタスクで変動します。",
+          "sourceUrl": "https://developers.openai.com/codex/pricing/"
+        }
+      ],
+      "features": ["CLI", "IDE拡張", "Web", "クラウド"],
+      "notes": "ChatGPT Pro 200の月額。Proの利用枠は段階別。Ultrafastは含まれません。 API利用料は別です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-plans",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex-pro-500",
+      "serviceId": "codex",
+      "name": "ChatGPT Pro 500",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 500,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "modelAccess": [
+        {
+          "modelId": "gpt-6-luna",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-sol",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-1-terra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        },
+        {
+          "modelId": "gpt-6-astra",
+          "availability": "conditional",
+          "notes": "利用可能な画面や提供状況はプラン・段階的提供により異なります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Codex利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "週など",
+          "resetPolicy": "公式情報・利用画面を確認",
+          "overagePolicy": "Plus・Proは対象条件下で追加クレジットを購入可能。APIキー利用は別料金。",
+          "rolloverPolicy": "未確認",
+          "notes": "公式によるとProに現在5時間上限はありません。週などの利用制限は残り、実際の消費量はモデルやタスクで変動します。",
+          "sourceUrl": "https://developers.openai.com/codex/pricing/"
+        }
+      ],
+      "features": ["CLI", "IDE拡張", "Web", "クラウド", "Ultrafast対応"],
+      "notes": "ChatGPT Pro 500の月額。Proの利用枠は段階別。Ultrafastは対象モデルで利用可能、通常より枠消費が増えます。 API利用料は別です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://help.openai.com/en/articles/9793128-about-chatgpt-pro-plans",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "codex-api",
+      "serviceId": "codex",
+      "name": "APIキー利用",
+      "billingType": "usage",
+      "priceStatus": "unresearched",
+      "price": null,
+      "pricingUrl": "https://developers.openai.com/codex/pricing/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Codex利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "未公開",
+          "resetPolicy": "公式情報・利用画面を確認",
+          "overagePolicy": "Plus・Proは対象条件下で追加クレジットを購入可能。APIキー利用は別料金。",
+          "rolloverPolicy": "未確認",
+          "notes": "APIキーの利用は別途API料金・レート制限が適用され、ChatGPTの定額枠とは別です。",
+          "sourceUrl": "https://developers.openai.com/codex/pricing/"
+        }
+      ],
+      "features": ["CLI", "IDE拡張", "SDK"],
+      "notes": "従量課金。利用できるモデルはAPIキーの権限に依存し、クラウド機能は含まれません。料金の固定月額はありません。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://developers.openai.com/codex/pricing/",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "devin-free",
+      "serviceId": "devin",
+      "name": "Free",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://devin.ai/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "エージェント利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "未公開",
+          "resetPolicy": "未公開",
+          "overagePolicy": "公式情報を確認",
+          "rolloverPolicy": "未確認",
+          "notes": "無料枠は少量で、利用可能なモデルも限定されます。具体量は未公開。",
+          "sourceUrl": "https://devin.ai/pricing"
+        }
+      ],
+      "features": ["Tab補完", "インライン編集"],
+      "notes": "無料プランには軽いエージェント利用枠があります。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://devin.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "devin-pro",
+      "serviceId": "devin",
+      "name": "Pro",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 20,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://devin.ai/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "エージェント利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "日・週",
+          "resetPolicy": "日次・週次",
+          "overagePolicy": "追加利用をAPI料金で購入可能",
+          "rolloverPolicy": "未確認",
+          "notes": "有料枠は日次・週次で更新。消費量はモデルやタスクにより変化し、具体量は未公開。",
+          "sourceUrl": "https://devin.ai/pricing"
+        }
+      ],
+      "features": ["Tab補完", "インライン編集", "クラウドエージェント"],
+      "notes": "基本月額に利用枠を含みます。ChatGPTプランの接続は別途ChatGPT契約が必要です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://devin.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "devin-max",
+      "serviceId": "devin",
+      "name": "Max",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 200,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://devin.ai/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "エージェント利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "日・週",
+          "resetPolicy": "日次・週次",
+          "overagePolicy": "追加利用をAPI料金で購入可能",
+          "rolloverPolicy": "未確認",
+          "notes": "有料枠は日次・週次で更新。消費量はモデルやタスクにより変化し、具体量は未公開。",
+          "sourceUrl": "https://devin.ai/pricing"
+        }
+      ],
+      "features": ["Tab補完", "インライン編集", "クラウドエージェント"],
+      "notes": "基本月額に利用枠を含みます。ChatGPTプランの接続は別途ChatGPT契約が必要です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://devin.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
       "confidence": "official"
     }
   ],
@@ -2285,7 +3011,12 @@
       "provider": "Moonshot AI",
       "aliases": ["kimi-k2.7-code"]
     },
-    { "id": "glm-5-2", "displayName": "GLM 5.2", "provider": "Z.ai", "aliases": ["glm-5.2"] },
+    {
+      "id": "glm-5-2",
+      "displayName": "GLM 5.2",
+      "provider": "Z.ai",
+      "aliases": ["glm-5.2"]
+    },
     {
       "id": "qwen-3-8-27b",
       "displayName": "Qwen 3.8 27B",
@@ -2339,6 +3070,18 @@
       "displayName": "Grok（系列）",
       "provider": "xAI",
       "aliases": ["Grok"]
+    },
+    {
+      "id": "gpt-6-1-terra",
+      "displayName": "GPT 6.1 Terra",
+      "provider": "OpenAI",
+      "aliases": ["GPT-6.1 Terra", "gpt-6.1-terra"]
+    },
+    {
+      "id": "gpt-6-astra",
+      "displayName": "GPT 6 Astra",
+      "provider": "OpenAI",
+      "aliases": ["GPT-6 Astra", "gpt-6-astra"]
     }
   ],
   "changes": []

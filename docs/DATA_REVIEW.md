@@ -30,7 +30,12 @@
 - [Cline usage-billing](https://docs.cline.bot/getting-started/cline-provider.md): 任意の前払いクレジット契約としてCline本体と分離。100以上のモデル、無料タグ、クレジット残高の消費を確認。固定月額・利用上限・繰越条件は未調査。
 - [Kilo Code料金](https://kilocode.ai/pricing)、[Kilo Pass](https://kilocode.ai/pricing/kilo-pass): Individualプラットフォームは無料だが推論やクラウド実行は別料金。Kilo Pass Starter / Pro / Expertを追加。支払額と同額の有料クレジットにボーナスが付き、有料分は1年有効、ボーナスは月次失効。ボーナス率は月払いの継続月数と年払いで変動し、固定割引ではない。Teams・Enterprise、500以上のモデル個別料金、Kilo Gatewayの従量課金は未掲載。
 
-Museは独立したサービスとしての公式料金・プランの特定と確認が未完了のため保留。Codex、Windsurfも調査未完了のため保留。存在しない・非公開という判断ではない。出典を確認後に追加する。
+Museは独立したサービスとしての公式料金・プランの特定と確認が未完了のため保留。Windsurfは料金URLがDevinのページに転送されるため、移行条件や既存契約を確認するまで別サービスとしての掲載を保留する。
+
+## 主要サービスの追加確認（2026-11-15）
+
+- [OpenAI Codex料金](https://developers.openai.com/codex/pricing/)・[利用条件](https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan)・[Pro料金](https://help.openai.com/en/articles/9793128-about-chatgpt-pro-plans): ChatGPT Free / Go / Plus / Pro 100・200・500とAPIキー利用を掲載。FreeとGoは提供段階にあるデスクトップ利用で、Codex Cloudは含まれない。Plusのモデル別5時間回数は公式の推定であり、固定上限ではない。Proは現時点で5時間上限がないが、その他の利用制限は残る。ChatGPT契約とAPI従量料金を分けて記載。Business・Enterprise・Eduの料金は未掲載。
+- [Devin料金](https://devin.ai/pricing): Free / Pro / Maxの個人向けプランを掲載。無料枠は少量、有料枠は日次・週次で更新されるが、具体的な量は非公開。追加利用はAPI料金で購入可能。Teamsは基本料金と席数料金の複合課金のため未掲載。モデルごとの対応は未調査。Windsurfの料金URLから転送されることを確認したが、両サービスの契約上の同一性は判断していない。
 
 ## モデル性能データ（2026-11-14）
 
