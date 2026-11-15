@@ -1,22 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ServiceTable from '../components/ServiceTable.astro';
 import NewsFeed from '../components/NewsFeed.astro';
+import ServiceTable from '../components/ServiceTable.astro';
 import { catalog } from '../lib/catalog';
 import { billingLabels, typeLabels } from '../lib/format';
+import { website } from '../lib/seo';
 const categories = [...new Set(catalog.services.map((s) => s.category))];
 ---
 
-<Layout>
-  <NewsFeed />
-  <section class="intro container">
+<Layout
+  path="/"
+  structuredData={website(
+    'AI Plan Radar',
+    'AIコーディングサービスの料金・対応モデル・利用制限を、公式出典と確認日付きで比較する日本語サイト。',
+  )}
+>
+  <section class="intro container" aria-labelledby="intro-heading">
     <div>
-      <h2>AIコーディングサービスの料金・利用制限</h2>
+      <h1 id="intro-heading">AIコーディングサービスの料金・利用枠</h1>
       <p>
-        サービスごとの料金、対応モデル、利用枠を検索できます。本体が無料でもモデル利用料は別です。未確認の上限を「制限なし」とは表示しません。
+        サービスごとの料金、対応モデル、利用枠を公式出典と確認日つきで検索できます。本体が無料でもモデル利用料は別です。未確認の上限を「制限なし」とは表示しません。
       </p>
     </div>
   </section>
+  <NewsFeed />
   <div class="catalog-layout container">
     <details class="filters" id="filter-panel">
       <summary>

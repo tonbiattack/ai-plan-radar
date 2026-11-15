@@ -1,0 +1,598 @@
+{
+  "note": "このサイトへの掲載開始日です。事業者が料金や利用枠を変更した日ではありません。",
+  "generatedFrom": "src/data/catalog.json",
+  "entries": [
+    {
+      "id": "claude-code",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "claude-code-max",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "claude-code"
+    },
+    {
+      "id": "claude-code-pro",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "claude-code"
+    },
+    {
+      "id": "claude-code-ultra",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "claude-code"
+    },
+    {
+      "id": "cline",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "cline-client",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cline"
+    },
+    {
+      "id": "cline-pass",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "cline-pass-standard",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cline-pass"
+    },
+    {
+      "id": "cline-usage-billing",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cline"
+    },
+    {
+      "id": "command-code",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "command-code-go",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "command-code"
+    },
+    {
+      "id": "command-code-goat",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "command-code"
+    },
+    {
+      "id": "command-code-max-10",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "command-code"
+    },
+    {
+      "id": "command-code-max-20",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "command-code"
+    },
+    {
+      "id": "command-code-pro",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "command-code"
+    },
+    {
+      "id": "cursor",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "cursor-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cursor"
+    },
+    {
+      "id": "cursor-plus",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cursor"
+    },
+    {
+      "id": "cursor-premium",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cursor"
+    },
+    {
+      "id": "cursor-super",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cursor"
+    },
+    {
+      "id": "cursor-ultra",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "cursor"
+    },
+    {
+      "id": "github-copilot",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "github-copilot-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "github-copilot"
+    },
+    {
+      "id": "github-copilot-max",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "github-copilot"
+    },
+    {
+      "id": "github-copilot-pro",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "github-copilot"
+    },
+    {
+      "id": "github-copilot-pro-plus",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "github-copilot"
+    },
+    {
+      "id": "kilo-code",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "kilo-code-individual",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "kilo-code"
+    },
+    {
+      "id": "kilo-pass-expert",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "kilo-code"
+    },
+    {
+      "id": "kilo-pass-pro",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "kilo-code"
+    },
+    {
+      "id": "kilo-pass-starter",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "kilo-code"
+    },
+    {
+      "id": "logfare",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "logfare-premium",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "logfare"
+    },
+    {
+      "id": "logfare-pro",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "logfare"
+    },
+    {
+      "id": "logfare-standard",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "logfare"
+    },
+    {
+      "id": "opencode",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "opencode-client",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "opencode"
+    },
+    {
+      "id": "opencode-console",
+      "kind": "service",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14"
+    },
+    {
+      "id": "opencode-console-go",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "opencode-console"
+    },
+    {
+      "id": "opencode-console-go-plus",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "opencode-console"
+    },
+    {
+      "id": "opencode-console-go-teams",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "opencode-console"
+    },
+    {
+      "id": "opencode-console-usage",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-14",
+      "verifiedAt": "2026-11-14",
+      "serviceId": "opencode-console"
+    },
+    {
+      "id": "aider",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "aider-client",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "aider"
+    },
+    {
+      "id": "antigravity",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "antigravity-individual",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "antigravity"
+    },
+    {
+      "id": "augment-business",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "augment-code"
+    },
+    {
+      "id": "augment-code",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "augment-standard",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "augment-code"
+    },
+    {
+      "id": "codex",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "codex-api",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "codex"
+    },
+    {
+      "id": "codex-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "codex"
+    },
+    {
+      "id": "codex-go",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "codex"
+    },
+    {
+      "id": "codex-plus",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "codex"
+    },
+    {
+      "id": "codex-pro-100",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "codex"
+    },
+    {
+      "id": "codex-pro-200",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "codex"
+    },
+    {
+      "id": "codex-pro-500",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "codex"
+    },
+    {
+      "id": "continue",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "continue-client",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "continue"
+    },
+    {
+      "id": "deepseek-api",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "deepseek-api-usage",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "deepseek-api"
+    },
+    {
+      "id": "devin",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "devin-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "devin"
+    },
+    {
+      "id": "devin-max",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "devin"
+    },
+    {
+      "id": "devin-pro",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "devin"
+    },
+    {
+      "id": "goose",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "goose-client",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "goose"
+    },
+    {
+      "id": "kiro",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "kiro-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "kiro"
+    },
+    {
+      "id": "kiro-power",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "kiro"
+    },
+    {
+      "id": "kiro-pro",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "kiro"
+    },
+    {
+      "id": "kiro-pro-max",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "kiro"
+    },
+    {
+      "id": "kiro-pro-plus",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "kiro"
+    },
+    {
+      "id": "litellm",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "litellm-client",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "litellm"
+    },
+    {
+      "id": "openrouter",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "openrouter-business",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "openrouter"
+    },
+    {
+      "id": "openrouter-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "openrouter"
+    },
+    {
+      "id": "openrouter-standard",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "openrouter"
+    },
+    {
+      "id": "roo-code",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "roo-code-client",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "roo-code"
+    },
+    {
+      "id": "roomote",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "roomote-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "roomote"
+    },
+    {
+      "id": "roomote-team-100",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "roomote"
+    },
+    {
+      "id": "roomote-team-50",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "roomote"
+    },
+    {
+      "id": "warp",
+      "kind": "service",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15"
+    },
+    {
+      "id": "warp-build",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "warp"
+    },
+    {
+      "id": "warp-free",
+      "kind": "plan",
+      "firstSeenAt": "2026-11-15",
+      "verifiedAt": "2026-11-15",
+      "serviceId": "warp"
+    }
+  ]
+}

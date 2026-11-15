@@ -6,10 +6,11 @@ AIコーディングサービスの料金、対応モデル、利用枠を公式
 
 ## 主な機能
 
-- サービス別・プラン別の比較表とカード表示
+- サービス別・プラン別の比較表とカード表示、2〜4プランの横並び比較（[比較ページ](https://tonbiattack.github.io/ai-plan-radar/compare/)、選択内容はURLで共有可能）
 - キーワード、課金方式、対応モデル、利用枠、基本月額などによる絞り込み
 - 料金や利用枠の公式出典と確認日を掲載
 - ProgramBench、SWE-bench Verified（Bash Only）、Aider Polyglotのモデル性能と評価条件を表示
+- サービスごとの掲載開始日・最終確認日・情報の鮮度と、記録された変更履歴
 - RSS・GitHub Releasesから更新候補を収集し、レビュー用に保存
 
 価格や利用枠は変更されることがあります。契約前には各サービスの公式情報を確認してください。本体とモデル提供元が別契約の場合もあります。未確認の上限を「制限なし」として扱いません。
@@ -37,7 +38,7 @@ npm run preview               # ビルド成果物を確認
 npm run format:check          # フォーマットを確認
 ```
 
-主な技術はAstro、TypeScript、Zod、Vitest、Playwrightです。静的サイトとしてビルドし、GitHub ActionsからGitHub Pagesに公開します。サーバーDBや認証は不要です。
+主な技術はAstro、TypeScript、Zod、Vitest、Playwrightです。静的サイトとしてビルドし、GitHub ActionsからGitHub Pagesに公開します。サーバーDBや認証は不要です。`sitemap.xml` と `robots.txt` はビルド時に生成し、各ページに canonical・OGP・JSON-LD（WebSite / BreadcrumbList / Product）を出力します。
 
 ## データと更新
 
@@ -48,12 +49,14 @@ npm run format:check          # フォーマットを確認
 | ProgramBench                     | 公式ランキング上位を [`src/data/programbench.json`](src/data/programbench.json) に手動採録                                                                                                                   |
 | ニュース                         | [`docs/CONTRIBUTING-NEWS.md`](docs/CONTRIBUTING-NEWS.md) を参照                                                                                                                                              |
 | 更新候補の監視                   | [`docs/WATCH-SOURCES.md`](docs/WATCH-SOURCES.md) を参照                                                                                                                                                      |
+| 掲載開始日・鮮度                 | `npm run history:sync` でGit履歴から [`src/data/observations.json`](src/data/observations.json) を再生成                                                                                                     |
+| OGP画像                          | `npm run og:build` で [`public/og.svg`](public/og.svg) から `public/og.png` を生成                                                                                                                           |
 
 `npm run validate` でデータの構造、参照、出典などを検証します。不正なデータはビルド時にも検出されます。
 
 データ編集では、公式出典と確認日を記録し、未調査の項目や料金を推測しません。モデルの利用可否と条件、非公開・未調査・利用不可を区別します。価格の並べ替えや上限は選択通貨の基本月額を対象とし、従量料金や定額＋従量の追加費用を含む総額ではありません。性能結果は評価日やハーネスの違いに注意して比較してください。
 
-ニュース監視の収集結果はレビュー用の候補であり、自動公開されません。AI抽出・自動公開は未実装です。料金の変更履歴はスキーマのみ定義され、表示画面は未実装です。
+ニュース監視の収集結果はレビュー用の候補であり、自動公開されません。AI抽出・自動公開は未実装です。料金の変更履歴の画面は [`src/pages/history.astro`](src/pages/history.astro) で、公式出典付きで旧値・新値を確認できた変更だけを `catalog.json` の `changes` に追記します。掲載開始日は事業者の発効日ではありません。
 
 ## コントリビュート
 

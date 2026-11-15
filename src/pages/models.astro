@@ -8,6 +8,7 @@ import { programbenchSchema } from '../lib/programbench';
 import { benchmarkDataSchema } from '../lib/benchmark';
 import { catalog } from '../lib/catalog';
 import { formatDate } from '../lib/format';
+import { breadcrumbs } from '../lib/seo';
 const data = benchmarkDataSchema.parse(raw);
 const programbench = programbenchSchema.parse(programbenchRaw);
 const aider = aiderSchema.parse(aiderRaw);
@@ -21,6 +22,11 @@ const bestAider = aider.results[0].score;
 <Layout
   title="モデル性能（ProgramBench・SWE-bench・Aider）| AI Plan Radar"
   description="AIコーディングモデルのProgramBench、SWE-bench Verified、Aider Polyglotの結果を、評価条件・出典とともに表示します。"
+  path="/models/"
+  structuredData={breadcrumbs([
+    { name: 'AI Plan Radar', path: '/' },
+    { name: 'モデル性能', path: '/models/' },
+  ])}
 >
   <div class="container benchmark-page">
     <header class="benchmark-header">

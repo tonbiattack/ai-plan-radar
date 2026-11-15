@@ -11,4 +11,9 @@ export default defineConfig(
   ...ts.configs.recommended,
   ...astro.configs.recommended,
   { files: ['**/*.astro'], rules: { 'astro/no-set-html-directive': 'error' } },
+  {
+    // JSON-LD payloads are serialised from our own typed data with `<` escaped.
+    files: ['src/components/JsonLd.astro', 'src/pages/compare.astro'],
+    rules: { 'astro/no-set-html-directive': 'off' },
+  },
 );

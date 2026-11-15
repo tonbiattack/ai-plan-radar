@@ -1,0 +1,264 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { catalog } from '../lib/catalog';
+import { planFacts } from '../lib/views';
+import { formatLimit, formatPrice } from '../lib/format';
+import { breadcrumbs } from '../lib/seo';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const plans = catalog.plans.map((plan) => {
+  const service = catalog.services.find((entry) => entry.id === plan.serviceId)!;
+  const facts = planFacts(catalog, plan);
+  return {
+    ...facts,
+    serviceName: service.name,
+    serviceSlug: service.slug,
+    serviceId: service.id,
+    href: `${base}/services/${service.slug}/#${plan.id}`,
+    billing: facts.billingLabel,
+    price: formatPrice(plan),
+    limits: plan.limits.map((limit) => ({
+      metric: limit.metric,
+      value: formatLimit(limit),
+      scope: limit.scope,
+      window: limit.window,
+      reset: limit.resetPolicy,
+      overage: limit.overagePolicy,
+      sourceUrl: limit.sourceUrl,
+    })),
+  };
+});
+---
+
+<Layout
+  title="プランを横並びで比較 | AI Plan Radar"
+  description="AIコーディングサービスのプランを2〜4件選び、料金・課金方式・モデル・利用枠・最終確認日を横並びで比較できます。"
+  path="/compare/"
+  structuredData={breadcrumbs([
+    { name: 'AI Plan Radar', path: '/' },
+    { name: 'プラン比較', path: '/compare/' },
+  ])}
+>
+  <div class="container compare-page">
+    <header class="compare-header">
+      <h1>プランを横並びで比較</h1>
+      <p>
+        2〜4件のプランを選ぶと、料金・課金方式・モデル・利用枠・確認日を同じ表で並べます。選択内容はURLに入るため、そのまま共有・ブックマークできます。
+      </p>
+    </header>
+
+    <section class="compare-picker" aria-labelledby="picker-title">
+      <h2 id="picker-title">比較するプランを選ぶ</h2>
+      <p class="compare-note">
+        最大4件。5件目を選ぶと、最も古い選択が外れます。価格は各サービスの元通貨のまま表示し、通貨換算はしません。
+      </p>
+      <label class="compare-search">
+        <span>プランを検索</span>
+        <input id="compare-search" type="search" placeholder="サービス名・プラン名・モデル名" />
+      </label>
+      <div id="compare-options" class="compare-options" role="group" aria-label="プラン一覧">
+        {plans.map((plan) => (
+          <label
+            class="compare-option"
+            data-plan-id={plan.id}
+            data-search={`${plan.serviceName} ${plan.name} ${plan.modelsLabel}`}
+          >
+            <input type="checkbox" value={plan.id} />
+            <span class="compare-option-name">
+              <span class="compare-service">{plan.serviceName}</span>
+              {plan.name}
+            </span>
+            <span class="compare-option-price">{plan.price}</span>
+          </label>
+        ))}
+      </div>
+    </section>
+
+    <section class="compare-result" aria-labelledby="result-title">
+      <h2 id="result-title">比較表</h2>
+      <p id="compare-status" role="status" aria-live="polite">
+        0件を選択中
+      </p>
+      <div id="compare-empty" class="compare-empty">
+        <p>まだプランが選ばれていません。上の一覧から2〜4件を選んでください。</p>
+      </div>
+      <div class="table-scroll">
+        <table id="compare-table" class="compare-table compare-matrix" hidden>
+          <caption>選択したプランの比較。不明・非公開・制限なしは区別して表示します。</caption>
+          <thead>
+            <tr id="compare-head"></tr>
+          </thead>
+          <tbody id="compare-body"></tbody>
+        </table>
+      </div>
+      <p class="compare-note">
+        「不明」「非公開」「未調査」は数値がない状態で、「制限なし」とは異なります。基本月額は従量課金や追加費用を含む総額ではありません。
+      </p>
+    </section>
+  </div>
+
+  <script type="application/json" id="compare-data" set:html={JSON.stringify(plans)} />
+  <script>
+    type ComparisonPlan = {
+      id: string;
+      serviceName: string;
+      name: string;
+      href: string;
+      billing: string;
+      price: string;
+      modelsLabel: string;
+      limits: {
+        metric: string;
+        value: string;
+        scope: string;
+        window: string;
+        reset: string;
+        overage: string;
+      }[];
+      verifiedAt: string;
+      disclosureLabel: string;
+    };
+    const data = JSON.parse(
+      document.querySelector<HTMLScriptElement>('#compare-data')!.textContent!,
+    ) as ComparisonPlan[];
+    const byId = new Map(data.map((plan) => [plan.id, plan]));
+    const MAX = 4;
+    const selected: string[] = [];
+    const options = Array.from(document.querySelectorAll<HTMLElement>('.compare-option'));
+    const inputs = Array.from(document.querySelectorAll<HTMLInputElement>('.compare-option input'));
+    const head = document.querySelector<HTMLTableRowElement>('#compare-head')!;
+    const body = document.querySelector<HTMLTableSectionElement>('#compare-body')!;
+    const table = document.querySelector<HTMLTableElement>('#compare-table')!;
+    const status = document.querySelector<HTMLElement>('#compare-status')!;
+    const empty = document.querySelector<HTMLElement>('#compare-empty')!;
+    const search = document.querySelector<HTMLInputElement>('#compare-search')!;
+    const formatDate = (value: string) =>
+      new Intl.DateTimeFormat('ja-JP', {
+        timeZone: 'Asia/Tokyo',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }).format(new Date(value));
+
+    const rows: { label: string; render: (plan: ComparisonPlan) => string }[] = [
+      { label: 'サービス', render: (plan) => `<a href="${plan.href}">${plan.serviceName}</a>` },
+      { label: 'プラン', render: (plan) => plan.name },
+      { label: '課金方式', render: (plan) => plan.billing },
+      { label: '料金', render: (plan) => plan.price },
+      { label: '確認モデル', render: (plan) => plan.modelsLabel },
+      {
+        label: '利用枠',
+        render: (plan) =>
+          plan.limits.length
+            ? plan.limits
+                .map(
+                  (limit) =>
+                    `<span class="compare-limit"><strong>${limit.metric}</strong> ${limit.value}${
+                      limit.scope === 'model' ? '（モデル別）' : ''
+                    }</span>`,
+                )
+                .join('')
+            : '未調査',
+      },
+      {
+        label: '公開状況',
+        render: (plan) => plan.disclosureLabel,
+      },
+      {
+        label: '最終確認日',
+        render: (plan) =>
+          `<time datetime="${plan.verifiedAt}">${formatDate(plan.verifiedAt)}</time>`,
+      },
+    ];
+
+    function render() {
+      const chosen = selected.map((id) => byId.get(id)!).filter(Boolean);
+      status.textContent = `${chosen.length}件を選択中`;
+      table.hidden = chosen.length === 0;
+      empty.hidden = chosen.length > 0;
+      head.replaceChildren();
+      body.replaceChildren();
+      if (!chosen.length) return;
+      const corner = document.createElement('th');
+      corner.scope = 'col';
+      corner.textContent = '項目';
+      head.append(corner);
+      for (const plan of chosen) {
+        const cell = document.createElement('th');
+        cell.scope = 'col';
+        cell.textContent = `${plan.serviceName} / ${plan.name}`;
+        head.append(cell);
+      }
+      for (const row of rows) {
+        const tr = document.createElement('tr');
+        const th = document.createElement('th');
+        th.scope = 'row';
+        th.textContent = row.label;
+        tr.append(th);
+        for (const plan of chosen) {
+          const td = document.createElement('td');
+          td.dataset.label = row.label;
+          td.innerHTML = row.render(plan);
+          tr.append(td);
+        }
+        body.append(tr);
+      }
+    }
+
+    function syncUrl() {
+      const url = new URL(location.href);
+      if (selected.length) url.searchParams.set('plans', selected.join(','));
+      else url.searchParams.delete('plans');
+      if (url.href !== location.href) history.pushState(null, '', url);
+    }
+
+    function setSelection(ids: string[]) {
+      selected.length = 0;
+      for (const id of ids)
+        if (byId.has(id) && !selected.includes(id) && selected.length < MAX) selected.push(id);
+      for (const input of inputs) input.checked = selected.includes(input.value);
+      render();
+    }
+
+    for (const input of inputs) {
+      input.addEventListener('change', () => {
+        if (input.checked) {
+          selected.push(input.value);
+          if (selected.length > MAX) {
+            const dropped = selected.shift()!;
+            const previous = inputs.find((entry) => entry.value === dropped);
+            if (previous) previous.checked = false;
+          }
+        } else {
+          const index = selected.indexOf(input.value);
+          if (index >= 0) selected.splice(index, 1);
+        }
+        render();
+        syncUrl();
+      });
+    }
+
+    search.addEventListener('input', () => {
+      const query = search.value.normalize('NFKC').toLocaleLowerCase('ja-JP').trim();
+      for (const option of options) {
+        option.hidden = Boolean(
+          query &&
+          !(option.dataset.search ?? '')
+            .normalize('NFKC')
+            .toLocaleLowerCase('ja-JP')
+            .includes(query),
+        );
+      }
+    });
+
+    window.addEventListener('popstate', () => {
+      setSelection(
+        new URLSearchParams(location.search).get('plans')?.split(',').filter(Boolean) ?? [],
+      );
+    });
+
+    setSelection(
+      new URLSearchParams(location.search).get('plans')?.split(',').filter(Boolean) ?? [],
+    );
+  </script>
+</Layout>

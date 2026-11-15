@@ -1,0 +1,206 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { catalog } from '../lib/catalog';
+import rawObservations from '../data/observations.json';
+import {
+  observationsSchema,
+  daysSinceCheck,
+  freshness,
+  freshnessLabels,
+  formatChangeValue,
+} from '../lib/history';
+import { formatDate, confidenceLabels } from '../lib/format';
+import { breadcrumbs } from '../lib/seo';
+
+const observations = observationsSchema.parse(rawObservations);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const serviceById = new Map(catalog.services.map((service) => [service.id, service]));
+const planById = new Map(catalog.plans.map((plan) => [plan.id, plan]));
+const firstSeen = new Map(
+  observations.entries.map((entry) => [`${entry.kind}:${entry.id}`, entry.firstSeenAt]),
+);
+
+const changes = [...catalog.changes]
+  .filter((change) => change.reviewStatus !== 'rejected')
+  .sort((a, b) => b.observedAt.localeCompare(a.observedAt));
+
+const rows = catalog.services
+  .map((service) => {
+    const days = daysSinceCheck(service.verifiedAt);
+    return {
+      service,
+      days,
+      state: freshness(days),
+      firstSeenAt: firstSeen.get(`service:${service.id}`) ?? null,
+      planCount: catalog.plans.filter((plan) => plan.serviceId === service.id).length,
+    };
+  })
+  .sort((a, b) => a.service.name.localeCompare(b.service.name, 'ja'));
+
+const stale = rows.filter((row) => row.state === 'stale').length;
+const unchecked = observations.entries.length === 0;
+---
+
+<Layout
+  title="更新履歴と情報の鮮度 | AI Plan Radar"
+  description="AIコーディングサービスの料金・利用枠について、掲載開始日・最終確認日・記録された変更履歴をサービス別に表示します。"
+  path="/history/"
+  structuredData={breadcrumbs([
+    { name: 'AI Plan Radar', path: '/' },
+    { name: '更新履歴と情報の鮮度', path: '/history/' },
+  ])}
+>
+  <div class="container history-page">
+    <header class="history-header">
+      <h1>更新履歴と情報の鮮度</h1>
+      <p>
+        各サービスの掲載開始日と、最後に公式情報を確認した日を一覧できます。値の変更は、公式出典を確認できたものだけを旧値・新値とともに記録します。
+      </p>
+    </header>
+
+    <aside class="notice notice-warn">
+      <strong>記録がないことは「変更がなかった」ことを意味しません。</strong>
+      <p>
+        自動収集が失敗した期間や、まだ確認していない項目は履歴に残りません。料金・利用枠の判断は各サービスの公式ページで確認してください。
+      </p>
+    </aside>
+
+    <section class="history-card" aria-labelledby="changes-title">
+      <h2 id="changes-title">記録された変更</h2>
+      {changes.length ? (
+        <ul class="change-list">
+          {changes.map((change) => {
+            const service = serviceById.get(change.serviceId)!;
+            const plan = change.planId ? planById.get(change.planId) : null;
+            return (
+              <li class="change-item" id={change.id}>
+                <p class="change-meta">
+                  <strong>{service.name}</strong>
+                  {plan && <span> / {plan.name}</span>}
+                  <span class="pill">
+                    {change.reviewStatus === 'approved' ? '確認済み' : '要確認'}
+                  </span>
+                </p>
+                <p class="change-field">{change.field}</p>
+                <dl class="change-values">
+                  <div>
+                    <dt>旧</dt>
+                    <dd>{formatChangeValue(change.before)}</dd>
+                  </div>
+                  <div>
+                    <dt>新</dt>
+                    <dd>{formatChangeValue(change.after)}</dd>
+                  </div>
+                </dl>
+                <p class="change-dates">
+                  観測日{' '}
+                  <time datetime={change.observedAt}>
+                    {formatDate(change.observedAt.slice(0, 10))}
+                  </time>
+                  {change.effectiveAt && (
+                    <>
+                      {' '}
+                      / 発効日{' '}
+                      <time datetime={change.effectiveAt}>
+                        {formatDate(change.effectiveAt.slice(0, 10))}
+                      </time>
+                    </>
+                  )}
+                </p>
+                <a href={change.sourceUrl} rel="noopener noreferrer">
+                  公式出典を確認する
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p class="history-empty">
+          公式出典付きで旧値・新値を確認できた変更はまだ記録されていません。掲載開始以降に確認した範囲では、料金・利用枠の変更を検出していません。これは「変更がなかった」という意味ではありません。
+        </p>
+      )}
+    </section>
+
+    <section class="history-card" aria-labelledby="freshness-title">
+      <h2 id="freshness-title">サービス別の鮮度</h2>
+      <p class="history-note">
+        最終確認日は公式ページを読み取った日です。{stale}
+        件が30日以上前の確認です。掲載開始日はこのサイトに載せた日で、事業者の発効日ではありません。
+      </p>
+      {unchecked ? (
+        <p>
+          掲載開始日の記録がありません。<code>npm run history:sync</code> で生成してください。
+        </p>
+      ) : (
+        <div class="table-scroll">
+          <table class="compare-table history-table">
+            <caption>サービスごとの掲載開始日・最終確認日・確認からの経過日数。</caption>
+            <thead>
+              <tr>
+                <th scope="col">サービス</th>
+                <th scope="col">掲載開始</th>
+                <th scope="col">最終確認</th>
+                <th scope="col">経過</th>
+                <th scope="col">鮮度</th>
+                <th scope="col">プラン</th>
+                <th scope="col">変更履歴</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => {
+                const serviceChanges = changes.filter(
+                  (change) => change.serviceId === row.service.id,
+                ).length;
+                return (
+                  <tr id={`service-${row.service.id}`}>
+                    <th scope="row">
+                      <a href={`${base}/services/${row.service.slug}/`}>{row.service.name}</a>
+                    </th>
+                    <td data-label="掲載開始">
+                      {row.firstSeenAt ? (
+                        <time datetime={row.firstSeenAt}>{formatDate(row.firstSeenAt)}</time>
+                      ) : (
+                        '記録なし'
+                      )}
+                    </td>
+                    <td data-label="最終確認">
+                      <time datetime={row.service.verifiedAt}>
+                        {formatDate(row.service.verifiedAt)}
+                      </time>
+                    </td>
+                    <td data-label="経過">{row.days}日前</td>
+                    <td data-label="鮮度">
+                      <span class:list={['pill', `freshness-${row.state}`]}>
+                        {freshnessLabels[row.state]}
+                      </span>
+                    </td>
+                    <td data-label="プラン">{row.planCount}</td>
+                    <td data-label="変更履歴">
+                      {serviceChanges ? `${serviceChanges}件` : '記録なし'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+
+    <section class="history-card">
+      <h2>記録のルール</h2>
+      <ul class="history-rules">
+        <li>変更履歴は追記のみで、公式出典のない変更は記録しません。</li>
+        <li>事業者の発効日と、こちらが観測した日は別の項目として扱います。</li>
+        <li>取得に失敗した日は「変更なし」ではなく「未確認」として扱います。</li>
+        <li>
+          掲載開始日は <code>npm run history:sync</code> でGit履歴から再生成できます。
+        </li>
+        <li>
+          掲載内容の確認状態は、サービス・プランごとの{confidenceLabels.official} / 要確認 /
+          不明で示します。
+        </li>
+      </ul>
+    </section>
+  </div>
+</Layout>

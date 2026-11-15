@@ -5,6 +5,7 @@ import { watchSourcesSchema } from '../src/lib/watch';
 import { benchmarkDataSchema } from '../src/lib/benchmark';
 import { aiderSchema } from '../src/lib/aider';
 import { programbenchSchema } from '../src/lib/programbench';
+import { observationsSchema } from '../src/lib/history';
 
 const data = catalogSchema.parse(
   JSON.parse(readFileSync(new URL('../src/data/catalog.json', import.meta.url), 'utf8')),
@@ -46,3 +47,17 @@ const programbench = programbenchSchema.parse(
   JSON.parse(readFileSync(new URL('../src/data/programbench.json', import.meta.url), 'utf8')),
 );
 console.log(`ProgramBench検証成功: ${programbench.results.length}件`);
+
+// Observations must cover every published entry, otherwise the history page
+// silently drops rows. Run `npm run history:sync` after adding a service/plan.
+const observations = observationsSchema.parse(
+  JSON.parse(readFileSync(new URL('../src/data/observations.json', import.meta.url), 'utf8')),
+);
+const recorded = new Set(observations.entries.map((entry) => `${entry.kind}:${entry.id}`));
+for (const service of data.services)
+  if (!recorded.has(`service:${service.id}`))
+    throw new Error(`掲載開始日の記録がありません: service:${service.id}`);
+for (const plan of data.plans)
+  if (!recorded.has(`plan:${plan.id}`))
+    throw new Error(`掲載開始日の記録がありません: plan:${plan.id}`);
+console.log(`掲載開始日の検証成功: ${observations.entries.length}件`);

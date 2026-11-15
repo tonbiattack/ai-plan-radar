@@ -1,5 +1,5 @@
 import type { Catalog, Plan, Service } from './schema';
-import { billingLabels, formatPrice, knowledgeLabels } from './format';
+import { billingLabels, formatPrice, formatMonthlyPrice, knowledgeLabels } from './format';
 import { monthlyPrice } from './search';
 
 export type PlanFacts = {
@@ -33,6 +33,12 @@ export type ServiceFacts = {
   cheapestLabel: string;
   modelsLabel: string;
   limitsLabel: string;
+  /** One or two short lines summarising published allowances for card surfaces. */
+  limitSummary: string[];
+  /** True when no allowance value is published for any paid plan. */
+  limitsUnknown: boolean;
+  /** True when at least one model is confirmed as usable on some plan. */
+  hasConfirmedModels: boolean;
   disclosure: 'known' | 'unknown';
   disclosureLabel: string;
   verifiedAt: string;
@@ -109,6 +115,14 @@ export function serviceFacts(
     ),
   ].slice(0, 2);
   const disclosure = plans.some((plan) => plan.disclosure === 'known') ? 'known' : 'unknown';
+  const limitsUnknown = !plans.some(
+    (plan) => plan.disclosure === 'known' && !plan.free && plan.hasKnownLimit,
+  );
+  // A usage-only service has no comparable monthly price, but that is different
+  // from an unknown one, so say which it is instead of falling back to 不明.
+  const usageOnly = plans.length > 0 && plans.every((plan) => plan.billing === 'usage');
+  const cheapestLabel =
+    cheapest === null && usageOnly ? '従量のみ' : formatMonthlyPrice(cheapest, currency);
   return {
     id: service.id,
     name: service.name,
@@ -118,16 +132,12 @@ export function serviceFacts(
     typeLabel: service.serviceType,
     free: plans.some((plan) => plan.free),
     planCount: plans.length,
-    cheapestLabel:
-      cheapest === null
-        ? '不明'
-        : new Intl.NumberFormat('ja-JP', {
-            style: 'currency',
-            currency,
-            maximumFractionDigits: 2,
-          }).format(cheapest),
+    cheapestLabel,
     modelsLabel: models.length ? models.join(' / ') : '未調査',
+    hasConfirmedModels: models.length > 0,
     limitsLabel: limitSamples.length ? limitSamples.join(' / ') : '未調査',
+    limitSummary: limitSamples,
+    limitsUnknown,
     disclosure,
     disclosureLabel: disclosure === 'known' ? '数値あり' : '未公開あり',
     verifiedAt: service.verifiedAt,

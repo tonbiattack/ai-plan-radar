@@ -1,0 +1,12 @@
+---
+// Structured data must be emitted verbatim inside a script element, so `set:html`
+// is required here. `payload` is JSON.stringify() of our own typed objects with
+// `<` escaped, so it cannot close the element or inject markup.
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[];
+}
+const { data } = Astro.props;
+const payload = JSON.stringify(Array.isArray(data) ? data : [data]).replace(/</g, '\\u003c');
+---
+
+<script type="application/ld+json" is:inline set:html={payload}></script>

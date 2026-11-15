@@ -1,7 +1,7 @@
 ---
 import { catalog } from '../lib/catalog';
 import { catalogFacts } from '../lib/views';
-import { typeLabels, formatDate } from '../lib/format';
+import { typeLabels, formatDate, serviceInitials, serviceAccent } from '../lib/format';
 import { defaults } from '../lib/search';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -20,11 +20,14 @@ const planCount = catalog.plans.length;
     <button type="button" data-view="cards" aria-pressed="false">
       カード
     </button>
+    <a class="compare-link" href={`${base}/compare/`}>
+      プランを選んで比較
+    </a>
   </div>
 
   <div id="view-table" class="view-panel">
     <p class="table-note">
-      価格は基本月額（選択通貨）。従量課金は「従量のみ」、算出できないものは「不明」。利用枠の例は公式に数値がある項目のみです。
+      価格は基本月額（選択通貨）。従量課金のみのサービスは「不明」、無料は「無料」、算出できないものも「不明」と表示します。利用枠の例は公式に数値がある項目のみです。
     </p>
     <div class="table-scroll">
       <table class="compare-table" id="service-table">
@@ -51,7 +54,16 @@ const planCount = catalog.plans.length;
               data-free={row.free ? '1' : ''}
             >
               <th scope="row">
-                <a href={`${base}/services/${row.slug}/`}>{row.name}</a>
+                <span class="service-cell">
+                  <span
+                    class="service-avatar"
+                    style={`--avatar:${serviceAccent(row.id)}`}
+                    aria-hidden="true"
+                  >
+                    {serviceInitials(row.name)}
+                  </span>
+                  <a href={`${base}/services/${row.slug}/`}>{row.name}</a>
+                </span>
               </th>
               <td data-label="種別">
                 {typeLabels[row.type]}
@@ -65,8 +77,15 @@ const planCount = catalog.plans.length;
                   <span class="pill">なし</span>
                 )}
               </td>
-              <td data-label="最安月額">{row.cheapestLabel}</td>
-              <td data-label="確認モデル" class="cell-models">
+              <td data-label="最安月額">
+                <span class:list={['price-cell', { 'price-free': row.cheapestLabel === '無料' }]}>
+                  {row.cheapestLabel}
+                </span>
+              </td>
+              <td
+                data-label="確認モデル"
+                class:list={['cell-models', { 'cell-quiet': !row.hasConfirmedModels }]}
+              >
                 {row.modelsLabel}
               </td>
               <td data-label="利用枠の例">{row.limitsLabel}</td>
@@ -155,18 +174,44 @@ const planCount = catalog.plans.length;
           data-free={row.free ? '1' : ''}
         >
           <div class="service-heading">
-            <div>
-              <span class="type-label">{typeLabels[row.type]}</span>
-              <h2>
-                <a href={`${base}/services/${row.slug}/`}>{row.name}</a>
-              </h2>
+            <div class="service-identity">
+              <span
+                class="service-avatar service-avatar-lg"
+                style={`--avatar:${serviceAccent(row.id)}`}
+                aria-hidden="true"
+              >
+                {serviceInitials(row.name)}
+              </span>
+              <div>
+                <span class="type-label">{typeLabels[row.type]}</span>
+                <h2>
+                  <a href={`${base}/services/${row.slug}/`}>{row.name}</a>
+                </h2>
+              </div>
             </div>
-            <span class:list={['pill', { 'pill-known': row.disclosure === 'known' }]}>
-              {row.disclosureLabel}
-            </span>
+            <div class="service-flags">
+              <span class:list={['pill', row.free ? 'pill-free' : 'pill-paid']}>
+                {row.free ? '無料プランあり' : '無料プランなし'}
+              </span>
+              <span class="service-price" data-free={row.free ? '1' : ''}>
+                {row.cheapestLabel}
+              </span>
+            </div>
           </div>
           <p class="service-description">{row.category}</p>
-          <p class="model-summary">
+          <div class="allowance-summary" data-allowances={row.limitsUnknown ? 'unknown' : 'known'}>
+            <span class="allowance-label">利用枠</span>
+            {row.limitsUnknown ? (
+              <span class="allowance-unknown">有料プランの数値は未公開・未調査</span>
+            ) : (
+              <ul>
+                {row.limitSummary.map((limit) => (
+                  <li>{limit}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <p class:list={['model-summary', { 'model-summary-quiet': !row.hasConfirmedModels }]}>
             <span>確認モデル</span> {row.modelsLabel}
           </p>
           <div class="card-bottom">

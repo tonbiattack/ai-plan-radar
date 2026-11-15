@@ -93,7 +93,9 @@ test('モデル別の利用枠と公式推定を詳細に表示', async ({ page 
 
 test('検索入力の直後、最初のクリックで詳細に遷移できる', async ({ page }) => {
   await page.goto('./');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('AIサービスのニュース');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'AIコーディングサービスの料金・利用枠',
+  );
   await page.getByLabel('キーワード').fill('gpt-5-mini');
   await expect(page.locator('#result-count')).toHaveText('1件のサービス');
   await page.locator('#service-table-body tr:not([hidden]) th a').first().click();
@@ -206,4 +208,99 @@ test('JavaScript無効でもサービス表と詳細が閲覧可能', async ({ b
   await page.locator('#service-table-body tr:not([hidden]) th a').first().click();
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await context.close();
+});
+
+test('比較ページは2〜4件を選ぶとURLに反映され、再訪問で復元される', async ({ page }) => {
+  await page.goto('./compare/');
+  await expect(page.getByRole('heading', { name: 'プランを横並びで比較', level: 1 })).toBeVisible();
+  await expect(page.locator('#compare-table')).toBeHidden();
+  await page.getByRole('checkbox', { name: /Cursor.*Free/ }).check();
+  await page.getByRole('checkbox', { name: /Claude Code.*Pro/ }).check();
+  await expect(page.locator('#compare-status')).toHaveText('2件を選択中');
+  await expect(page).toHaveURL(
+    /plans=cursor-free%2Cclaude-code-pro|plans=cursor-free,claude-code-pro/,
+  );
+  await expect(page.locator('#compare-table')).toBeVisible();
+  await expect(page.locator('#compare-head th')).toHaveCount(3);
+  await expect(page.getByRole('rowheader', { name: '利用枠' })).toBeVisible();
+  await page.reload();
+  await expect(page.locator('#compare-status')).toHaveText('2件を選択中');
+  await expect(page.getByRole('checkbox', { name: /Cursor.*Free/ })).toBeChecked();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+});
+
+test('比較は4件で上限になり、不明と制限なしを区別して表示する', async ({ page }) => {
+  await page.goto(
+    './compare/?plans=cursor-free,claude-code-pro,github-copilot-pro,kiro-pro,logfare-standard',
+  );
+  await expect(page.locator('#compare-status')).toHaveText('4件を選択中');
+  const text = await page.locator('#compare-table').innerText();
+  expect(text).toContain('未調査');
+  expect(text).not.toContain('$0');
+  await page.getByRole('checkbox', { name: /Cursor.*Free/ }).uncheck();
+  await expect(page.locator('#compare-status')).toHaveText('3件を選択中');
+  await page.locator('#compare-search').fill('kiro');
+  await expect(page.locator('.compare-option:not([hidden])')).toHaveCount(
+    await page.locator('.compare-option[data-search*="Kiro"]').count(),
+  );
+});
+
+test('SEO: canonical・OGP・sitemap・robots・構造化データ', async ({ page, request }) => {
+  await page.goto('./models/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://tonbiattack.github.io/ai-plan-radar/models/',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://tonbiattack.github.io/ai-plan-radar/og.png',
+  );
+  await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
+    'content',
+    'AI Plan Radar',
+  );
+  const jsonLd = await page.locator('script[type="application/ld+json"]').first().textContent();
+  expect(JSON.parse(jsonLd!)[0]['@type']).toBe('BreadcrumbList');
+  const og = await request.get('/ai-plan-radar/og.png');
+  expect(og.status()).toBe(200);
+  expect(og.headers()['content-type']).toContain('image/png');
+  const sitemap = await request.get('/ai-plan-radar/sitemap.xml');
+  expect(sitemap.status()).toBe(200);
+  const xml = await sitemap.text();
+  expect(xml).toContain('<loc>https://tonbiattack.github.io/ai-plan-radar/compare/</loc>');
+  expect(xml).toContain('<loc>https://tonbiattack.github.io/ai-plan-radar/services/cursor/</loc>');
+  const robots = await request.get('/ai-plan-radar/robots.txt');
+  expect(await robots.text()).toContain(
+    'Sitemap: https://tonbiattack.github.io/ai-plan-radar/sitemap.xml',
+  );
+});
+
+test('一覧カードで無料可否と利用枠の概要が判別できる', async ({ page }) => {
+  await page.goto('./');
+  await page.getByRole('button', { name: 'カード' }).click();
+  const copilot = page.locator('#service-list article[data-service="github-copilot"]');
+  await expect(copilot.getByText('無料プランあり')).toBeVisible();
+  await expect(copilot.locator('.allowance-summary')).toBeVisible();
+  const claude = page.locator('#service-list article[data-service="opencode"]');
+  await expect(claude.getByText('有料プランの数値は未公開・未調査')).toBeVisible();
+  await expect(claude.locator('.service-avatar')).toHaveText('OP');
+});
+
+test('更新履歴ページで鮮度と記録なしを区別する', async ({ page }) => {
+  await page.goto('./history/');
+  await expect(page.getByRole('heading', { name: '更新履歴と情報の鮮度', level: 1 })).toBeVisible();
+  await expect(
+    page.getByText(/記録がないことは「変更がなかった」ことを意味しません/),
+  ).toBeVisible();
+  await expect(page.locator('.history-table tbody tr')).toHaveCount(24);
+  await expect(
+    page.getByText('公式出典付きで旧値・新値を確認できた変更はまだ記録されていません'),
+  ).toBeVisible();
+  await page.goto('./services/cursor/');
+  await expect(page.getByRole('link', { name: '更新履歴と鮮度' })).toHaveAttribute(
+    'href',
+    '/ai-plan-radar/history/#service-cursor',
+  );
 });

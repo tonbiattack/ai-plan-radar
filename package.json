@@ -21,7 +21,9 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "build": "npm run validate && astro build",
-    "check": "npm run lint && npm run typecheck && npm test && npm run build"
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "history:sync": "tsx scripts/sync-observations.ts",
+    "og:build": "tsx scripts/build-og-image.ts"
   },
   "dependencies": {
     "astro": "^7.4.12",

@@ -1,8 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { breadcrumbs } from '../lib/seo';
 ---
 
-<Layout title="データの読み方・掲載方針 | AI Plan Radar">
+<Layout
+  title="データの読み方・掲載方針 | AI Plan Radar"
+  description="AIコーディングサービス比較サイトの掲載方針。本体と契約の区別、非公開・未調査・利用不可・制限なしの扱い、元通貨表示、確認日と情報の鮮度について説明します。"
+  path="/about/"
+  structuredData={breadcrumbs([
+    { name: 'AI Plan Radar', path: '/' },
+    { name: 'データの読み方・掲載方針', path: '/about/' },
+  ])}
+>
   <article class="container prose">
     <h1>データの読み方・掲載方針</h1>
     <h2>本体と契約を分けて見る</h2>

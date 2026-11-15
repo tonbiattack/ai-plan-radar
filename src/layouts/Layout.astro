@@ -1,15 +1,30 @@
 ---
 import '../styles/global.css';
+import JsonLd from '../components/JsonLd.astro';
 interface Props {
   title?: string;
   description?: string;
+  /** Path of the page below the site base, e.g. `/models/`. Defaults to the current URL. */
+  path?: string;
+  type?: 'website' | 'article';
+  /** Structured data (schema.org) for this page. */
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 }
 const {
   title = 'AI Plan Radar | AIコーディングサービスの料金と利用枠',
   description = 'AIコーディングサービスの料金・対応モデル・利用制限を、公式出典と確認日付きで調べる日本語の非公式サイト。',
+  path,
+  type = 'website',
+  structuredData,
+  noindex = false,
 } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = new URL(
+  `${base}${path ?? Astro.url.pathname.replace(base, '').replace(/\/index\.html$/, '/')}`,
+  Astro.site,
+).toString();
+const ogImage = new URL(`${base}/og.png`, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -21,15 +36,27 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="AI Plan Radar" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AI Plan Radar の紹介画像" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {structuredData && <JsonLd data={structuredData} />}
   </head>
   <body>
     <a class="skip-link" href="#main">
-      本文へ移動
+      {' '}
+      本文へ移動{' '}
     </a>
     <header class="site-header">
       <div class="header-inner">
@@ -41,7 +68,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <nav aria-label="メインナビゲーション">
           <a href={`${base}/#news`}>ニュース</a>
           <a href={`${base}/`}>サービスを探す</a>
+          <a href={`${base}/compare/`}>プラン比較</a>
           <a href={`${base}/models/`}>モデル性能</a>
+          <a href={`${base}/history/`}>更新履歴</a>
           <a href={`${base}/about/`}>掲載方針</a>
         </nav>
       </div>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { catalog } from '../../lib/catalog';
+import { serviceSchema, breadcrumbs } from '../../lib/seo';
 import {
   formatPrice,
   formatLimit,
@@ -20,11 +21,46 @@ export function getStaticPaths() {
 const { service } = Astro.props;
 const plans = catalog.plans.filter((p) => p.serviceId === service.id);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const availableModels = [
+  ...new Set(
+    plans.flatMap((plan) =>
+      plan.modelAccess
+        .filter((access) => ['available', 'conditional'].includes(access.availability))
+        .map((access) => catalog.models.find((model) => model.id === access.modelId)?.displayName)
+        .filter((name): name is string => Boolean(name)),
+    ),
+  ),
+];
+const description = `${service.name}の料金${plans.length}プランと対応モデル・利用枠を、公式出典と確認日つきで掲載。${availableModels.length ? `確認できたモデル: ${availableModels.slice(0, 6).join('、')}。` : ''}最新の条件は公式ページを確認してください。`;
+const structured = [
+  breadcrumbs([
+    { name: 'AI Plan Radar', path: '/' },
+    { name: service.name, path: `/services/${service.slug}/` },
+  ]),
+  serviceSchema({
+    name: service.name,
+    description: service.description,
+    slug: service.slug,
+    officialUrl: service.officialUrl,
+    verifiedAt: service.verifiedAt,
+    offers: plans.map((plan) => ({
+      name: plan.name,
+      price: plan.price ? String(plan.price.amount) : null,
+      currency: plan.price?.currency ?? null,
+      period: plan.price
+        ? { month: 'MONTH', year: 'YEAR', one_time: 'ONE_TIME' }[plan.price.period]
+        : null,
+    })),
+  }),
+];
 ---
 
 <Layout
   title={`${service.name}の料金・モデル・利用制限 | AI Plan Radar`}
-  description={service.description}
+  description={description}
+  path={`/services/${service.slug}/`}
+  type="article"
+  structuredData={structured}
 >
   <div class="container detail-page">
     <a class="back-link" href={`${base}/`}>
@@ -52,6 +88,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <div class="official-links">
         <a href={service.officialUrl}>公式サイト</a>
         <a href={service.pricingUrl}>公式料金・契約情報</a>
+        <a href={`${base}/history/#service-${service.id}`}>更新履歴と鮮度</a>
       </div>
     </header>
     {service.serviceType === 'client' && (
