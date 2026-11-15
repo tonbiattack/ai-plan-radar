@@ -1,58 +1,73 @@
 # AI Plan Radar
 
-AIコーディングサービスの料金・対応モデル・利用枠を公式出典付きで調べる、日本語の静的サイト。仕様: [docs/SPEC.md](docs/SPEC.md)。
+AIコーディングサービスの料金、対応モデル、利用枠を公式出典付きで調べる日本語の比較サイトです。
 
-## 開発
+**[サイトを見る](https://tonbiattack.github.io/ai-plan-radar/)** · [モデル性能を比較](https://tonbiattack.github.io/ai-plan-radar/models/) · [不具合・要望を報告](https://github.com/tonbiattack/ai-plan-radar/issues)
 
-Node.js **22.23.4以上**とnpmを使用します。CIは24 LTS、ローカル確認は26で実施（Astro 7）。
+## 主な機能
+
+- サービス別・プラン別の比較表とカード表示
+- キーワード、課金方式、対応モデル、利用枠、基本月額などによる絞り込み
+- 料金や利用枠の公式出典と確認日を掲載
+- SWE-bench Verified（Bash Only）のモデル性能と評価条件を表示
+- RSS・GitHub Releasesから更新候補を収集し、レビュー用に保存
+
+価格や利用枠は変更されることがあります。契約前には各サービスの公式情報を確認してください。本体とモデル提供元が別契約の場合もあります。未確認の上限を「制限なし」として扱いません。
+
+## はじめ方
+
+Node.js **22.23.4以上**とnpmが必要です。CIではNode.js 24を使用しています。
 
 ```sh
+git clone https://github.com/tonbiattack/ai-plan-radar.git
+cd ai-plan-radar
 npm ci
 npm run dev
 ```
 
-開発URL: `http://localhost:4321/ai-plan-radar/`。サブパス付きでアクセスしてください。
+開発サーバーは [http://localhost:4321/ai-plan-radar/](http://localhost:4321/ai-plan-radar/) で確認できます。GitHub Pagesと同じサブパスを使用します。
+
+## 開発・テスト
 
 ```sh
-npm run check       # lint・型検査・単体テスト・データ検証・静的ビルド
+npm run check                 # lint、型検査、単体テスト、データ検証、ビルド
 npx playwright install chromium
-npm run test:e2e    # ビルド済みサイトでPC/モバイルを検証
-npm run preview    # ビルド成果物をローカル確認
+npm run test:e2e              # ビルド済みサイトのPC・モバイルテスト
+npm run preview               # ビルド成果物を確認
+npm run format:check          # フォーマットを確認
 ```
 
-## データ編集
+主な技術はAstro、TypeScript、Zod、Vitest、Playwrightです。静的サイトとしてビルドし、GitHub ActionsからGitHub Pagesに公開します。サーバーDBや認証は不要です。
 
-`src/data/catalog.json` が唯一の公開データです。`src/lib/schema.ts` のZod定義で構造・重複・参照・日付・出典を検証します。`npm run validate` は不正時に非ゼロ終了し、ビルドも止まります。テスト用fixtureは単体テスト内で公開データを複製・改変して作成します。
+## データと更新
 
-- サービスとプラン、モデル、変更履歴を分離。OpenCode本体とConsoleは別サービス・別プラン。
-- 料金不明は`price: null`と`priceStatus`で表現。従量課金に架空の月額を設定しない。
-- 制限は`known / undisclosed / unresearched / unavailable / unlimited / failed`を分離。`known`だけ数値必須、それ以外はnull。
-- モデル対応は`available / conditional / unavailable / unknown`。対応不明・利用不可はモデル絞り込みに含めない。
-- `sources`に根拠URLと確認日を記録。新たに調査していない項目の確認日を更新しない。税やキャンペーンも推測しない。
-- 同一サービスの異なるプランを跨いで検索条件を満たしたことにしない。
-- 価格順・上限は選択通貨内の基本月額。年額は12分割の参考値、買い切り・従量・不明は対象外。ハイブリッドの追加費用を含む総額ではない。
+| データ                           | ファイル・更新方法                                                                                    |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| サービス・プラン・モデル・利用枠 | [`src/data/catalog.json`](src/data/catalog.json) を編集                                               |
+| モデル性能                       | `npm run bench:sync` で [`src/data/swebench-verified.json`](src/data/swebench-verified.json) を再生成 |
+| ニュース                         | [`docs/CONTRIBUTING-NEWS.md`](docs/CONTRIBUTING-NEWS.md) を参照                                       |
+| 更新候補の監視                   | [`docs/WATCH-SOURCES.md`](docs/WATCH-SOURCES.md) を参照                                               |
 
-初期調査の範囲・保留候補は [docs/DATA_REVIEW.md](docs/DATA_REVIEW.md)。比較・料金の変更履歴画面は未実装です。料金の変更履歴スキーマのみ先行定義しています。
+`npm run validate` でデータの構造、参照、出典などを検証します。不正なデータはビルド時にも検出されます。
 
-速報候補の手動登録と共通JSONの検証は [docs/CONTRIBUTING-NEWS.md](docs/CONTRIBUTING-NEWS.md)、RSS・GitHub Releasesの監視と制限は [docs/WATCH-SOURCES.md](docs/WATCH-SOURCES.md) を参照してください。AI抽出・自動公開は未実装です。
+データ編集では、公式出典と確認日を記録し、未調査の項目や料金を推測しません。モデルの利用可否と条件、非公開・未調査・利用不可を区別します。価格の並べ替えや上限は選択通貨の基本月額を対象とし、従量料金や定額＋従量の追加費用を含む総額ではありません。性能結果は評価日やハーネスの違いに注意して比較してください。
 
-モデル性能は `/models/` にSWE-bench Verified（Bash Only）の公式確認済み結果を掲載しています。`npm run bench:sync` で `src/data/swebench-verified.json` を再生成し、`npm run validate` が出典・評価日・ハーネスの統一を検証します。
+ニュース監視の収集結果はレビュー用の候補であり、自動公開されません。AI抽出・自動公開は未実装です。料金の変更履歴はスキーマのみ定義され、表示画面は未実装です。
 
-## GitHub Pages
+## コントリビュート
 
-`astro.config.mjs` に `site=https://tonbiattack.github.io`、`base=/ai-plan-radar` を設定。生成物は `dist/`。CSS/JS/内部リンクはサブパスに対応します。
+不具合、料金・利用枠の変更、新しいサービスの掲載候補は [Issues](https://github.com/tonbiattack/ai-plan-radar/issues) でお知らせください。データの修正を提案する場合は、公式URL、確認日、該当するプランや条件を添えてください。変更を送る際は、関連するテストと `npm run check` を実行してください。
 
-1. リポジトリの **Settings → Pages → Source** を **GitHub Actions** に設定。
-2. `main` にpush（またはActionsを手動起動）。PRでは検証のみ行います。
-3. lint・型・テスト・ビルド・ブラウザーテスト成功後、Pagesにデプロイ。
-4. `https://tonbiattack.github.io/ai-plan-radar/` をスマホ/PCで確認。
+- [仕様](docs/SPEC.md)
+- [調査範囲と保留項目](docs/DATA_REVIEW.md)
+- [ニュースの登録方法](docs/CONTRIBUTING-NEWS.md)
+- [監視対象と制限](docs/WATCH-SOURCES.md)
+- [デザイン](docs/DESIGN.md)
 
-GitHub PagesはGitHub Actions方式で有効化しています。既定ブランチを変える場合は `.github/workflows/pages.yml` の `main` も変更してください。
+## デプロイ
 
-サーバーDB・認証・外部API接続・秘密情報は不要です。環境変数をフロントに注入しません。Pages用のOIDC権限はデプロイジョブだけに与えています。
+`astro.config.mjs` の `site` と `base` は公開先に合わせて設定されています。GitHub PagesのSourceを **GitHub Actions** に設定すると、`main` へのpush後、検証・ブラウザーテストを経て `dist/` が公開されます。PRでは検証のみ行います。設定の詳細は [Pagesワークフロー](.github/workflows/pages.yml) を参照してください。
 
-開発依存の`typescript-estree`が参照する`minimatch`は、DoS脆弱性対策のため`overrides`で11.0.8以降を指定しています。lint・型検査で互換性を確認し、上流の修正版に追従した時点で見直してください。
+## ライセンス
 
-## アイコン
-
-オリジナルのレーダー形状のSVGを `public/favicon.svg` に配置。faviconとヘッダーに共用し、OpenCodeのプロジェクトアイコン自動検出にも対応します。画像生成サービスは残高不足で利用できなかったため、外部素材を使わずSVGで作成しました。OpenCode独自設定や手動アイコン・色設定は変更していません。OpenCode内のプロジェクトアイコン表示確認は未実施です。
+現在、このリポジトリにはライセンスファイルが設定されていません。利用・再配布の許諾についてはリポジトリの管理者に確認してください。
