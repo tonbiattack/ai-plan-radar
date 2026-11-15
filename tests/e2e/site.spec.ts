@@ -32,6 +32,14 @@ test('モデル性能ページに評価条件と出典を表示', async ({ page 
   await expect(page.getByRole('heading', { name: 'Aider Polyglot' })).toBeVisible();
   await expect(page.getByRole('rowheader', { name: 'DeepSeek-V3.2-Exp (Reasoner)' })).toBeVisible();
   await expect(page.getByRole('rowheader', { name: 'GPT 6 Astra (max)' })).toBeVisible();
+  const aiderSection = page.locator('section[aria-labelledby="aider-title"]');
+  await expect(aiderSection.getByText(/公式の最新評価日/)).toBeVisible();
+  await expect(aiderSection.getByRole('link', { name: 'Aider公式リーダーボード' })).toHaveAttribute(
+    'href',
+    'https://aider.chat/docs/leaderboards/',
+  );
+  await expect(aiderSection.locator('tbody tr')).toHaveCount(20);
+  await expect(aiderSection.getByText('$1.30', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'ProgramBench公式リーダーボード' })).toHaveAttribute(
     'href',
     'https://programbench.com/',

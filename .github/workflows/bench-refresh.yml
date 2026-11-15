@@ -1,0 +1,49 @@
+name: Refresh benchmark data
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly. GitHub Actions schedules are not exact and may be delayed.
+    - cron: '41 3 * * 1'
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: bench-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Regenerate SWE-bench data
+        run: npm run bench:sync
+      - name: Regenerate Aider Polyglot data
+        run: npm run bench:sync:aider
+      - name: Validate regenerated data
+        run: npm run validate
+      - id: diff
+        run: npx tsx scripts/bench-changed.ts src/data/swebench-verified.json src/data/aider-polyglot.json
+      - name: Open a pull request
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: bench-refresh/${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add src/data/swebench-verified.json src/data/aider-polyglot.json
+          git commit -m 'chore: refresh benchmark data'
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title 'ベンチマークデータの更新' \
+            --body 'ベンチマークの公開データから自動生成した更新です。評価条件・出典・件数の差分を確認してからマージしてください。ProgramBenchは手動採録のため自動更新されません。'
+      - name: Report no change
+        if: steps.diff.outputs.changed != 'true'
+        run: echo '取得日以外の変更がないため、PRは作成しませんでした。'

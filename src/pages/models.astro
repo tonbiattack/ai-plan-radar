@@ -15,11 +15,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const linkedModelIds = new Set(data.results.map((result) => result.modelId).filter(Boolean));
 const linkedModels = catalog.models.filter((model) => linkedModelIds.has(model.id));
 const best = data.results[0].score;
+const bestAider = aider.results[0].score;
 ---
 
 <Layout
-  title="モデル性能（ProgramBench・SWE-bench）| AI Plan Radar"
-  description="AIコーディングモデルのProgramBenchとSWE-benchの結果を、評価条件・出典とともに表示します。"
+  title="モデル性能（ProgramBench・SWE-bench・Aider）| AI Plan Radar"
+  description="AIコーディングモデルのProgramBench、SWE-bench Verified、Aider Polyglotの結果を、評価条件・出典とともに表示します。"
 >
   <div class="container benchmark-page">
     <header class="benchmark-header">
@@ -89,24 +90,50 @@ const best = data.results[0].score;
       <div class="benchmark-title">
         <div>
           <h2 id="aider-title">Aider Polyglot</h2>
-          <p>DeepSeekを含む公式結果から一部を抜粋。順位ではなく正解率の高い順に掲載しています。</p>
+          <p>
+            公式リーダーボードの全{aider.selection.totalResults}件から、正解率の高い順に
+            {aider.selection.included}件を掲載しています。
+          </p>
         </div>
         <span class="badge">最大225問</span>
       </div>
       <p>
         C++・Go・Java・JavaScript・Python・Rustの課題をAiderで解く評価です。正解率は最大2回の試行後の値。評価日、Aiderの版、編集形式、対象問題数が異なるため単純比較には注意してください。
       </p>
-      <p>
-        確認日: <time datetime={aider.retrievedAt}>{formatDate(aider.retrievedAt)}</time> /{' '}
-        <a href={aider.sourceUrl}>Aider公式リーダーボード</a>
-      </p>
+      <dl class="benchmark-facts">
+        <div>
+          <dt>指標</dt>
+          <dd>正解率（% correct、2回目試行後）</dd>
+        </div>
+        <div>
+          <dt>公式の最新評価日</dt>
+          <dd>
+            <time datetime={aider.sourceUpdatedAt}>{formatDate(aider.sourceUpdatedAt)}</time>
+          </dd>
+        </div>
+        <div>
+          <dt>確認日</dt>
+          <dd>
+            <time datetime={aider.retrievedAt}>{formatDate(aider.retrievedAt)}</time>
+          </dd>
+        </div>
+        <div>
+          <dt>出典</dt>
+          <dd>
+            <a href={aider.sourceUrl}>Aider公式リーダーボード</a>
+          </dd>
+        </div>
+      </dl>
+      <p class="benchmark-note">{aider.selection.criterion}を掲載しています。</p>
       <div class="benchmark-table-scroll">
         <table class="benchmark-table">
-          <caption>Aider Polyglotの抜粋。掲載結果は2025年の評価です。</caption>
+          <caption>Aider Polyglotの正解率。上から高い順。</caption>
           <thead>
             <tr>
+              <th scope="col">順位</th>
               <th scope="col">モデル・設定</th>
               <th scope="col">正解率</th>
+              <th scope="col">評価全体のコスト</th>
               <th scope="col">評価日</th>
               <th scope="col">Aider版</th>
               <th scope="col">編集形式</th>
@@ -114,12 +141,23 @@ const best = data.results[0].score;
             </tr>
           </thead>
           <tbody>
-            {aider.results.map((result) => (
+            {aider.results.map((result, index) => (
               <tr>
+                <td class="benchmark-rank" data-label="順位">
+                  {index + 1}
+                </td>
                 <th scope="row" data-label="モデル">
-                  {result.model}
+                  <span class="benchmark-model">{result.model}</span>
                 </th>
-                <td data-label="正解率">{result.score.toFixed(1)}%</td>
+                <td data-label="正解率">
+                  <span class="benchmark-score">{result.score.toFixed(1)}%</span>
+                  <span class="benchmark-bar" aria-hidden="true">
+                    <span style={`width:${(result.score / bestAider) * 100}%`} />
+                  </span>
+                </td>
+                <td data-label="評価全体のコスト">
+                  {result.costUsd === null ? '未公表' : `$${result.costUsd.toFixed(2)}`}
+                </td>
                 <td data-label="評価日">
                   <time datetime={result.date}>{formatDate(result.date)}</time>
                 </td>
@@ -132,7 +170,7 @@ const best = data.results[0].score;
         </table>
       </div>
       <p class="benchmark-note">
-        掲載は一部であり、最新のDeepSeekを含むすべてのモデルを評価したものではありません。他のベンチマークの数値と直接比較できません。
+        掲載は正解率上位の抜粋であり、公式リーダーボードの全結果ではありません。コストは225問（または224問）の評価全体にかかった実行時点のAPI費用で、月額料金や現在の価格ではありません。0として公開されている結果は金額不明のため「未公表」としています。他のベンチマークの数値と直接比較できません。
       </p>
     </section>
 
@@ -257,7 +295,11 @@ const best = data.results[0].score;
           解決率はハーネス・プロンプト・推論設定・評価日で変わります。本ページはmini-SWE-agentの同一設定に限定しています。
         </li>
         <li>
-          1問あたりコストは評価時点のAPI料金による概算で、現在の料金やプラン価格ではありません。
+          ProgramBenchは実行ファイルと説明文からの再実装、Aider
+          Polyglotは6言語の編集課題を測ります。指標も採点方法も異なるため、3つの表の数値を横並びで比較しないでください。
+        </li>
+        <li>
+          1問あたりコストや評価全体のコストは評価時点のAPI料金による概算で、現在の料金やプラン価格ではありません。
         </li>
         <li>
           コーディングエージェント製品の性能は、モデル単体の結果に加え、製品側のツールやコンテキスト管理にも依存します。
@@ -267,8 +309,11 @@ const best = data.results[0].score;
         </li>
       </ul>
       <p>
-        数値の取得は <code>npx tsx scripts/sync-swebench.ts</code>
-        で行い、<a href={data.benchmark.dataUrl}>公開データ</a>から再生成できます。
+        数値の取得は <code>npm run bench:sync</code>（SWE-bench）と{' '}
+        <code>npm run bench:sync:aider</code>（Aider Polyglot）で行い、
+        <a href={data.benchmark.dataUrl}>SWE-benchの公開データ</a>と
+        <a href={aider.dataUrl}>Aiderの公開データ</a>
+        から再生成できます。ProgramBenchは公式ランキングを手動で採録しています。
       </p>
     </section>
   </div>
