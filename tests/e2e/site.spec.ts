@@ -11,6 +11,19 @@ test('CodexとDevinの料金と利用条件を掲載', async ({ page }) => {
   await expect(page.getByText(/日次・週次/).first()).toBeVisible();
 });
 
+test('追加した無料クライアントとクレジット制サービスの条件を表示', async ({ page }) => {
+  await page.goto('./services/aider/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Aider');
+  await expect(page.getByText(/モデル利用料は別契約/).first()).toBeVisible();
+  await page.goto('./services/kiro/');
+  await expect(page.getByRole('heading', { name: 'Kiro Pro', exact: true })).toBeVisible();
+  await expect(page.getByText('1,000 クレジット/月').first()).toBeVisible();
+  await page.goto('./services/openrouter/');
+  await expect(page.getByText('50 リクエスト/日').first()).toBeVisible();
+  await page.goto('./services/roomote/');
+  await expect(page.getByText(/10 人/).first()).toBeVisible();
+});
+
 test('モデル性能ページに評価条件と出典を表示', async ({ page }) => {
   await page.goto('./models/');
   await expect(page.getByRole('heading', { name: 'モデル性能', level: 1 })).toBeVisible();
@@ -92,7 +105,7 @@ test('サブパス・アセット・検索・履歴復元・詳細への遷移',
   await expect(favicon).toHaveAttribute('href', '/ai-plan-radar/favicon.svg');
   const iconResponse = await page.request.get('/ai-plan-radar/favicon.svg');
   expect(iconResponse.status()).toBe(200);
-  await expect(page.locator('#result-count')).toHaveText('12件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('24件のサービス');
   await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(244, 247, 250)');
   await page.getByLabel('キーワード').fill('gpt-5-mini');
   await expect(page.locator('#result-count')).toHaveText('1件のサービス');
@@ -118,13 +131,13 @@ test('表・プラン表・カードを切り替えられ、URLに反映され�
   const planTable = page.locator('#view-plans');
   const cards = page.locator('#view-cards');
   await expect(serviceTable).toBeVisible();
-  await expect(page.locator('#service-table tbody tr')).toHaveCount(12);
+  await expect(page.locator('#service-table tbody tr')).toHaveCount(24);
   await page.getByRole('button', { name: /^プラン表/ }).click();
   await expect(planTable).toBeVisible();
   await expect(serviceTable).toBeHidden();
   await expect(page).toHaveURL(/view=plans/);
   await expect(page.locator('#result-count')).toHaveText(/\d+件のプラン/);
-  await expect(page.locator('#plan-table tbody tr:not([hidden])')).toHaveCount(42);
+  await expect(page.locator('#plan-table tbody tr:not([hidden])')).toHaveCount(64);
   await page.getByRole('button', { name: 'カード' }).click();
   await expect(cards).toBeVisible();
   await expect(page).toHaveURL(/view=cards/);
@@ -142,7 +155,7 @@ test('モバイル横溢れなし、リセット、モデル利用不可の除�
   await page.goto('./?model=claude-opus&billing=free');
   await expect(page.locator('#result-count')).toHaveText('0件のサービス');
   await page.getByRole('button', { name: 'すべての条件をリセット' }).click();
-  await expect(page.locator('#result-count')).toHaveText('12件のサービス');
+  await expect(page.locator('#result-count')).toHaveText('24件のサービス');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
@@ -164,7 +177,7 @@ test('全詳細ページの内部リンクとキーボード導線', async ({ pa
   const links = await page
     .locator('#service-table-body tr:not([hidden]) th a')
     .evaluateAll((elements) => elements.map((e) => (e as HTMLAnchorElement).href));
-  expect(links).toHaveLength(12);
+  expect(links).toHaveLength(24);
   for (const link of links) {
     const response = await page.goto(link);
     expect(response?.status()).toBe(200);
@@ -180,8 +193,8 @@ test('JavaScript無効でもサービス表と詳細が閲覧可能', async ({ b
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:4321/ai-plan-radar/');
-  await expect(page.locator('#service-table tbody tr')).toHaveCount(12);
-  await expect(page.locator('#plan-table tbody tr')).toHaveCount(42);
+  await expect(page.locator('#service-table tbody tr')).toHaveCount(24);
+  await expect(page.locator('#plan-table tbody tr')).toHaveCount(64);
   await page.locator('#service-table-body tr:not([hidden]) th a').first().click();
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await context.close();

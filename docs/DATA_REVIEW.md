@@ -52,6 +52,19 @@ Museは独立したサービスとしての公式料金・プランの特定と�
 - [ProgramBench](https://programbench.com/) の公式ランキング（2026-10-22更新）から上位13件を手動採録。200問の実行ファイルと文書からの再実装をmini-SWE-agentで評価。完全解決率とテスト95%以上を満たすほぼ解決率は別指標で、SWE-benchの解決率とは直接比較不可。モデルごとの評価日とハーネス版は未確認。コストは当時のAPI費用。掲載は手動更新で、全結果ではない。
 - ProgramBenchを公式掲載の30件に拡充。[Aider Polyglot](https://aider.chat/docs/leaderboards/) からDeepSeekなど9件を別途手動採録。6言語の最大225問に対する最大2回の試行後の正解率で、採録分の評価日は2025年。R1 (0528) は公式の実施件数224。実行条件が異なり、他のベンチマークとは直接比較できない。DeepSeekの最新モデルの評価ではなく、結果は自動更新されない。
 
+## AIサービス追加（2026-11-15）
+
+- [Aider](https://aider.chat/docs/usage.html) / [Continue](https://docs.continue.dev/) / [Roo Code](https://docs.roocode.com/getting-started/installing) / [goose](https://goose-docs.ai/docs/getting-started/providers/) / [LiteLLM](https://docs.litellm.ai/docs/) を無料のオープンソース本体として追加。Apache 2.0 / MITのライセンスを確認。モデル利用料は接続先との別契約で、本体の利用枠ではないと明記。Continueの有料チーム機能・Hub、LiteLLMの企業向け機能は料金未確認。
+- [Google Antigravity](https://antigravity.google/pricing): Individual無料枠を追加。週次の具体的な回数とGoogle AI Pro / Ultraの金額は非公開または別契約のため掲載せず。Tab補完の無制限のみ公式記載。
+- [Kiro](https://kiro.dev/pricing/) / [課金](https://kiro.dev/docs/billing/): Free 50、Pro 1,000、Pro+ 2,000、Pro Max 5,000、Power 10,000クレジットを追加。アドオンは$0.04/クレジット。初回アップグレードの無料期間とトライアルクレジットも併記。Teams・Enterpriseの席位課金は未掲載。
+- [Augment Code](https://www.augmentcode.com/pricing): Standard $20（$20分の利用枠）とBusiness $100（$100分）を追加。席数ではなく50席までのチーム定額で、LLM利用には40%のサービス料が加算される点を記載。Enterpriseは個別見積もりのため未掲載。
+- [Warp](https://warp.dev/pricing): FreeとBuildを追加。Buildは年払い月額$18で$20分のAPI実費相当を含む。月払い料金とFreeの具体的なクラウド利用枠は非公開。Max・Business・Enterpriseは未掲載。
+- [DeepSeek API](https://api-docs.deepseek.com/quick_start/pricing): FlashとV4 Proの従量課金、ピーク/オフピーク料金、モデル別の同時実行上限（2,500 / 500）を追加。固定月額はなし。キャッシュ料金は入力料金の例のみ掲載。
+- [OpenRouter](https://openrouter.ai/pricing) / [制限](https://openrouter.ai/docs/api/reference/limits): Free（無料モデル1日50回・毎分20回）とStandard / Businessの購入時手数料（5.5% / 8%）を追加。有料モデルの単価はモデルごとに変動するため個別掲載せず。Enterpriseは契約ベースのため未掲載。
+- [Roomote](https://roocode.com/pricing): セルフホストの10ユーザー無料、11〜50人$249、51〜100人$499を追加。インフラと推論料金は別負担である点を記載。101人以上は個別相談のため未掲載。
+
+追加分は公式ページの記載をそのまま採録し、非公開・未調査の数値を推測していない。料金の税の扱いが明記されていないものは「未確認」とした。
+
 ## 更新ルール
 
 JSONを手動編集し、出典・確認日・不明状態を維持して検証を実行する。未調査項目は、サービス全体が公式確認済みであっても未調査のまま表示する。重要変更は公式根拠をレビューしてから反映。自動取得・自動公開は行わない。

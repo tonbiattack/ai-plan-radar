@@ -275,6 +275,290 @@
         }
       ],
       "confidence": "official"
+    },
+    {
+      "id": "aider",
+      "name": "Aider",
+      "slug": "aider",
+      "category": "ターミナル・IDE",
+      "description": "ターミナルで動くオープンソースのAIペアプログラミング。本体は無料で、モデルは各自のAPIキーやローカル環境を利用します。",
+      "officialUrl": "https://aider.chat/",
+      "pricingUrl": "https://aider.chat/docs/usage.html",
+      "serviceType": "client",
+      "supportedPlatforms": ["CLI"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://aider.chat/docs/usage.html",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://github.com/Aider-AI/aider/blob/main/LICENSE.txt",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "continue",
+      "name": "Continue",
+      "slug": "continue",
+      "category": "ターミナル・IDE",
+      "description": "VS CodeとJetBrains向けのオープンソースAIコードアシスタント。モデルの接続先と費用は利用者が用意します。",
+      "officialUrl": "https://continue.dev/",
+      "pricingUrl": "https://docs.continue.dev/",
+      "serviceType": "client",
+      "supportedPlatforms": ["VS Code", "JetBrains", "CLI"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://docs.continue.dev/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/continuedev/continue/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "roo-code",
+      "name": "Roo Code",
+      "slug": "roo-code",
+      "category": "ターミナル・IDE",
+      "description": "VS Code向けのオープンソースAIコーディング支援。本体は無料で、推論は接続したプロバイダーとの契約になります。",
+      "officialUrl": "https://roocode.com/",
+      "pricingUrl": "https://docs.roocode.com/getting-started/installing",
+      "serviceType": "client",
+      "supportedPlatforms": ["VS Code"],
+      "status": "active",
+      "relatedServiceIds": ["roomote"],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://docs.roocode.com/getting-started/installing",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/RooCodeInc/Roo-Code/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "goose",
+      "name": "goose",
+      "slug": "goose",
+      "category": "ターミナル・IDE",
+      "description": "Block発のオープンソースAIエージェント。多数のモデルプロバイダーとローカルモデルに接続でき、本体は無料です。",
+      "officialUrl": "https://goose-docs.ai/",
+      "pricingUrl": "https://goose-docs.ai/docs/getting-started/providers/",
+      "serviceType": "client",
+      "supportedPlatforms": ["Windows", "macOS", "Linux", "CLI"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://goose-docs.ai/docs/getting-started/providers/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/aaif-goose/goose/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "antigravity",
+      "name": "Google Antigravity",
+      "slug": "antigravity",
+      "category": "AIエディター",
+      "description": "Googleのエージェント中心の開発環境。個人向けの無料枠と、Google AI Pro / Ultraの契約で利用枠が変わります。",
+      "officialUrl": "https://antigravity.google/",
+      "pricingUrl": "https://antigravity.google/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["Windows", "macOS", "Linux", "IDE", "CLI"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://antigravity.google/pricing",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://antigravity.google/docs/plans",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kiro",
+      "name": "Kiro",
+      "slug": "kiro",
+      "category": "AIエディター",
+      "description": "AWSのスペック駆動型コーディングエージェント。月次のクレジットを消費し、無料枠から上位プランまで段階があります。",
+      "officialUrl": "https://kiro.dev/",
+      "pricingUrl": "https://kiro.dev/pricing/",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["IDE", "CLI", "Web", "モバイル"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://kiro.dev/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://kiro.dev/docs/billing/",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "augment-code",
+      "name": "Augment Code",
+      "slug": "augment-code",
+      "category": "ターミナル・IDE",
+      "description": "大規模コードベース向けのコーディングエージェント。席数ではなくチーム単位の定額に利用枠が含まれます。",
+      "officialUrl": "https://www.augmentcode.com/",
+      "pricingUrl": "https://www.augmentcode.com/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["IDE", "CLI", "Web"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://www.augmentcode.com/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "warp",
+      "name": "Warp",
+      "slug": "warp",
+      "category": "ターミナル・IDE",
+      "description": "エージェント機能を統合したターミナル。無料枠では持ち込みの推論も利用でき、有料プランはAPI実費相当の利用枠を含みます。",
+      "officialUrl": "https://warp.dev/",
+      "pricingUrl": "https://warp.dev/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["Windows", "macOS", "Linux"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://warp.dev/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "deepseek-api",
+      "name": "DeepSeek API",
+      "slug": "deepseek-api",
+      "category": "モデルAPI",
+      "description": "DeepSeekのモデルをAPIで利用する従量課金サービス。ピーク時間とオフピークで料金が変わり、モデルごとに同時実行数が異なります。",
+      "officialUrl": "https://platform.deepseek.com/",
+      "pricingUrl": "https://api-docs.deepseek.com/quick_start/pricing",
+      "serviceType": "model_provider",
+      "supportedPlatforms": ["API"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://api-docs.deepseek.com/quick_start/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "slug": "openrouter",
+      "category": "モデルAPI",
+      "description": "複数プロバイダーのモデルを1つのAPIで使うゲートウェイ。無料モデルと、クレジット購入時に手数料がかかる従量課金があります。",
+      "officialUrl": "https://openrouter.ai/",
+      "pricingUrl": "https://openrouter.ai/pricing",
+      "serviceType": "model_provider",
+      "supportedPlatforms": ["API", "Web"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://openrouter.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://openrouter.ai/docs/api/reference/limits",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "litellm",
+      "name": "LiteLLM",
+      "slug": "litellm",
+      "category": "モデルAPI",
+      "description": "100以上のモデルをOpenAI形式で呼び出すオープンソースのSDK・セルフホスト型ゲートウェイ。本体は無料で、推論料金は接続先に支払います。",
+      "officialUrl": "https://www.litellm.ai/",
+      "pricingUrl": "https://docs.litellm.ai/docs/",
+      "serviceType": "client",
+      "supportedPlatforms": ["API", "セルフホスト"],
+      "status": "active",
+      "relatedServiceIds": [],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://docs.litellm.ai/docs/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://github.com/BerriAI/litellm/blob/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "roomote",
+      "name": "Roomote",
+      "slug": "roomote",
+      "category": "クラウドエージェント",
+      "description": "自前のインフラで動かすセルフホスト型クラウドエージェント。10ユーザーまでは無料、それ以上は規模別のライセンスです。",
+      "officialUrl": "https://roocode.com/",
+      "pricingUrl": "https://roocode.com/pricing",
+      "serviceType": "hosted_agent",
+      "supportedPlatforms": ["Web", "Slack", "セルフホスト"],
+      "status": "active",
+      "relatedServiceIds": ["roo-code"],
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://roocode.com/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
     }
   ],
   "plans": [
@@ -2966,6 +3250,1045 @@
         }
       ],
       "confidence": "official"
+    },
+    {
+      "id": "aider-client",
+      "serviceId": "aider",
+      "name": "本体（オープンソース）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://aider.chat/docs/usage.html",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "モデル料金は接続先のAPIやローカル実行に依存し、Aider自体の上限ではありません。",
+          "sourceUrl": "https://aider.chat/docs/usage.html"
+        }
+      ],
+      "features": [],
+      "notes": "Apache 2.0のクライアント。モデル利用料は別契約です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://aider.chat/docs/usage.html",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://github.com/Aider-AI/aider/blob/main/LICENSE.txt",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "continue-client",
+      "serviceId": "continue",
+      "name": "本体（オープンソース）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://docs.continue.dev/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "モデル料金は接続するプロバイダーやローカル環境に依存します。",
+          "sourceUrl": "https://docs.continue.dev/"
+        }
+      ],
+      "features": [],
+      "notes": "Apache 2.0のクライアント。有料のチーム向け機能やHubの料金は未確認です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://docs.continue.dev/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/continuedev/continue/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "roo-code-client",
+      "serviceId": "roo-code",
+      "name": "本体（オープンソース）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://docs.roocode.com/getting-started/installing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "推論は接続したプロバイダーの料金・上限に従います。",
+          "sourceUrl": "https://docs.roocode.com/getting-started/installing"
+        }
+      ],
+      "features": [],
+      "notes": "Apache 2.0のVS Code拡張。モデル料金は別契約です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://docs.roocode.com/getting-started/installing",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/RooCodeInc/Roo-Code/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "goose-client",
+      "serviceId": "goose",
+      "name": "本体（オープンソース）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://goose-docs.ai/docs/getting-started/providers/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "モデル料金は接続先に依存します。一部プロバイダーには無料枠があります。",
+          "sourceUrl": "https://goose-docs.ai/docs/getting-started/providers/"
+        }
+      ],
+      "features": [],
+      "notes": "Apache 2.0のクライアント。無料のモデル提供は各プロバイダーの条件に従います。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://goose-docs.ai/docs/getting-started/providers/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/aaif-goose/goose/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "antigravity-individual",
+      "serviceId": "antigravity",
+      "name": "Individual",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://antigravity.google/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "週次の利用枠",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "週次",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "基本の週次レート制限。具体的な回数は非公開で、タスクの内容でも消費量が変わります。",
+          "sourceUrl": "https://antigravity.google/docs/plans"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "Tab補完・コマンド",
+          "status": "unlimited",
+          "amount": null,
+          "unit": "回",
+          "window": "—",
+          "resetPolicy": "なし",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "Tab補完とコマンドリクエストは無制限とされています。",
+          "sourceUrl": "https://antigravity.google/docs/plans"
+        }
+      ],
+      "features": ["Tab補完", "CLI", "スケジュールタスク"],
+      "notes": "Google AI Pro / Ultraの料金と利用枠はGoogle One側の契約で、このページには金額の記載がありません。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://antigravity.google/pricing",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://antigravity.google/docs/plans",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kiro-free",
+      "serviceId": "kiro",
+      "name": "Kiro Free",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://kiro.dev/pricing/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 50,
+          "unit": "クレジット/月",
+          "window": "月次",
+          "resetPolicy": "請求サイクル開始時に更新",
+          "overagePolicy": "追加クレジットの購入なし",
+          "rolloverPolicy": "未確認",
+          "notes": "端数も消費します。無料枠で使えるモデルは一部に限られます。",
+          "sourceUrl": "https://kiro.dev/docs/billing/"
+        }
+      ],
+      "features": ["オープンウェイトモデル", "Claude Sonnet 4.5"],
+      "notes": "永続的な無料枠。アドオンクレジットは購入できません。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://kiro.dev/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://kiro.dev/docs/billing/",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kiro-pro",
+      "serviceId": "kiro",
+      "name": "Kiro Pro",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 20,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": "初回アップグレードは当月分無料、500トライアルクレジット（12か月有効）。"
+      },
+      "pricingUrl": "https://kiro.dev/pricing/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 1000,
+          "unit": "クレジット/月",
+          "window": "月次",
+          "resetPolicy": "請求サイクル開始時に更新",
+          "overagePolicy": "追加クレジット $0.04/クレジット",
+          "rolloverPolicy": "未確認",
+          "notes": "複雑なタスクほど多くのクレジットを消費します。",
+          "sourceUrl": "https://kiro.dev/docs/billing/"
+        }
+      ],
+      "features": ["プレミアムモデル", "追加クレジット"],
+      "notes": "1ユーザーあたりの月額。初回アップグレード時は当月無料と500トライアルクレジットの対象です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://kiro.dev/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://kiro.dev/docs/billing/",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kiro-pro-plus",
+      "serviceId": "kiro",
+      "name": "Kiro Pro+",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 40,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://kiro.dev/pricing/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 2000,
+          "unit": "クレジット/月",
+          "window": "月次",
+          "resetPolicy": "請求サイクル開始時に更新",
+          "overagePolicy": "追加クレジット $0.04/クレジット",
+          "rolloverPolicy": "未確認",
+          "notes": "Proの2倍のクレジット。",
+          "sourceUrl": "https://kiro.dev/docs/billing/"
+        }
+      ],
+      "features": ["プレミアムモデル", "追加クレジット"],
+      "notes": "1ユーザーあたりの月額。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://kiro.dev/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://kiro.dev/docs/billing/",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kiro-pro-max",
+      "serviceId": "kiro",
+      "name": "Kiro Pro Max",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://kiro.dev/pricing/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 5000,
+          "unit": "クレジット/月",
+          "window": "月次",
+          "resetPolicy": "請求サイクル開始時に更新",
+          "overagePolicy": "追加クレジット $0.04/クレジット",
+          "rolloverPolicy": "未確認",
+          "notes": "Proの5倍のクレジット。",
+          "sourceUrl": "https://kiro.dev/docs/billing/"
+        }
+      ],
+      "features": ["プレミアムモデル", "追加クレジット"],
+      "notes": "1ユーザーあたりの月額。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://kiro.dev/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://kiro.dev/docs/billing/",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "kiro-power",
+      "serviceId": "kiro",
+      "name": "Kiro Power",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 200,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://kiro.dev/pricing/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クレジット",
+          "status": "known",
+          "amount": 10000,
+          "unit": "クレジット/月",
+          "window": "月次",
+          "resetPolicy": "請求サイクル開始時に更新",
+          "overagePolicy": "追加クレジット $0.04/クレジット",
+          "rolloverPolicy": "未確認",
+          "notes": "個人向けで最大のクレジット。",
+          "sourceUrl": "https://kiro.dev/docs/billing/"
+        }
+      ],
+      "features": ["プレミアムモデル", "追加クレジット"],
+      "notes": "1ユーザーあたりの月額。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://kiro.dev/pricing/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://kiro.dev/docs/billing/",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "augment-standard",
+      "serviceId": "augment-code",
+      "name": "Standard",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 20,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://www.augmentcode.com/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "含まれる利用枠",
+          "status": "known",
+          "amount": 20,
+          "unit": "USD/月",
+          "window": "月次",
+          "resetPolicy": "未調査",
+          "overagePolicy": "追加利用は従量課金",
+          "rolloverPolicy": "未確認",
+          "notes": "LLM推論・コンテキストエンジン・コンピュートの合計に充当。LLM分には40%のサービス料が加算されます。",
+          "sourceUrl": "https://www.augmentcode.com/pricing"
+        }
+      ],
+      "features": ["50席まで", "CLI", "MCP"],
+      "notes": "チーム全体で1つの定額。席ごとの課金はありません。未使用の追加利用枠は購入から12か月有効です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://www.augmentcode.com/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "augment-business",
+      "serviceId": "augment-code",
+      "name": "Business",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 100,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://www.augmentcode.com/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "含まれる利用枠",
+          "status": "known",
+          "amount": 100,
+          "unit": "USD/月",
+          "window": "月次",
+          "resetPolicy": "未調査",
+          "overagePolicy": "追加利用は従量課金",
+          "rolloverPolicy": "未確認",
+          "notes": "Standardと同じくLLM・コンテキストエンジン・コンピュートの合計に充当します。",
+          "sourceUrl": "https://www.augmentcode.com/pricing"
+        }
+      ],
+      "features": ["50席まで", "CLI", "MCP"],
+      "notes": "チーム全体で1つの定額。上位はEnterpriseの個別見積もりです。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://www.augmentcode.com/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "warp-free",
+      "serviceId": "warp",
+      "name": "Free",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://warp.dev/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "クラウドエージェント",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "未公開",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "利用量に応じた従量課金と、持ち込みの推論を選べます。具体的な無料枠は非公開です。",
+          "sourceUrl": "https://warp.dev/pricing"
+        }
+      ],
+      "features": ["エージェントCLI", "持ち込み推論"],
+      "notes": "ターミナル本体は無料。追加のエージェント利用は従量課金です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://warp.dev/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "warp-build",
+      "serviceId": "warp",
+      "name": "Build",
+      "billingType": "hybrid",
+      "priceStatus": "known",
+      "price": {
+        "amount": 18,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": "年払い時の月額表示。"
+      },
+      "pricingUrl": "https://warp.dev/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "含まれるエージェント利用",
+          "status": "known",
+          "amount": 20,
+          "unit": "USD/月（API実費相当）",
+          "window": "月次",
+          "resetPolicy": "未調査",
+          "overagePolicy": "追加利用は従量課金",
+          "rolloverPolicy": "未確認",
+          "notes": "モデルのAPI料金を基準に消費します。",
+          "sourceUrl": "https://warp.dev/pricing"
+        }
+      ],
+      "features": ["フロンティアモデル", "クラウドエージェント", "コードベース索引"],
+      "notes": "年払い時の月額。月払いの料金は未確認です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://warp.dev/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "deepseek-api-usage",
+      "serviceId": "deepseek-api",
+      "name": "従量課金",
+      "billingType": "usage",
+      "priceStatus": "unresearched",
+      "price": null,
+      "pricingUrl": "https://api-docs.deepseek.com/quick_start/pricing",
+      "modelAccess": [
+        {
+          "modelId": "deepseek-v4-1-flash",
+          "availability": "available",
+          "notes": "モデル名はdeepseek-flash。オフピークとピークで料金が変わります。"
+        },
+        {
+          "modelId": "deepseek-v4-pro",
+          "availability": "available",
+          "notes": "オフピークとピークで料金が変わります。"
+        }
+      ],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "入力料金（Flash・オフピーク）",
+          "status": "known",
+          "amount": 0.15,
+          "unit": "USD/100万トークン",
+          "window": "オフピーク",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "ピーク時は$0.30。キャッシュヒット時は$0.003です。",
+          "sourceUrl": "https://api-docs.deepseek.com/quick_start/pricing"
+        },
+        {
+          "scope": "model",
+          "targetId": "deepseek-v4-1-flash",
+          "metric": "同時リクエスト数",
+          "status": "known",
+          "amount": 2500,
+          "unit": "同時",
+          "window": "—",
+          "resetPolicy": "なし",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "モデルごとの同時実行上限。",
+          "sourceUrl": "https://api-docs.deepseek.com/quick_start/pricing"
+        },
+        {
+          "scope": "model",
+          "targetId": "deepseek-v4-pro",
+          "metric": "同時リクエスト数",
+          "status": "known",
+          "amount": 500,
+          "unit": "同時",
+          "window": "—",
+          "resetPolicy": "なし",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "Flashより低い同時実行上限。",
+          "sourceUrl": "https://api-docs.deepseek.com/quick_start/pricing"
+        }
+      ],
+      "features": ["Thinkingモード", "1Mコンテキスト", "ツール呼び出し"],
+      "notes": "ピーク時間はUTC月〜金の01:00-04:00と06:00-10:00で、それ以外はオフピークです。固定月額はありません。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://api-docs.deepseek.com/quick_start/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "openrouter-free",
+      "serviceId": "openrouter",
+      "name": "Free",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://openrouter.ai/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "無料モデルのリクエスト",
+          "status": "known",
+          "amount": 50,
+          "unit": "リクエスト/日",
+          "window": "日次",
+          "resetPolicy": "UTC 00:00",
+          "overagePolicy": "なし",
+          "rolloverPolicy": "未確認",
+          "notes": "$10以上のクレジット購入歴があると1日1,000回に増えます。",
+          "sourceUrl": "https://openrouter.ai/docs/api/reference/limits"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "無料モデルのリクエスト",
+          "status": "known",
+          "amount": 20,
+          "unit": "リクエスト/分",
+          "window": "分次",
+          "resetPolicy": "—",
+          "overagePolicy": "なし",
+          "rolloverPolicy": "未確認",
+          "notes": "無料モデル共通の上限。",
+          "sourceUrl": "https://openrouter.ai/docs/api/reference/limits"
+        }
+      ],
+      "features": ["25以上の無料モデル", "チャット"],
+      "notes": "無料モデルと4つの無料プロバイダーが対象。有料モデルは利用できません。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://openrouter.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://openrouter.ai/docs/api/reference/limits",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "openrouter-standard",
+      "serviceId": "openrouter",
+      "name": "Standard（従量課金）",
+      "billingType": "usage",
+      "priceStatus": "unresearched",
+      "price": null,
+      "pricingUrl": "https://openrouter.ai/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "プラットフォーム手数料",
+          "status": "known",
+          "amount": 5.5,
+          "unit": "%（クレジット購入時）",
+          "window": "購入時",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "推論は各プロバイダーの定価で、リクエストごとの上乗せはありません。",
+          "sourceUrl": "https://openrouter.ai/pricing"
+        },
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "レート制限",
+          "status": "undisclosed",
+          "amount": null,
+          "unit": "回",
+          "window": "プロバイダー依存",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "有料モデルにプラン固有の上限はなく、上流プロバイダーの制限に従います。",
+          "sourceUrl": "https://openrouter.ai/docs/api/reference/limits"
+        }
+      ],
+      "features": ["600以上のモデル", "自動ルーティング", "BYOK"],
+      "notes": "クレジット購入時に5.5%の手数料。最低利用額や契約期間はありません。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://openrouter.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://openrouter.ai/docs/api/reference/limits",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "openrouter-business",
+      "serviceId": "openrouter",
+      "name": "Business（従量課金）",
+      "billingType": "usage",
+      "priceStatus": "unresearched",
+      "price": null,
+      "pricingUrl": "https://openrouter.ai/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "プラットフォーム手数料",
+          "status": "known",
+          "amount": 8,
+          "unit": "%（クレジット購入時）",
+          "window": "購入時",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "Standardとの違いは手数料と管理機能です。",
+          "sourceUrl": "https://openrouter.ai/pricing"
+        }
+      ],
+      "features": ["600以上のモデル", "リージョン内ルーティング", "管理APIキー"],
+      "notes": "クレジット購入時に8%の手数料。モデル単価はStandardと同じです。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://openrouter.ai/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "litellm-client",
+      "serviceId": "litellm",
+      "name": "本体（オープンソース）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://docs.litellm.ai/docs/",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用枠",
+          "status": "unresearched",
+          "amount": null,
+          "unit": "不明",
+          "window": "未調査",
+          "resetPolicy": "未調査",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "推論料金は接続先のプロバイダーに支払います。セルフホストの運用費も別です。",
+          "sourceUrl": "https://docs.litellm.ai/docs/"
+        }
+      ],
+      "features": [],
+      "notes": "MITライセンスのSDKとゲートウェイ。企業向け機能の料金は未確認です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://docs.litellm.ai/docs/",
+          "verifiedAt": "2026-11-15"
+        },
+        {
+          "url": "https://github.com/BerriAI/litellm/blob/main/LICENSE",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "roomote-free",
+      "serviceId": "roomote",
+      "name": "セルフホスト（10ユーザーまで）",
+      "billingType": "free",
+      "priceStatus": "known",
+      "price": {
+        "amount": 0,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://roocode.com/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用ユーザー数",
+          "status": "known",
+          "amount": 10,
+          "unit": "人",
+          "window": "—",
+          "resetPolicy": "なし",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "11人以上はライセンスが必要です。",
+          "sourceUrl": "https://roocode.com/pricing"
+        }
+      ],
+      "features": ["自前インフラ", "BYOK", "単一テナント"],
+      "notes": "ライセンス料は無料ですが、ホスティング・サンドボックス・推論料金は利用者が負担します。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://roocode.com/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "roomote-team-50",
+      "serviceId": "roomote",
+      "name": "セルフホスト（11〜50ユーザー）",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 249,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://roocode.com/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用ユーザー数",
+          "status": "known",
+          "amount": 50,
+          "unit": "人",
+          "window": "—",
+          "resetPolicy": "なし",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "11〜50ユーザー向けのライセンス。",
+          "sourceUrl": "https://roocode.com/pricing"
+        }
+      ],
+      "features": ["自前インフラ", "BYOK", "単一テナント"],
+      "notes": "月額のライセンス料。インフラと推論料金は別です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://roocode.com/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
+    },
+    {
+      "id": "roomote-team-100",
+      "serviceId": "roomote",
+      "name": "セルフホスト（51〜100ユーザー）",
+      "billingType": "subscription",
+      "priceStatus": "known",
+      "price": {
+        "amount": 499,
+        "currency": "USD",
+        "period": "month",
+        "taxNote": "税の扱いは未確認",
+        "promotionNote": null
+      },
+      "pricingUrl": "https://roocode.com/pricing",
+      "modelAccess": [],
+      "limits": [
+        {
+          "scope": "plan",
+          "targetId": null,
+          "metric": "利用ユーザー数",
+          "status": "known",
+          "amount": 100,
+          "unit": "人",
+          "window": "—",
+          "resetPolicy": "なし",
+          "overagePolicy": "未調査",
+          "rolloverPolicy": "未確認",
+          "notes": "51〜100ユーザー向けのライセンス。",
+          "sourceUrl": "https://roocode.com/pricing"
+        }
+      ],
+      "features": ["自前インフラ", "BYOK", "単一テナント"],
+      "notes": "月額のライセンス料。101人以上は個別相談です。",
+      "verifiedAt": "2026-11-15",
+      "sources": [
+        {
+          "url": "https://roocode.com/pricing",
+          "verifiedAt": "2026-11-15"
+        }
+      ],
+      "confidence": "official"
     }
   ],
   "models": [
@@ -3082,6 +4405,18 @@
       "displayName": "GPT 6 Astra",
       "provider": "OpenAI",
       "aliases": ["GPT-6 Astra", "gpt-6-astra"]
+    },
+    {
+      "id": "deepseek-v4-1-flash",
+      "displayName": "DeepSeek V4.1 Flash",
+      "provider": "DeepSeek",
+      "aliases": ["deepseek-flash", "DeepSeek-V4.1-Flash-1017"]
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "displayName": "DeepSeek V4 Pro",
+      "provider": "DeepSeek",
+      "aliases": ["deepseek-v4-pro", "DeepSeek-V4-Pro-0813"]
     }
   ],
   "changes": []
