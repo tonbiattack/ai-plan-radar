@@ -1,0 +1,13 @@
+---
+// Typed page data (plans, messages) handed to an inline script. `set:html` is
+// required to emit a script body, so the payload is serialised here with `<`
+// escaped; that keeps the value from closing the element or injecting markup.
+interface Props {
+  id: string;
+  data: unknown;
+}
+const { id, data } = Astro.props;
+const payload = JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<script type="application/json" id={id} is:inline set:html={payload} />

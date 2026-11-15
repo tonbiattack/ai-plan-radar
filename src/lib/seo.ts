@@ -2,6 +2,9 @@
 // the JSON-LD blocks from drifting apart from the visible page text.
 // These mirror `site` and `base` in astro.config.mjs. They are literals so the
 // helpers also run outside Astro (unit tests, scripts).
+import type { Locale } from '../i18n/locale';
+import { getMessages } from '../i18n/messages';
+
 const site = 'https://tonbiattack.github.io';
 const base = '/ai-plan-radar';
 
@@ -9,23 +12,24 @@ export function absoluteUrl(path: string): string {
   return new URL(`${base}${path}`, site).toString();
 }
 
-export const organization = {
-  '@type': 'Organization',
-  name: 'AI Plan Radar',
-  url: absoluteUrl('/'),
-  description:
-    'AIコーディングサービスの料金・対応モデル・利用枠を公式出典付きで比較する非公式の日本語サイト。',
-};
+export function organization(locale: Locale) {
+  return {
+    '@type': 'Organization',
+    name: 'AI Plan Radar',
+    url: absoluteUrl('/'),
+    description: getMessages(locale).seo.organizationDescription,
+  };
+}
 
-export function website(name: string, description: string) {
+export function website(locale: Locale, name: string, description: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name,
     description,
     url: absoluteUrl('/'),
-    inLanguage: 'ja',
-    publisher: organization,
+    inLanguage: locale,
+    publisher: organization(locale),
   };
 }
 

@@ -1,48 +1,57 @@
 ---
-import { catalog } from '../lib/catalog';
+import { catalog as rawCatalog } from '../lib/catalog';
+import { localizeCatalog } from '../i18n/data';
 import { catalogFacts } from '../lib/views';
-import { typeLabels, formatDate, serviceInitials, serviceAccent } from '../lib/format';
+import { formatDate, serviceInitials, serviceAccent } from '../lib/format';
 import { defaults } from '../lib/search';
+import type { Locale } from '../i18n/locale';
+import { getMessages, interpolate } from '../i18n/messages';
 
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getMessages(locale);
+const table = t.table;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const rows = catalogFacts(catalog, defaults.currency as 'USD' | 'JPY');
+const catalog = localizeCatalog(rawCatalog, locale);
+const rows = catalogFacts(catalog, locale, defaults.currency as 'USD' | 'JPY');
 const planCount = catalog.plans.length;
+const prefix = `${base}/${locale}`;
 ---
 
-<section id="service-views" aria-label="サービス比較" data-plan-count={planCount}>
-  <div class="view-switch" role="group" aria-label="表示形式">
+<section id="service-views" aria-label={table.serviceCaption} data-plan-count={planCount}>
+  <div class="view-switch" role="group" aria-label={table.viewLabel}>
     <button type="button" data-view="table" aria-pressed="true">
-      サービス表
+      {table.views.table}
     </button>
     <button type="button" data-view="plans" aria-pressed="false">
-      プラン表（{planCount}）
+      {interpolate(table.views.plans, { count: planCount })}
     </button>
     <button type="button" data-view="cards" aria-pressed="false">
-      カード
+      {table.views.cards}
     </button>
-    <a class="compare-link" href={`${base}/compare/`}>
-      プランを選んで比較
+    <a class="compare-link" href={`${prefix}/compare/`}>
+      {table.compareLink}
     </a>
   </div>
 
   <div id="view-table" class="view-panel">
-    <p class="table-note">
-      価格は基本月額（選択通貨）。従量課金のみのサービスは「不明」、無料は「無料」、算出できないものも「不明」と表示します。利用枠の例は公式に数値がある項目のみです。
-    </p>
+    <p class="table-note">{table.tableNote}</p>
     <div class="table-scroll">
       <table class="compare-table" id="service-table">
-        <caption>サービス横断の比較。条件に合う行だけを表示します。</caption>
+        <caption>{table.serviceCaption}</caption>
         <thead>
           <tr>
-            <th scope="col">サービス</th>
-            <th scope="col">種別</th>
-            <th scope="col">プラン</th>
-            <th scope="col">無料</th>
-            <th scope="col">最安月額</th>
-            <th scope="col">確認モデル</th>
-            <th scope="col">利用枠の例</th>
-            <th scope="col">公開状況</th>
-            <th scope="col">確認日</th>
+            <th scope="col">{table.serviceHeaders.service}</th>
+            <th scope="col">{table.serviceHeaders.type}</th>
+            <th scope="col">{table.serviceHeaders.plans}</th>
+            <th scope="col">{table.serviceHeaders.free}</th>
+            <th scope="col">{table.serviceHeaders.cheapest}</th>
+            <th scope="col">{table.serviceHeaders.models}</th>
+            <th scope="col">{table.serviceHeaders.allowance}</th>
+            <th scope="col">{table.serviceHeaders.disclosure}</th>
+            <th scope="col">{table.serviceHeaders.verified}</th>
           </tr>
         </thead>
         <tbody id="service-table-body">
@@ -62,40 +71,42 @@ const planCount = catalog.plans.length;
                   >
                     {serviceInitials(row.name)}
                   </span>
-                  <a href={`${base}/services/${row.slug}/`}>{row.name}</a>
+                  <a href={`${prefix}/services/${row.slug}/`}>{row.name}</a>
                 </span>
               </th>
-              <td data-label="種別">
-                {typeLabels[row.type]}
+              <td data-label={table.serviceHeaders.type}>
+                {row.typeLabel}
                 <span class="cell-sub">{row.category}</span>
               </td>
-              <td data-label="プラン">{row.planCount}</td>
-              <td data-label="無料">
+              <td data-label={table.serviceHeaders.plans}>{row.planCount}</td>
+              <td data-label={table.serviceHeaders.free}>
                 {row.free ? (
-                  <span class="pill pill-free">あり</span>
+                  <span class="pill pill-free">{table.yes}</span>
                 ) : (
-                  <span class="pill">なし</span>
+                  <span class="pill">{table.no}</span>
                 )}
               </td>
-              <td data-label="最安月額">
-                <span class:list={['price-cell', { 'price-free': row.cheapestLabel === '無料' }]}>
+              <td data-label={table.serviceHeaders.cheapest}>
+                <span
+                  class:list={['price-cell', { 'price-free': row.cheapestLabel === t.common.free }]}
+                >
                   {row.cheapestLabel}
                 </span>
               </td>
               <td
-                data-label="確認モデル"
+                data-label={table.serviceHeaders.models}
                 class:list={['cell-models', { 'cell-quiet': !row.hasConfirmedModels }]}
               >
                 {row.modelsLabel}
               </td>
-              <td data-label="利用枠の例">{row.limitsLabel}</td>
-              <td data-label="公開状況">
+              <td data-label={table.serviceHeaders.allowance}>{row.limitsLabel}</td>
+              <td data-label={table.serviceHeaders.disclosure}>
                 <span class:list={['pill', { 'pill-known': row.disclosure === 'known' }]}>
                   {row.disclosureLabel}
                 </span>
               </td>
-              <td data-label="確認日">
-                <time datetime={row.verifiedAt}>{formatDate(row.verifiedAt)}</time>
+              <td data-label={table.serviceHeaders.verified}>
+                <time datetime={row.verifiedAt}>{formatDate(row.verifiedAt, locale)}</time>
               </td>
             </tr>
           ))}
@@ -105,22 +116,20 @@ const planCount = catalog.plans.length;
   </div>
 
   <div id="view-plans" class="view-panel" hidden>
-    <p class="table-note">
-      サービスとプランを1行ずつ。料金・モデル・利用枠を横並びで比較できます。
-    </p>
+    <p class="table-note">{table.plansNote}</p>
     <div class="table-scroll">
       <table class="compare-table" id="plan-table">
-        <caption>プラン横断の比較。条件に合うプランだけを表示します。</caption>
+        <caption>{table.plansCaption}</caption>
         <thead>
           <tr>
-            <th scope="col">サービス</th>
-            <th scope="col">プラン</th>
-            <th scope="col">課金</th>
-            <th scope="col">料金</th>
-            <th scope="col">モデル</th>
-            <th scope="col">利用枠</th>
-            <th scope="col">公開状況</th>
-            <th scope="col">確認日</th>
+            <th scope="col">{table.planHeaders.service}</th>
+            <th scope="col">{table.planHeaders.plan}</th>
+            <th scope="col">{table.planHeaders.billing}</th>
+            <th scope="col">{table.planHeaders.price}</th>
+            <th scope="col">{table.planHeaders.models}</th>
+            <th scope="col">{table.planHeaders.limits}</th>
+            <th scope="col">{table.planHeaders.disclosure}</th>
+            <th scope="col">{table.planHeaders.verified}</th>
           </tr>
         </thead>
         <tbody id="plan-table-body">
@@ -138,22 +147,22 @@ const planCount = catalog.plans.length;
                 data-search={`${row.name} ${plan.name} ${plan.modelsLabel}`}
               >
                 <th scope="row">
-                  <a href={`${base}/services/${row.slug}/#${plan.id}`}>{row.name}</a>
+                  <a href={`${prefix}/services/${row.slug}/#${plan.id}`}>{row.name}</a>
                 </th>
-                <td data-label="プラン">{plan.name}</td>
-                <td data-label="課金">{plan.billingLabel}</td>
-                <td data-label="料金">{plan.priceLabel}</td>
-                <td data-label="モデル" class="cell-models">
+                <td data-label={table.planHeaders.plan}>{plan.name}</td>
+                <td data-label={table.planHeaders.billing}>{plan.billingLabel}</td>
+                <td data-label={table.planHeaders.price}>{plan.priceLabel}</td>
+                <td data-label={table.planHeaders.models} class="cell-models">
                   {plan.modelsLabel}
                 </td>
-                <td data-label="利用枠">{plan.limitLabel}</td>
-                <td data-label="公開状況">
+                <td data-label={table.planHeaders.limits}>{plan.limitLabel}</td>
+                <td data-label={table.planHeaders.disclosure}>
                   <span class:list={['pill', { 'pill-known': plan.disclosure === 'known' }]}>
                     {plan.disclosureLabel}
                   </span>
                 </td>
-                <td data-label="確認日">
-                  <time datetime={plan.verifiedAt}>{formatDate(plan.verifiedAt)}</time>
+                <td data-label={table.planHeaders.verified}>
+                  <time datetime={plan.verifiedAt}>{formatDate(plan.verifiedAt, locale)}</time>
                 </td>
               </tr>
             )),
@@ -183,15 +192,15 @@ const planCount = catalog.plans.length;
                 {serviceInitials(row.name)}
               </span>
               <div>
-                <span class="type-label">{typeLabels[row.type]}</span>
+                <span class="type-label">{row.typeLabel}</span>
                 <h2>
-                  <a href={`${base}/services/${row.slug}/`}>{row.name}</a>
+                  <a href={`${prefix}/services/${row.slug}/`}>{row.name}</a>
                 </h2>
               </div>
             </div>
             <div class="service-flags">
               <span class:list={['pill', row.free ? 'pill-free' : 'pill-paid']}>
-                {row.free ? '無料プランあり' : '無料プランなし'}
+                {row.free ? table.freePlanYes : table.freePlanNo}
               </span>
               <span class="service-price" data-free={row.free ? '1' : ''}>
                 {row.cheapestLabel}
@@ -200,9 +209,9 @@ const planCount = catalog.plans.length;
           </div>
           <p class="service-description">{row.category}</p>
           <div class="allowance-summary" data-allowances={row.limitsUnknown ? 'unknown' : 'known'}>
-            <span class="allowance-label">利用枠</span>
+            <span class="allowance-label">{table.allowance}</span>
             {row.limitsUnknown ? (
-              <span class="allowance-unknown">有料プランの数値は未公開・未調査</span>
+              <span class="allowance-unknown">{table.allowanceUnknown}</span>
             ) : (
               <ul>
                 {row.limitSummary.map((limit) => (
@@ -212,14 +221,15 @@ const planCount = catalog.plans.length;
             )}
           </div>
           <p class:list={['model-summary', { 'model-summary-quiet': !row.hasConfirmedModels }]}>
-            <span>確認モデル</span> {row.modelsLabel}
+            <span>{table.confirmedModels}</span> {row.modelsLabel}
           </p>
           <div class="card-bottom">
             <span>
-              確認 <time datetime={row.verifiedAt}>{formatDate(row.verifiedAt)}</time>
+              {t.common.verified}{' '}
+              <time datetime={row.verifiedAt}>{formatDate(row.verifiedAt, locale)}</time>
             </span>
-            <a class="detail-link" href={`${base}/services/${row.slug}/`}>
-              プラン・制限を見る
+            <a class="detail-link" href={`${prefix}/services/${row.slug}/`}>
+              {table.seePlans}
             </a>
           </div>
         </article>

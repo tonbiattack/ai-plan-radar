@@ -15,7 +15,7 @@ describe('モデル別の利用条件', () => {
     const limit = plan.limits.find((l) => l.scope === 'model' && l.targetId === modelId)!;
     expect(limit.amount).toBe(expected);
     expect(limit.sourceUrl).toBe('https://opencode.ai/docs/console/go');
-    expect(formatLimit(limit)).toContain('USD相当');
+    expect(formatLimit(limit, 'ja')).toContain('USD相当');
     expect(limit.notes).toContain('目安');
     expect(
       plan.modelAccess.some(

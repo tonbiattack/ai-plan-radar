@@ -1,0 +1,160 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NewsFeed from '../../components/NewsFeed.astro';
+import ServiceTable from '../../components/ServiceTable.astro';
+import { catalog as rawCatalog } from '../../lib/catalog';
+import { localizeCatalog } from '../../i18n/data';
+import { typeLabels, billingLabels } from '../../lib/format';
+import { website } from '../../lib/seo';
+import type { Locale } from '../../i18n/locale';
+import { locales } from '../../i18n/locale';
+import { getMessages, interpolate } from '../../i18n/messages';
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = getMessages(locale);
+const home = t.home;
+const catalog = localizeCatalog(rawCatalog, locale);
+const categories = [...new Set(catalog.services.map((s) => s.category))];
+const types = typeLabels(locale);
+const billing = billingLabels(locale);
+---
+
+<Layout
+  locale={locale}
+  path="/"
+  description={home.description}
+  structuredData={website(locale, 'AI Plan Radar', home.description)}
+>
+  <section class="intro container" aria-labelledby="intro-heading">
+    <div>
+      <h1 id="intro-heading">{home.h1}</h1>
+      <p>{home.intro}</p>
+    </div>
+  </section>
+  <NewsFeed locale={locale} />
+  <div class="catalog-layout container">
+    <details class="filters" id="filter-panel">
+      <summary>
+        <span id="filter-title">{home.filters.title}</span>
+        <span class="filter-summary" id="filter-summary">
+          {home.filters.allServices}
+        </span>
+      </summary>
+      <noscript>
+        <p>{home.filters.noscript}</p>
+      </noscript>
+      <form id="filters" role="search" aria-labelledby="filter-title">
+        <label>
+          {home.filters.category}
+          <select name="category">
+            <option value="">{t.common.all}</option>
+            {categories.map((category) => (
+              <option>{category}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {home.filters.type}
+          <select name="type">
+            <option value="">{t.common.all}</option>
+            {Object.entries(types).map(([value, label]) => (
+              <option value={value}>{label}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {home.filters.billing}
+          <select name="billing">
+            <option value="">{t.common.all}</option>
+            {Object.entries(billing).map(([value, label]) => (
+              <option value={value}>{label}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {home.filters.model}
+          <select name="model">
+            <option value="">{t.common.all}</option>
+            {catalog.models.map((model) => (
+              <option value={model.id}>{model.displayName}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {home.filters.disclosure}
+          <select name="disclosure">
+            <option value="">{t.common.all}</option>
+            <option value="known">{home.filters.disclosureKnown}</option>
+            <option value="unknown">{home.filters.disclosureUnknown}</option>
+          </select>
+        </label>
+        <label>
+          {home.filters.sort}
+          <select name="sort">
+            <option value="name">{home.filters.sortName}</option>
+            <option value="verified">{home.filters.sortVerified}</option>
+            <option value="price">{home.filters.sortPrice}</option>
+          </select>
+        </label>
+        <fieldset class="filter-price">
+          <legend>{home.filters.maxPrice}</legend>
+          <div class="price-inputs">
+            <label>
+              {home.filters.currency}
+              <select name="currency">
+                <option>USD</option>
+                <option>JPY</option>
+              </select>
+            </label>
+            <label>
+              {home.filters.amount}
+              <input
+                name="max"
+                type="number"
+                min="0"
+                step="any"
+                placeholder={home.filters.noLimit}
+              />
+            </label>
+          </div>
+        </fieldset>
+        <label class="check-label filter-free">
+          <input name="free" type="checkbox" value="1" />
+          {home.filters.free}
+        </label>
+        <button type="reset" class="reset-button">
+          {home.filters.reset}
+        </button>
+      </form>
+      <p class="help">{home.filters.help}</p>
+    </details>
+    <section class="results" aria-label={home.results.label}>
+      <div class="results-heading">
+        <p id="result-count" role="status" aria-live="polite">
+          {interpolate(t.counts.services, { count: catalog.services.length })}
+        </p>
+        <span>{home.results.domain}</span>
+      </div>
+      <div class="results-toolbar">
+        <label class="toolbar-search">
+          <span class="visually-hidden">{home.results.searchLabel}</span>
+          <input id="quick-search" type="search" placeholder={home.results.searchPlaceholder} />
+        </label>
+        <span class="result-note">{home.results.note}</span>
+      </div>
+      <ServiceTable locale={locale} />
+      <div id="empty-state" class="empty-state" hidden>
+        <h2>{home.results.emptyTitle}</h2>
+        <p>{home.results.emptyBody}</p>
+        <button id="clear-empty" type="button">
+          {home.results.emptyReset}
+        </button>
+      </div>
+    </section>
+  </div>
+  <script src="../../scripts/search.ts"></script>
+</Layout>

@@ -187,3 +187,4 @@ export type Catalog = z.infer<typeof catalogSchema>;
 export type Service = Catalog['services'][number];
 export type Plan = Catalog['plans'][number];
 export type Limit = Plan['limits'][number];
+export type Model = Catalog['models'][number];

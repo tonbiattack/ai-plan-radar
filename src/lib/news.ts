@@ -1,7 +1,11 @@
 import { z } from 'zod';
+import type { Locale } from '../i18n/locale';
+import { localeIntl } from '../i18n/locale';
 
 const text = z.string().trim().min(1).max(500);
 const timestamp = z.iso.datetime({ offset: true });
+export const newsCategoryKeys = ['plan', 'price', 'model', 'limit', 'service', 'other'] as const;
+/** Japanese labels kept for data scripts; pages read the UI copy from src/i18n. */
 export const categories = {
   plan: 'プラン',
   price: '料金',
@@ -110,9 +114,9 @@ export function validateNews(input: unknown, serviceIds: string[]): NewsItem[] {
       throw new Error(`未登録のサービスID: ${item.id}`);
   return items;
 }
-export function newsDate(value: string): string {
+export function newsDate(value: string, locale: Locale = 'en'): string {
   return (
-    new Intl.DateTimeFormat('ja-JP', {
+    new Intl.DateTimeFormat(localeIntl[locale], {
       timeZone: 'Asia/Tokyo',
       year: 'numeric',
       month: '2-digit',

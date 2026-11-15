@@ -1,13 +1,31 @@
 ---
 import raw from '../data/news.json';
 import { catalog } from '../lib/catalog';
-import { categories, statuses, newsDate, validateNews, groupRelatedNews } from '../lib/news';
+import { newsCategoryKeys, newsDate, validateNews, groupRelatedNews } from '../lib/news';
+import type { Locale } from '../i18n/locale';
+import { getMessages, interpolate } from '../i18n/messages';
+import { translateDataTextLoose } from '../i18n/data';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getMessages(locale);
+const news = t.news;
 const items = validateNews(
   raw,
   catalog.services.map((s) => s.id),
-).sort((a, b) => Date.parse(b.discoveredAt) - Date.parse(a.discoveredAt));
+)
+  .map((item) => ({
+    ...item,
+    title: translateDataTextLoose(item.title, locale) ?? item.title,
+    summary: translateDataTextLoose(item.summary, locale) ?? item.summary,
+    notes: translateDataTextLoose(item.notes, locale) ?? item.notes,
+    facts: item.facts.map((fact) => translateDataTextLoose(fact, locale) ?? fact),
+  }))
+  .sort((a, b) => Date.parse(b.discoveredAt) - Date.parse(a.discoveredAt));
 const names = [...new Set(items.map((item) => item.serviceName))].sort((a, b) =>
-  a.localeCompare(b, 'ja'),
+  a.localeCompare(b),
 );
 const groups = groupRelatedNews(items);
 const hasNews = groups.length > 0;
@@ -19,42 +37,46 @@ const hasNews = groups.length > 0;
   aria-labelledby="news-heading"
 >
   <div class="news-title">
-    <h2 id="news-heading">AIサービスのニュース</h2>
-    <p>
-      プラン・料金・モデルなどの更新情報を、出典と確認状態を付けて掲載します。速報は未確認です。
-    </p>
+    <h2 id="news-heading">{news.heading}</h2>
+    <p>{news.intro}</p>
   </div>
   {hasNews && (
-    <form class="news-filters" id="news-filters" role="search" aria-label="ニュースを絞り込む">
+    <form class="news-filters" id="news-filters" role="search" aria-label={news.filtersLabel}>
       <label>
-        ニュース検索
-        <input type="search" name="q" placeholder="サービス名・ニュース" />
+        {news.search}
+        <input type="search" name="q" placeholder={news.searchPlaceholder} />
       </label>
       <label>
-        サービス
+        {news.service}
         <select name="service">
-          <option value="">すべて</option>
+          <option value="">{t.common.all}</option>
           {names.map((name) => (
             <option>{name}</option>
           ))}
         </select>
       </label>
       <label>
-        話題
+        {news.topic}
         <select name="category">
-          <option value="">すべて</option>
-          {Object.entries(categories).map(([value, label]) => (
-            <option value={value}>{label}</option>
+          <option value="">{t.common.all}</option>
+          {newsCategoryKeys.map((value) => (
+            <option value={value}>{news.categories[value]}</option>
           ))}
         </select>
       </label>
     </form>
   )}
   <noscript>
-    <p>ニュースの絞り込みにはJavaScriptが必要です。</p>
+    <p>{news.noscript}</p>
   </noscript>
-  <p id="news-count" role="status" aria-live="polite" hidden={!hasNews}>
-    {groups.length}件の話題
+  <p
+    id="news-count"
+    role="status"
+    aria-live="polite"
+    hidden={!hasNews}
+    data-template={t.counts.topics}
+  >
+    {interpolate(t.counts.topics, { count: groups.length })}
   </p>
   <div id="news-list">
     {groups.map((group) => {
@@ -73,52 +95,56 @@ const hasNews = groups.length > 0;
             .join(' ')}
         >
           <div class="news-meta">
-            <span class:list={['news-status', item.status]}>{statuses[item.status]}</span>
+            <span class:list={['news-status', item.status]}>{news.statuses[item.status]}</span>
             <span>{item.serviceName}</span>
-            <span>{categories[item.category]}</span>
+            <span>{news.categories[item.category]}</span>
             <span>
-              発見 <time datetime={item.discoveredAt}>{newsDate(item.discoveredAt)}</time>
+              {news.discovered}{' '}
+              <time datetime={item.discoveredAt}>{newsDate(item.discoveredAt, locale)}</time>
             </span>
           </div>
           <h2>{item.title}</h2>
           <p>{item.summary}</p>
-          {item.status === 'breaking' && (
-            <p class="news-warning">未確認の情報です。内容は変更・訂正される場合があります。</p>
-          )}
+          {item.status === 'breaking' && <p class="news-warning">{news.warning}</p>}
           {item.notes && <p>{item.notes}</p>}
           {item.publishedAt && (
             <p>
-              出典の公開日時: <time datetime={item.publishedAt}>{newsDate(item.publishedAt)}</time>
+              {news.published}:{' '}
+              <time datetime={item.publishedAt}>{newsDate(item.publishedAt, locale)}</time>
             </p>
           )}
           {item.reviewedAt && (
             <p>
-              確認・更新日時: <time datetime={item.reviewedAt}>{newsDate(item.reviewedAt)}</time>
+              {news.reviewed}:{' '}
+              <time datetime={item.reviewedAt}>{newsDate(item.reviewedAt, locale)}</time>
             </p>
           )}
           <p>
             <a href={item.sourceUrl} rel="noopener noreferrer">
-              出典を確認する
+              {news.readSource}
             </a>
           </p>
           {group.length > 1 && (
             <details>
-              <summary>関連情報・過去の更新（{group.length - 1}件）</summary>
+              <summary>{interpolate(news.related, { count: group.length - 1 })}</summary>
               {group.slice(1).map((related) => (
                 <div class="news-related" id={`news-${related.id}`}>
                   <p>
                     <strong>{related.title}</strong>{' '}
                     <span class:list={['news-status', related.status]}>
-                      {statuses[related.status]}
+                      {news.statuses[related.status]}
                     </span>
                   </p>
                   <p>{related.summary}</p>
                   {related.notes && <p>{related.notes}</p>}
                   <p>
-                    発見{' '}
-                    <time datetime={related.discoveredAt}>{newsDate(related.discoveredAt)}</time> /{' '}
+                    {news.discovered}{' '}
+                    <time datetime={related.discoveredAt}>
+                      {newsDate(related.discoveredAt, locale)}
+                    </time>{' '}
+                    /{' '}
                     <a href={related.sourceUrl} rel="noopener noreferrer">
-                      出典を確認する
+                      {news.readSource}
                     </a>
                   </p>
                 </div>
@@ -130,12 +156,10 @@ const hasNews = groups.length > 0;
     })}
   </div>
   <p id="news-empty" hidden={items.length > 0}>
-    {items.length
-      ? '条件に合うニュースはありません。条件を変更してください。'
-      : 'ニュースはまだありません。登録されるとここに表示されます。'}
+    {items.length ? news.noMatch : news.empty}
   </p>
   <p>
-    <a href="https://github.com/tonbiattack/ai-plan-radar/issues">情報の訂正・提供</a>
+    <a href="https://github.com/tonbiattack/ai-plan-radar/issues">{news.contribute}</a>
   </p>
 </section>
 <script>
@@ -144,7 +168,8 @@ const hasNews = groups.length > 0;
   const empty = document.querySelector<HTMLElement>('#news-empty')!;
   const count = document.querySelector<HTMLElement>('#news-count')!;
   if (form) {
-    const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase('ja-JP').trim();
+    const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase().trim();
+    const template = count.dataset.template ?? '{count}';
     const update = () => {
       const values = new FormData(form);
       const q = normalize(String(values.get('q') ?? ''));
@@ -160,7 +185,7 @@ const hasNews = groups.length > 0;
         );
         if (!card.hidden) visible++;
       }
-      count.textContent = `${visible}件の話題`;
+      count.textContent = template.replace('{count}', String(visible));
       empty.hidden = visible > 0;
     };
     form.addEventListener('input', update);

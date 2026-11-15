@@ -1,146 +1,29 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import NewsFeed from '../components/NewsFeed.astro';
-import ServiceTable from '../components/ServiceTable.astro';
-import { catalog } from '../lib/catalog';
-import { billingLabels, typeLabels } from '../lib/format';
-import { website } from '../lib/seo';
-const categories = [...new Set(catalog.services.map((s) => s.category))];
+// The site root has no language yet, so it sends visitors to English (the
+// default language). Astro needs an index page when every locale is prefixed.
+// A meta refresh keeps the static export working on GitHub Pages, which cannot
+// serve HTTP redirects for arbitrary paths.
+import { defaultLocale } from '../i18n/locale';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const target = `${base}/${defaultLocale}/`;
 ---
 
-<Layout
-  path="/"
-  structuredData={website(
-    'AI Plan Radar',
-    'AIコーディングサービスの料金・対応モデル・利用制限を、公式出典と確認日付きで比較する日本語サイト。',
-  )}
->
-  <section class="intro container" aria-labelledby="intro-heading">
-    <div>
-      <h1 id="intro-heading">AIコーディングサービスの料金・利用枠</h1>
-      <p>
-        サービスごとの料金、対応モデル、利用枠を公式出典と確認日つきで検索できます。本体が無料でもモデル利用料は別です。未確認の上限を「制限なし」とは表示しません。
-      </p>
-    </div>
-  </section>
-  <NewsFeed />
-  <div class="catalog-layout container">
-    <details class="filters" id="filter-panel">
-      <summary>
-        <span id="filter-title">条件を絞り込む</span>
-        <span class="filter-summary" id="filter-summary">
-          すべてのサービス
-        </span>
-      </summary>
-      <noscript>
-        <p>絞り込みにはJavaScriptが必要です。以下の表と詳細はそのまま閲覧できます。</p>
-      </noscript>
-      <form id="filters" role="search" aria-labelledby="filter-title">
-        <label>
-          カテゴリ
-          <select name="category">
-            <option value="">すべて</option>
-            {categories.map((c) => (
-              <option>{c}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          サービスの種類
-          <select name="type">
-            <option value="">すべて</option>
-            {Object.entries(typeLabels).map(([value, label]) => (
-              <option value={value}>{label}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          課金方式
-          <select name="billing">
-            <option value="">すべて</option>
-            {Object.entries(billingLabels).map(([value, label]) => (
-              <option value={value}>{label}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          対応モデル
-          <select name="model">
-            <option value="">すべて</option>
-            {catalog.models.map((m) => (
-              <option value={m.id}>{m.displayName}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          利用枠の公開状況
-          <select name="disclosure">
-            <option value="">すべて</option>
-            <option value="known">数値の公開あり</option>
-            <option value="unknown">非公開・未確認の項目あり</option>
-          </select>
-        </label>
-        <label>
-          並べ替え
-          <select name="sort">
-            <option value="name">サービス名順</option>
-            <option value="verified">最終確認日が新しい順</option>
-            <option value="price">基本月額が安い順（選択通貨内）</option>
-          </select>
-        </label>
-        <fieldset class="filter-price">
-          <legend>月額の上限</legend>
-          <div class="price-inputs">
-            <label>
-              通貨
-              <select name="currency">
-                <option>USD</option>
-                <option>JPY</option>
-              </select>
-            </label>
-            <label>
-              金額
-              <input name="max" type="number" min="0" step="any" placeholder="上限なし" />
-            </label>
-          </div>
-        </fieldset>
-        <label class="check-label filter-free">
-          <input name="free" type="checkbox" value="1" />
-          無料プランあり
-        </label>
-        <button type="reset" class="reset-button">
-          条件をリセット
-        </button>
-      </form>
-      <p class="help">
-        元通貨で比較します。従量料金は対象外。定額＋従量は基本月額のみで、総額の上限ではありません。
-      </p>
-    </details>
-    <section class="results" aria-label="サービス一覧">
-      <div class="results-heading">
-        <p id="result-count" role="status" aria-live="polite">
-          {catalog.services.length}件のサービス
-        </p>
-        <span>AIコーディング分野</span>
-      </div>
-      <div class="results-toolbar">
-        <label class="toolbar-search">
-          <span class="visually-hidden">キーワード</span>
-          <input id="quick-search" type="search" placeholder="サービス・プラン・モデル名で検索" />
-        </label>
-        <span class="result-note">
-          基本月額と利用料は別です。価格不明・選択通貨外は価格順の末尾。
-        </span>
-      </div>
-      <ServiceTable />
-      <div id="empty-state" class="empty-state" hidden>
-        <h2>条件に合うサービスがありません</h2>
-        <p>キーワードを短くするか、絞り込み条件を減らしてください。</p>
-        <button id="clear-empty" type="button">
-          すべての条件をリセット
-        </button>
-      </div>
-    </section>
-  </div>
-  <script src="../scripts/search.ts"></script>
-</Layout>
+<!doctype html>
+<html lang={defaultLocale}>
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Plan Radar</title>
+    <link rel="canonical" href={`https://tonbiattack.github.io${target}`} />
+    <link rel="alternate" hreflang="en" href={`https://tonbiattack.github.io${base}/en/`} />
+    <link rel="alternate" hreflang="ja" href={`https://tonbiattack.github.io${base}/ja/`} />
+    <link rel="alternate" hreflang="x-default" href={`https://tonbiattack.github.io${base}/en/`} />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+  </head>
+  <body>
+    <p>
+      <a href={target}>AI Plan Radar</a>
+    </p>
+  </body>
+</html>

@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import type { Locale } from '../i18n/locale';
+import { getMessages } from '../i18n/messages';
 
 const text = z.string().trim().min(1);
 const isoDate = z.iso.date();
@@ -51,11 +53,9 @@ export function freshness(days: number): Freshness {
   return 'current';
 }
 
-export const freshnessLabels: Record<Freshness, string> = {
-  current: '新しい',
-  aging: 'やや古い',
-  stale: '30日以上経過',
-};
+export function freshnessLabels(locale: Locale): Record<Freshness, string> {
+  return getMessages(locale).labels.freshness;
+}
 
 /**
  * A change is only shown when it has an official source. "No recorded change"
@@ -74,8 +74,8 @@ export type ChangeEntry = {
   reviewStatus: 'pending' | 'approved' | 'rejected';
 };
 
-export function formatChangeValue(value: unknown): string {
-  if (value === null || value === undefined) return '記録なし';
+export function formatChangeValue(value: unknown, locale: Locale): string {
+  if (value === null || value === undefined) return getMessages(locale).history.noRecord;
   if (typeof value === 'string') return value;
   if (typeof value === 'number' || typeof value === 'boolean') return String(value);
   return JSON.stringify(value);

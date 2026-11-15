@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { catalog } from '../../src/lib/catalog';
 import { catalogSchema } from '../../src/lib/schema';
 import { formatLimit, formatPrice, isStale } from '../../src/lib/format';
+import { translateLimit } from '../../src/i18n/data';
 import {
   defaults,
   monthlyPrice,
@@ -65,12 +66,23 @@ describe('公式出典付きデータ', () => {
   });
   it('不明・非公開・制限なしを区別', () => {
     const limit = catalog.plans.find((p) => p.id === 'opencode-client')!.limits[0];
-    expect(formatLimit(limit)).toBe('未調査');
-    expect(formatLimit({ ...limit, status: 'undisclosed' })).toBe('非公開');
-    expect(formatLimit({ ...limit, status: 'unlimited' })).toContain('制限なし');
-    expect(formatLimit({ ...limit, status: 'unavailable' })).toBe('利用不可');
-    expect(formatLimit({ ...limit, status: 'failed' })).toBe('確認失敗');
-    expect(formatPrice(catalog.plans.find((p) => p.billingType === 'usage')!)).not.toContain('$0');
+    expect(formatLimit(limit, 'ja')).toBe('未調査');
+    expect(formatLimit({ ...limit, status: 'undisclosed' }, 'ja')).toBe('非公開');
+    expect(formatLimit({ ...limit, status: 'unlimited' }, 'ja')).toContain('制限なし');
+    expect(formatLimit({ ...limit, status: 'unavailable' }, 'ja')).toBe('利用不可');
+    expect(formatLimit({ ...limit, status: 'failed' }, 'ja')).toBe('確認失敗');
+    // English units and windows come from localizeCatalog, not formatter guesses.
+    const knownLimit = catalog.plans
+      .find((p) => p.id === 'logfare-standard')!
+      .limits.find((l) => l.status === 'known' && l.window === '分')!;
+    expect(formatLimit(translateLimit(knownLimit, 'en'), 'en')).toBe('40 requests / minute');
+    expect(formatLimit(knownLimit, 'ja')).toBe('40 回 / 分');
+    expect(
+      formatPrice(
+        catalog.plans.find((p) => p.billingType === 'usage')!,
+        'ja',
+      ),
+    ).not.toContain('$0');
   });
   it('鮮度を30日基準で判定', () => {
     expect(isStale('2026-11-14', new Date('2026-12-14'))).toBe(true);

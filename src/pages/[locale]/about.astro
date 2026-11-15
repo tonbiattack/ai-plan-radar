@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { breadcrumbs } from '../../lib/seo';
+import type { Locale } from '../../i18n/locale';
+import { locales } from '../../i18n/locale';
+import { getMessages } from '../../i18n/messages';
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = getMessages(locale);
+const about = t.about;
+const s = about.sections;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout
+  locale={locale}
+  title={about.title}
+  description={about.description}
+  path="/about/"
+  structuredData={breadcrumbs([
+    { name: 'AI Plan Radar', path: `/${locale}/` },
+    { name: about.h1, path: `/${locale}/about/` },
+  ])}
+>
+  <article class="container prose">
+    <h1>{about.h1}</h1>
+    <h2>{s.split.heading}</h2>
+    <p>{s.split.body}</p>
+    <h2>{s.notZero.heading}</h2>
+    <dl>
+      {s.notZero.body.map((entry) => (
+        <>
+          <dt>{entry.term}</dt>
+          <dd>{entry.definition}</dd>
+        </>
+      ))}
+    </dl>
+    <h2>{s.currency.heading}</h2>
+    <p>{s.currency.body}</p>
+    <h2>{s.scope.heading}</h2>
+    <p>{s.scope.body}</p>
+    <h2>{s.models.heading}</h2>
+    <p>
+      {s.models.linkPrefix}
+      <a href={`${base}/${locale}/models/`}>{s.models.linkText}</a>
+      {s.models.body}
+    </p>
+    <h2>{s.independent.heading}</h2>
+    <p>{s.independent.body}</p>
+    <h2>{s.corrections.heading}</h2>
+    <p>
+      <a href="https://github.com/tonbiattack/ai-plan-radar/issues">{s.corrections.linkText}</a>
+      {s.corrections.body}
+    </p>
+  </article>
+</Layout>

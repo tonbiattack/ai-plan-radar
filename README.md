@@ -1,23 +1,27 @@
 # AI Plan Radar
 
-AIコーディングサービスの料金、対応モデル、利用枠を公式出典付きで調べる日本語の比較サイトです。
+**English** | [日本語](README.ja.md)
 
-**[サイトを見る](https://tonbiattack.github.io/ai-plan-radar/)** · [モデル性能を比較](https://tonbiattack.github.io/ai-plan-radar/models/) · [不具合・要望を報告](https://github.com/tonbiattack/ai-plan-radar/issues)
+Pricing, supported models and usage limits for AI coding services, listed with official sources and check dates.
 
-## 主な機能
+**[Open the site](https://tonbiattack.github.io/ai-plan-radar/en/)** · [Compare model benchmarks](https://tonbiattack.github.io/ai-plan-radar/en/models/) · [Report a problem](https://github.com/tonbiattack/ai-plan-radar/issues)
 
-- サービス別・プラン別の比較表とカード表示、2〜4プランの横並び比較（[比較ページ](https://tonbiattack.github.io/ai-plan-radar/compare/)、選択内容はURLで共有可能）
-- キーワード、課金方式、対応モデル、利用枠、基本月額などによる絞り込み
-- 料金や利用枠の公式出典と確認日を掲載
-- ProgramBench、SWE-bench Verified（Bash Only）、Aider Polyglotのモデル性能と評価条件を表示
-- サービスごとの掲載開始日・最終確認日・情報の鮮度と、記録された変更履歴
-- RSS・GitHub Releasesから更新候補を収集し、レビュー用に保存
+The site is bilingual. English is the default language at `/en/`, Japanese lives at `/ja/`.
 
-価格や利用枠は変更されることがあります。契約前には各サービスの公式情報を確認してください。本体とモデル提供元が別契約の場合もあります。未確認の上限を「制限なし」として扱いません。
+## Features
 
-## はじめ方
+- Comparison tables and cards per service and per plan, plus a side-by-side view of 2-4 plans ([compare page](https://tonbiattack.github.io/ai-plan-radar/en/compare/); the selection is kept in the URL so it can be shared)
+- Filters for keyword, billing, supported model, usage limit disclosure and base monthly price
+- Official sources and check dates for every price and limit
+- ProgramBench, SWE-bench Verified (Bash Only) and Aider Polyglot results with their evaluation conditions
+- Listing date, last check date, freshness and recorded changes for each service
+- Change candidates collected from RSS and GitHub Releases, saved for review
 
-Node.js **22.23.4以上**とnpmが必要です。CIではNode.js 24を使用しています。
+Prices and limits change. Check each service's official information before you subscribe. The client and the model provider are sometimes separate contracts. An unverified limit is never shown as "unlimited".
+
+## Getting started
+
+Node.js **22.23.4 or newer** and npm are required. CI uses Node.js 24.
 
 ```sh
 git clone https://github.com/tonbiattack/ai-plan-radar.git
@@ -26,52 +30,58 @@ npm ci
 npm run dev
 ```
 
-開発サーバーは [http://localhost:4321/ai-plan-radar/](http://localhost:4321/ai-plan-radar/) で確認できます。GitHub Pagesと同じサブパスを使用します。
+The dev server runs at [http://localhost:4321/ai-plan-radar/](http://localhost:4321/ai-plan-radar/) and uses the same sub-path as GitHub Pages.
 
-## 開発・テスト
+## Development and tests
 
 ```sh
-npm run check                 # lint、型検査、単体テスト、データ検証、ビルド
+npm run check                 # lint, type check, unit tests, data validation, build
 npx playwright install chromium
-npm run test:e2e              # ビルド済みサイトのPC・モバイルテスト
-npm run preview               # ビルド成果物を確認
-npm run format:check          # フォーマットを確認
+npm run test:e2e              # desktop and mobile tests against the built site
+npm run preview               # inspect the build output
+npm run format:check          # check formatting
 ```
 
-主な技術はAstro、TypeScript、Zod、Vitest、Playwrightです。静的サイトとしてビルドし、GitHub ActionsからGitHub Pagesに公開します。サーバーDBや認証は不要です。`sitemap.xml` と `robots.txt` はビルド時に生成し、各ページに canonical・OGP・JSON-LD（WebSite / BreadcrumbList / Product）を出力します。
+The stack is Astro, TypeScript, Zod, Vitest and Playwright. The site builds to static files and is published to GitHub Pages from GitHub Actions; no server database or authentication is needed. `sitemap.xml` and `robots.txt` are generated at build time, and every page emits canonical, hreflang, OGP and JSON-LD (WebSite / BreadcrumbList / Product).
 
-## データと更新
+## Data and updates
 
-| データ                           | ファイル・更新方法                                                                                                                                                                                           |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| サービス・プラン・モデル・利用枠 | [`src/data/catalog.json`](src/data/catalog.json) を編集                                                                                                                                                      |
-| モデル性能                       | `npm run bench:sync` で [`src/data/swebench-verified.json`](src/data/swebench-verified.json) を再生成、`npm run bench:sync:aider` で [`src/data/aider-polyglot.json`](src/data/aider-polyglot.json) を再生成 |
-| ProgramBench                     | 公式ランキング上位を [`src/data/programbench.json`](src/data/programbench.json) に手動採録                                                                                                                   |
-| ニュース                         | [`docs/CONTRIBUTING-NEWS.md`](docs/CONTRIBUTING-NEWS.md) を参照                                                                                                                                              |
-| 更新候補の監視                   | [`docs/WATCH-SOURCES.md`](docs/WATCH-SOURCES.md) を参照                                                                                                                                                      |
-| 掲載開始日・鮮度                 | `npm run history:sync` でGit履歴から [`src/data/observations.json`](src/data/observations.json) を再生成                                                                                                     |
-| OGP画像                          | `npm run og:build` で [`public/og.svg`](public/og.svg) から `public/og.png` を生成                                                                                                                           |
+| Data                            | File / how to update                                                                                                                                                                                         |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Services, plans, models, limits | Edit [`src/data/catalog.json`](src/data/catalog.json)                                                                                                                                                        |
+| Model benchmarks                | `npm run bench:sync` regenerates [`src/data/swebench-verified.json`](src/data/swebench-verified.json); `npm run bench:sync:aider` regenerates [`src/data/aider-polyglot.json`](src/data/aider-polyglot.json) |
+| ProgramBench                    | Transcribe the top of the official ranking into [`src/data/programbench.json`](src/data/programbench.json) by hand                                                                                           |
+| News                            | See [`docs/CONTRIBUTING-NEWS.md`](docs/CONTRIBUTING-NEWS.md)                                                                                                                                                 |
+| Watched sources                 | See [`docs/WATCH-SOURCES.md`](docs/WATCH-SOURCES.md)                                                                                                                                                         |
+| Listing dates and freshness     | `npm run history:sync` regenerates [`src/data/observations.json`](src/data/observations.json) from git history                                                                                               |
+| OGP image                       | `npm run og:build` generates `public/og.png` from [`public/og.svg`](public/og.svg)                                                                                                                           |
+| English text of data strings    | Add an entry to [`src/i18n/data-en.json`](src/i18n/data-en.json) when the build reports a missing translation                                                                                                |
 
-`npm run validate` でデータの構造、参照、出典などを検証します。不正なデータはビルド時にも検出されます。
+`npm run validate` checks the data structure, references and sources. Invalid data also fails the build.
 
-データ編集では、公式出典と確認日を記録し、未調査の項目や料金を推測しません。モデルの利用可否と条件、非公開・未調査・利用不可を区別します。価格の並べ替えや上限は選択通貨の基本月額を対象とし、従量料金や定額＋従量の追加費用を含む総額ではありません。性能結果は評価日やハーネスの違いに注意して比較してください。
+When editing data, record the official source and check date, and never guess an unresearched item or price. Model availability and conditions are distinct from undisclosed, unresearched and unavailable. Price sorting and budgets use the base monthly price in the selected currency; they are not the total including usage charges or add-on costs. Compare benchmark results with care, because evaluation dates and harnesses differ.
 
-ニュース監視の収集結果はレビュー用の候補であり、自動公開されません。AI抽出・自動公開は未実装です。料金の変更履歴の画面は [`src/pages/history.astro`](src/pages/history.astro) で、公式出典付きで旧値・新値を確認できた変更だけを `catalog.json` の `changes` に追記します。掲載開始日は事業者の発効日ではありません。
+Collected news is a review queue and is not published automatically. AI extraction and auto-publication are not implemented. The price history page lives at [`src/pages/[locale]/history.astro`](src/pages/%5Blocale%5D/history.astro) and only appends changes with an official source and both old and new values to `changes` in `catalog.json`. The listing date is not the vendor's effective date.
 
-## コントリビュート
+## Translation
 
-不具合、料金・利用枠の変更、新しいサービスの掲載候補は [Issues](https://github.com/tonbiattack/ai-plan-radar/issues) でお知らせください。データの修正を提案する場合は、公式URL、確認日、該当するプランや条件を添えてください。変更を送る際は、関連するテストと `npm run check` を実行してください。
+The catalog is authored **once, in Japanese**. English is looked up from `src/i18n/data-en.json`, so updating a price or limit never means typing it twice. Interface copy lives in `src/i18n/messages.ts`. A missing translation fails the build instead of shipping a half-translated page. See [`docs/I18N.md`](docs/I18N.md) for the workflow.
 
-- [仕様](docs/SPEC.md)
-- [調査範囲と保留項目](docs/DATA_REVIEW.md)
-- [ニュースの登録方法](docs/CONTRIBUTING-NEWS.md)
-- [監視対象と制限](docs/WATCH-SOURCES.md)
-- [デザイン](docs/DESIGN.md)
+## Contributing
 
-## デプロイ
+Report bugs, price and limit changes, and new service candidates through [Issues](https://github.com/tonbiattack/ai-plan-radar/issues). For a data correction, include the official URL, the check date, and the plan or conditions involved. Run the related tests and `npm run check` before sending a change.
 
-`astro.config.mjs` の `site` と `base` は公開先に合わせて設定されています。GitHub PagesのSourceを **GitHub Actions** に設定すると、`main` へのpush後、検証・ブラウザーテストを経て `dist/` が公開されます。PRでは検証のみ行います。設定の詳細は [Pagesワークフロー](.github/workflows/pages.yml) を参照してください。
+- [Specification](docs/SPEC.md)
+- [Coverage and open items](docs/DATA_REVIEW.md)
+- [How to add news](docs/CONTRIBUTING-NEWS.md)
+- [Watched sources and limits](docs/WATCH-SOURCES.md)
+- [Internationalisation](docs/I18N.md)
+- [Design](docs/DESIGN.md)
 
-## ライセンス
+## Deployment
 
-現在、このリポジトリにはライセンスファイルが設定されていません。利用・再配布の許諾についてはリポジトリの管理者に確認してください。
+`site` and `base` in `astro.config.mjs` are set for the public URL. With GitHub Pages set to **GitHub Actions**, a push to `main` runs validation and browser tests, then publishes `dist/`. Pull requests only run the checks. See the [Pages workflow](.github/workflows/pages.yml) for details.
+
+## License
+
+This repository does not currently include a license file. Ask the repository owner about permission to use or redistribute it.

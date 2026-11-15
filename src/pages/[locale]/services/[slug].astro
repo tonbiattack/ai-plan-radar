@@ -1,7 +1,8 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { catalog } from '../../lib/catalog';
-import { serviceSchema, breadcrumbs } from '../../lib/seo';
+import Layout from '../../../layouts/Layout.astro';
+import { catalog as rawCatalog } from '../../../lib/catalog';
+import { localizeCatalog } from '../../../i18n/data';
+import { serviceSchema, breadcrumbs } from '../../../lib/seo';
 import {
   formatPrice,
   formatLimit,
@@ -10,17 +11,27 @@ import {
   typeLabels,
   accessLabels,
   confidenceLabels,
+  scopeLabels,
   isStale,
-} from '../../lib/format';
+} from '../../../lib/format';
+import type { Locale } from '../../../i18n/locale';
+import { locales } from '../../../i18n/locale';
+import { getMessages, interpolate } from '../../../i18n/messages';
+
 export function getStaticPaths() {
-  return catalog.services.map((service) => ({
-    params: { slug: service.slug },
-    props: { service },
-  }));
+  return locales.flatMap((locale) =>
+    rawCatalog.services.map((service) => ({ params: { locale, slug: service.slug } })),
+  );
 }
-const { service } = Astro.props;
-const plans = catalog.plans.filter((p) => p.serviceId === service.id);
+
+const { locale, slug } = Astro.params as { locale: Locale; slug: string };
+const t = getMessages(locale);
+const d = t.detail;
+const catalog = localizeCatalog(rawCatalog, locale);
+const service = catalog.services.find((entry) => entry.slug === slug)!;
+const plans = catalog.plans.filter((plan) => plan.serviceId === service.id);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const prefix = `${base}/${locale}`;
 const availableModels = [
   ...new Set(
     plans.flatMap((plan) =>
@@ -31,11 +42,19 @@ const availableModels = [
     ),
   ),
 ];
-const description = `${service.name}の料金${plans.length}プランと対応モデル・利用枠を、公式出典と確認日つきで掲載。${availableModels.length ? `確認できたモデル: ${availableModels.slice(0, 6).join('、')}。` : ''}最新の条件は公式ページを確認してください。`;
+const description = interpolate(d.description, {
+  name: service.name,
+  plans: plans.length,
+  models: availableModels.length
+    ? interpolate(d.descriptionModels, {
+        models: availableModels.slice(0, 6).join(locale === 'ja' ? '、' : ', '),
+      })
+    : '',
+});
 const structured = [
   breadcrumbs([
-    { name: 'AI Plan Radar', path: '/' },
-    { name: service.name, path: `/services/${service.slug}/` },
+    { name: 'AI Plan Radar', path: `/${locale}/` },
+    { name: service.name, path: `/${locale}/services/${service.slug}/` },
   ]),
   serviceSchema({
     name: service.name,
@@ -53,70 +72,74 @@ const structured = [
     })),
   }),
 ];
+const typeLabelsForLocale = typeLabels(locale);
+const billingLabelsForLocale = billingLabels(locale);
+const accessLabelsForLocale = accessLabels(locale);
+const confidenceLabelsForLocale = confidenceLabels(locale);
+const scopeLabelsForLocale = scopeLabels(locale);
 ---
 
 <Layout
-  title={`${service.name}の料金・モデル・利用制限 | AI Plan Radar`}
+  locale={locale}
+  title={interpolate(d.title, { name: service.name })}
   description={description}
   path={`/services/${service.slug}/`}
   type="article"
   structuredData={structured}
 >
   <div class="container detail-page">
-    <a class="back-link" href={`${base}/`}>
-      サービス一覧に戻る
+    <a class="back-link" href={`${prefix}/`}>
+      {d.back}
     </a>
     <header class="detail-header">
       <span class="type-label">
-        {typeLabels[service.serviceType]} / {service.category}
+        {typeLabelsForLocale[service.serviceType]} / {service.category}
       </span>
       <h1>{service.name}</h1>
       <p>{service.description}</p>
       <p class="metadata">
-        {confidenceLabels[service.confidence]} · 最終確認{' '}
-        <time datetime={service.verifiedAt}>{formatDate(service.verifiedAt)}</time>
+        {confidenceLabelsForLocale[service.confidence]} · {d.lastChecked}{' '}
+        <time datetime={service.verifiedAt}>{formatDate(service.verifiedAt, locale)}</time>
         <span
           class="stale"
           data-verified={service.verifiedAt}
           hidden={!isStale(service.verifiedAt)}
         >
           {' '}
-          · 確認から30日以上経過しています
+          · {d.stale}
         </span>
       </p>
-      <p>対応環境: {service.supportedPlatforms.join(' / ')}</p>
+      <p>
+        {d.platforms}: {service.supportedPlatforms.join(' / ')}
+      </p>
       <div class="official-links">
-        <a href={service.officialUrl}>公式サイト</a>
-        <a href={service.pricingUrl}>公式料金・契約情報</a>
-        <a href={`${base}/history/#service-${service.id}`}>更新履歴と鮮度</a>
+        <a href={service.officialUrl}>{d.officialSite}</a>
+        <a href={service.pricingUrl}>{d.officialPricing}</a>
+        <a href={`${prefix}/history/#service-${service.id}`}>{d.historyLink}</a>
       </div>
     </header>
     {service.serviceType === 'client' && (
       <aside class="notice">
-        <strong>これはクライアント本体の情報です。</strong>
-        <p>
-          モデルを提供するプロバイダーとは別です。本体無料は、モデルの無料利用や無制限を意味しません。
-        </p>
+        <strong>{d.clientNoticeTitle}</strong>
+        <p>{d.clientNoticeBody}</p>
       </aside>
     )}
     {service.relatedServiceIds.length > 0 && (
       <p>
-        別サービスとして掲載:{' '}
+        {d.related}{' '}
         {service.relatedServiceIds.map((id) => {
-          const related = catalog.services.find((s) => s.id === id)!;
+          const related = catalog.services.find((entry) => entry.id === id)!;
           return (
-            <a class="related-link" href={`${base}/services/${related.slug}/`}>
+            <a class="related-link" href={`${prefix}/services/${related.slug}/`}>
               {related.name}
             </a>
           );
         })}
       </p>
     )}
-    <h2 class="section-title">プランと利用できる範囲</h2>
-    <p>
-      非公開＝公式に数値の記載なし、未調査＝まだ確認していない項目。どちらも「制限なし」ではありません。
-    </p>
-    <nav class="plan-nav" aria-label="プラン一覧">
+    <h2 class="section-title">{d.plansTitle}</h2>
+    <p>{d.plansIntro}</p>
+    <nav class="plan-nav" aria-label={d.planNav}>
       {plans.map((plan) => (
         <a href={`#${plan.id}`}>{plan.name}</a>
       ))}
@@ -125,19 +148,17 @@ const structured = [
       <section class="plan-detail" id={plan.id}>
         <div class="plan-title">
           <h3>{plan.name}</h3>
-          <span class="badge">{billingLabels[plan.billingType]}</span>
+          <span class="badge">{billingLabelsForLocale[plan.billingType]}</span>
         </div>
-        <p class="plan-price">{formatPrice(plan)}</p>
+        <p class="plan-price">{formatPrice(plan, locale)}</p>
         <p>
-          {plan.price?.taxNote ?? '月額換算なし・料金の詳細は公式を確認'}
+          {plan.price?.taxNote ?? d.planPriceFallback}
           {plan.price?.promotionNote && ` / ${plan.price.promotionNote}`}
         </p>
-        {plan.price?.period === 'year' && <p>年額を一括請求。月額換算は参考値です。</p>}
+        {plan.price?.period === 'year' && <p>{d.yearlyNote}</p>}
         <p>{plan.notes}</p>
-        <h4>モデルごとの対応・利用枠</h4>
-        <p>
-          掲載モデルは確認できた範囲です。モデル別の数値がない場合はプラン全体の共有枠や別契約の条件も確認してください。
-        </p>
+        <h4>{d.modelsTitle}</h4>
+        <p>{d.modelsIntro}</p>
         {plan.modelAccess.length ? (
           <ul class="model-list">
             {plan.modelAccess.map((access) => (
@@ -149,7 +170,7 @@ const structured = [
                     { unavailable: access.availability === 'unavailable' },
                   ]}
                 >
-                  {accessLabels[access.availability]}
+                  {accessLabelsForLocale[access.availability]}
                 </span>
                 <p>{access.notes}</p>
                 {plan.limits.filter(
@@ -163,29 +184,27 @@ const structured = [
                       .map((limit) => (
                         <li>
                           <strong>
-                            {limit.metric}: {formatLimit(limit)}
+                            {limit.metric}: {formatLimit(limit, locale)}
                           </strong>
                           <p>{limit.notes}</p>
                           <p>
-                            リセット: {limit.resetPolicy} / 超過時: {limit.overagePolicy}
+                            {d.limitReset}: {limit.resetPolicy} / {d.limitOverage}:{' '}
+                            {limit.overagePolicy}
                           </p>
-                          <a href={limit.sourceUrl}>モデル別利用枠の公式出典</a>
+                          <a href={limit.sourceUrl}>{d.modelLimitSource}</a>
                         </li>
                       ))}
                   </ul>
                 ) : (
-                  <p>
-                    このモデル単独の利用枠:
-                    未調査またはプラン共通。下記の利用制限を確認してください。
-                  </p>
+                  <p>{d.modelLimitsMissing}</p>
                 )}
               </li>
             ))}
           </ul>
         ) : (
-          <p>個別モデルの対応は未調査。接続先・契約条件を公式でご確認ください。</p>
+          <p>{d.noModels}</p>
         )}
-        <h4>利用制限の明細</h4>
+        <h4>{d.limitsTitle}</h4>
         <div class="limits">
           {plan.limits
             .filter((limit) => limit.scope !== 'model')
@@ -193,53 +212,54 @@ const structured = [
               <div class="limit-item">
                 <div class="limit-heading">
                   <strong>{limit.metric}</strong>
-                  <span>{formatLimit(limit)}</span>
+                  <span>{formatLimit(limit, locale)}</span>
                 </div>
                 <dl>
                   <div>
-                    <dt>制限対象</dt>
+                    <dt>{d.limitScope}</dt>
                     <dd>
-                      {{ plan: 'プラン全体', model: 'モデル別', feature: '機能別' }[limit.scope]}
+                      {scopeLabelsForLocale[limit.scope]}
                       {limit.targetId && `: ${limit.targetId}`}
                     </dd>
                   </div>
                   <div>
-                    <dt>時間窓</dt>
+                    <dt>{d.limitWindow}</dt>
                     <dd>{limit.window}</dd>
                   </div>
                   <div>
-                    <dt>リセット</dt>
+                    <dt>{d.limitReset}</dt>
                     <dd>{limit.resetPolicy}</dd>
                   </div>
                   <div>
-                    <dt>超過時</dt>
+                    <dt>{d.limitOverage}</dt>
                     <dd>{limit.overagePolicy}</dd>
                   </div>
                   <div>
-                    <dt>繰越</dt>
+                    <dt>{d.limitRollover}</dt>
                     <dd>{limit.rolloverPolicy}</dd>
                   </div>
                 </dl>
                 <p>{limit.notes}</p>
-                <a href={limit.sourceUrl}>この制限の公式出典</a>
+                <a href={limit.sourceUrl}>{d.limitSource}</a>
               </div>
             ))}
         </div>
-        {!plan.limits.some((limit) => limit.scope !== 'model') && (
-          <p>モデル共通の利用制限は未調査。モデル別の枠を上記に表示しています。</p>
-        )}
+        {!plan.limits.some((limit) => limit.scope !== 'model') && <p>{d.noPlanLimits}</p>}
         <div class="plan-sources">
           <p>
-            {confidenceLabels[plan.confidence]} · 確認日{' '}
-            <time datetime={plan.verifiedAt}>{formatDate(plan.verifiedAt)}</time>
+            {confidenceLabelsForLocale[plan.confidence]} · {d.planChecked}{' '}
+            <time datetime={plan.verifiedAt}>{formatDate(plan.verifiedAt, locale)}</time>
           </p>
-          <a href={plan.pricingUrl}>公式プランページで最新情報を確認</a>
+          <a href={plan.pricingUrl}>{d.planSources}</a>
           <details>
-            <summary>参照した公式出典（{plan.sources.length}件）</summary>
+            <summary>{interpolate(d.sourcesSummary, { count: plan.sources.length })}</summary>
             <ul>
               {plan.sources.map((source) => (
                 <li>
-                  <a href={source.url}>{source.url}</a>（{formatDate(source.verifiedAt)}確認）
+                  <a href={source.url}>{source.url}</a>{' '}
+                  {interpolate(d.sourceCheckedOn, {
+                    date: formatDate(source.verifiedAt, locale),
+                  })}
                 </li>
               ))}
             </ul>
@@ -248,18 +268,19 @@ const structured = [
       </section>
     ))}
     <section class="service-sources">
-      <h2>サービス情報の出典</h2>
+      <h2>{d.serviceSources}</h2>
       <ul>
-        {service.sources.map((s) => (
+        {service.sources.map((source) => (
           <li>
-            <a href={s.url}>{s.url}</a>（{formatDate(s.verifiedAt)}確認）
+            <a href={source.url}>{source.url}</a>{' '}
+            {interpolate(d.sourceCheckedOn, { date: formatDate(source.verifiedAt, locale) })}
           </li>
         ))}
       </ul>
     </section>
   </div>
   <script>
-    import { isStale } from '../../lib/format';
+    import { isStale } from '../../../lib/format';
     for (const element of document.querySelectorAll<HTMLElement>('[data-verified]'))
       element.hidden = !isStale(element.dataset.verified!);
   </script>

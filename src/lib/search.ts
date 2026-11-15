@@ -28,7 +28,7 @@ export const defaults: Filters = {
   sort: 'name',
   view: 'table',
 };
-const normalize = (s: string) => s.normalize('NFKC').toLocaleLowerCase('ja-JP').trim();
+const normalize = (s: string) => s.normalize('NFKC').toLocaleLowerCase().trim();
 const available = ['available', 'conditional'];
 
 export function readFilters(params: URLSearchParams): Filters {
@@ -124,7 +124,7 @@ export function searchCatalog(data: Catalog, filters: Filters) {
   };
   return services.sort((a, b) => {
     if (filters.sort === 'verified')
-      return b.verifiedAt.localeCompare(a.verifiedAt) || a.name.localeCompare(b.name, 'ja');
+      return b.verifiedAt.localeCompare(a.verifiedAt) || a.name.localeCompare(b.name);
     if (filters.sort === 'price') {
       const pa = priceOf(a.id),
         pb = priceOf(b.id);
@@ -132,7 +132,7 @@ export function searchCatalog(data: Catalog, filters: Filters) {
       if (pa !== null && pb === null) return -1;
       if (pa !== null && pb !== null && pa !== pb) return pa - pb;
     }
-    return a.name.localeCompare(b.name, 'ja');
+    return a.name.localeCompare(b.name);
   });
 }
 

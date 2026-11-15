@@ -1,81 +1,103 @@
 import type { Limit, Plan } from './schema';
+import type { Locale } from '../i18n/locale';
+import { localeIntl } from '../i18n/locale';
+import { getMessages, interpolate } from '../i18n/messages';
 
-export const billingLabels = {
-  free: '無料',
-  subscription: '定額',
-  usage: '従量課金',
-  hybrid: '定額＋従量',
-};
-export const typeLabels = {
-  client: 'クライアント',
-  hosted_agent: 'ホスト型サービス',
-  model_provider: 'モデルプロバイダー',
-  other: 'その他',
-};
-export const knowledgeLabels = {
-  known: '数値公開',
-  undisclosed: '非公開',
-  unresearched: '未調査',
-  unavailable: '利用不可',
-  unlimited: '制限なし（対象範囲のみ）',
-  failed: '確認失敗',
-};
-export const accessLabels = {
-  available: '利用可能',
-  unavailable: '利用不可',
-  unknown: '対応状況不明',
-  conditional: '条件付き',
-};
-export const confidenceLabels = {
-  official: '公式確認済み',
-  needs_review: '要確認',
-  unknown: '不明',
-};
+/** Billing labels for the interface language. */
+export function billingLabels(locale: Locale) {
+  return getMessages(locale).labels.billing;
+}
+export function typeLabels(locale: Locale) {
+  return getMessages(locale).labels.types;
+}
+export function knowledgeLabels(locale: Locale) {
+  return getMessages(locale).labels.knowledge;
+}
+export function accessLabels(locale: Locale) {
+  return getMessages(locale).labels.access;
+}
+export function confidenceLabels(locale: Locale) {
+  return getMessages(locale).labels.confidence;
+}
+export function freshnessLabels(locale: Locale) {
+  return getMessages(locale).labels.freshness;
+}
+export function scopeLabels(locale: Locale) {
+  return getMessages(locale).labels.scope;
+}
 
-export function formatPrice(plan: Plan): string {
-  if (plan.billingType === 'free' && plan.price?.amount === 0) return '無料';
-  if (!plan.price)
+/**
+ * Formats the plan price in the currency the vendor charges.
+ *
+ * No conversion ever happens: the amount and currency come straight from the
+ * catalog. Only the period suffix and the free/usage wording is localized.
+ */
+export function formatPrice(plan: Plan, locale: Locale): string {
+  const t = getMessages(locale);
+  const period = plan.price
+    ? { month: t.common.perMonth, year: t.common.perYear, one_time: t.common.oneTime }[
+        plan.price.period
+      ]
+    : '';
+  if (plan.billingType === 'free' && plan.price?.amount === 0) return t.common.free;
+  if (!plan.price) {
+    if (plan.billingType === 'usage') return t.common.usageNoMonthly;
+    return interpolate(t.common.pricePrefix, { state: t.labels.knowledge[plan.priceStatus] });
+  }
+  const { amount, currency } = plan.price;
+  if (amount === 0) {
     return plan.billingType === 'usage'
-      ? '従量課金（月額なし）'
-      : `料金${knowledgeLabels[plan.priceStatus]}`;
-  const { amount, currency, period } = plan.price;
-  if (amount === 0)
-    return plan.billingType === 'usage' ? '従量課金（月額なし）' : `無料（0 ${currency}）`;
-  const money = new Intl.NumberFormat('ja-JP', {
+      ? t.common.usageNoMonthly
+      : `${t.common.free} (0 ${currency})`;
+  }
+  const money = new Intl.NumberFormat(localeIntl[locale], {
     style: 'currency',
     currency,
     maximumFractionDigits: 2,
   }).format(amount);
   // The symbol already carries the currency, so the code is not repeated here.
-  return `${money} / ${{ month: '月', year: '年', one_time: '買い切り' }[period]}`;
+  return `${money} ${period}`.trim();
 }
-/** One shape for list/sort prices: `$20 / 月`, `無料`, `不明`. */
-export function formatMonthlyPrice(amount: number | null, currency: 'USD' | 'JPY'): string {
-  if (amount === null) return '不明';
-  if (amount === 0) return '無料';
-  const money = new Intl.NumberFormat('ja-JP', {
+
+/** One shape for list/sort prices: `$20 / month`, `Free`, `Unknown`. */
+export function formatMonthlyPrice(
+  amount: number | null,
+  currency: 'USD' | 'JPY',
+  locale: Locale,
+): string {
+  const t = getMessages(locale);
+  if (amount === null) return t.common.unknown;
+  if (amount === 0) return t.common.free;
+  const money = new Intl.NumberFormat(localeIntl[locale], {
     style: 'currency',
     currency,
     maximumFractionDigits: 2,
   }).format(amount);
-  return `${money} / 月`;
+  return `${money} ${t.common.perMonth}`;
 }
-export function formatLimit(limit: Limit): string {
-  return limit.status === 'known'
-    ? `${limit.amount?.toLocaleString('ja-JP')} ${limit.unit} / ${limit.window}`
-    : knowledgeLabels[limit.status];
+
+export function formatLimit(limit: Limit, locale: Locale): string {
+  const t = getMessages(locale);
+  if (limit.status !== 'known') return t.labels.knowledge[limit.status];
+  const amount = (limit.amount ?? 0).toLocaleString(localeIntl[locale]);
+  // A dash window means the value has no time window (e.g. seat counts).
+  const window = limit.window === '—' ? '' : ` / ${limit.window}`;
+  return `${amount} ${limit.unit}${window}`;
 }
-export function formatDate(value: string): string {
-  return new Intl.DateTimeFormat('ja-JP', {
+
+export function formatDate(value: string, locale: Locale): string {
+  return new Intl.DateTimeFormat(localeIntl[locale], {
     timeZone: 'Asia/Tokyo',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
   }).format(new Date(value));
 }
+
 export function isStale(date: string, now = new Date()): boolean {
   return now.valueOf() - new Date(date).valueOf() >= 30 * 86400000;
 }
+
 /** Whole days between the verification date and today (JST-independent, date-only). */
 export function daysSince(date: string, now = new Date()): number {
   return Math.floor((now.valueOf() - new Date(`${date}T00:00:00Z`).valueOf()) / 86400000);

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { catalog } from '../../src/lib/catalog';
+import { localizeCatalog } from '../../src/i18n/data';
 import rawObservations from '../../src/data/observations.json';
 import {
   observationsSchema,
@@ -50,18 +51,22 @@ describe('掲載開始日と鮮度', () => {
   });
 
   it('変更値を未知と0で区別して表示する', () => {
-    expect(formatChangeValue(null)).toBe('記録なし');
-    expect(formatChangeValue(0)).toBe('0');
-    expect(formatChangeValue('$20')).toBe('$20');
+    expect(formatChangeValue(null, 'ja')).toBe('記録なし');
+    expect(formatChangeValue(0, 'ja')).toBe('0');
+    expect(formatChangeValue('$20', 'ja')).toBe('$20');
+    expect(formatChangeValue(null, 'en')).toBe('No record');
   });
 });
 
 describe('SEOの構造化データ', () => {
   it('WebSiteにサイト名・言語・URLを含める', () => {
-    const data = website('AI Plan Radar', '説明') as Record<string, unknown>;
+    const data = website('ja', 'AI Plan Radar', '説明') as Record<string, unknown>;
     expect(data['@type']).toBe('WebSite');
     expect(data.inLanguage).toBe('ja');
     expect(String(data.url)).toBe('https://tonbiattack.github.io/ai-plan-radar/');
+    expect(
+      (website('en', 'AI Plan Radar', 'Description') as Record<string, unknown>).inLanguage,
+    ).toBe('en');
   });
 
   it('パンくずの位置が連番になる', () => {
@@ -98,12 +103,14 @@ describe('一覧カードの利用枠サマリ', () => {
     const withLimits = serviceFacts(
       catalog,
       catalog.services.find((s) => s.id === 'github-copilot')!,
+      'ja',
     );
     expect(withLimits.limitSummary.length).toBeGreaterThan(0);
     expect(withLimits.limitsUnknown).toBe(false);
     const withoutLimits = serviceFacts(
       catalog,
       catalog.services.find((s) => s.id === 'opencode')!,
+      'ja',
     );
     expect(withoutLimits.limitsUnknown).toBe(true);
     expect(withoutLimits.limitSummary).toEqual([]);
@@ -113,17 +120,38 @@ describe('一覧カードの利用枠サマリ', () => {
     const copilot = serviceFacts(
       catalog,
       catalog.services.find((s) => s.id === 'github-copilot')!,
+      'ja',
     );
     expect(copilot.cheapestLabel).toBe('無料');
     const claude = serviceFacts(
       catalog,
       catalog.services.find((s) => s.id === 'claude-code')!,
+      'ja',
     );
     expect(claude.cheapestLabel).toMatch(/^\$[\d,.]+ \/ 月$/);
     const usageOnly = serviceFacts(
       catalog,
       catalog.services.find((s) => s.id === 'deepseek-api')!,
+      'ja',
     );
     expect(usageOnly.cheapestLabel).toBe('従量のみ');
+  });
+
+  it('英語表示でも価格と通貨は元データのまま', () => {
+    const localized = localizeCatalog(catalog, 'en');
+    const claude = serviceFacts(
+      localized,
+      localized.services.find((s) => s.id === 'claude-code')!,
+      'en',
+    );
+    expect(claude.cheapestLabel).toMatch(/^\$[\d,.]+ \/ month$/);
+    const copilot = serviceFacts(
+      localized,
+      localized.services.find((s) => s.id === 'github-copilot')!,
+      'en',
+    );
+    expect(copilot.cheapestLabel).toBe('Free');
+    expect(copilot.limitSummary.length).toBeGreaterThan(0);
+    expect(copilot.limitSummary.join(' ')).not.toMatch(/[ぁ-んァ-ン一-龥]/);
   });
 });

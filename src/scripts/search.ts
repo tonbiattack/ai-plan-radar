@@ -1,6 +1,12 @@
 import { catalog } from '../lib/catalog';
 import { catalogFacts } from '../lib/views';
 import { defaults, readFilters, searchCatalog, writeFilters, type Filters } from '../lib/search';
+import type { Locale } from '../i18n/locale';
+import { getMessages, interpolate } from '../i18n/messages';
+
+/** Locale of the page; set by the page through a data attribute. */
+const locale = (document.documentElement.lang === 'ja' ? 'ja' : 'en') as Locale;
+const t = getMessages(locale);
 
 const form = document.querySelector<HTMLFormElement>('#filters')!;
 const quickSearch = document.querySelector<HTMLInputElement>('#quick-search')!;
@@ -20,24 +26,12 @@ const panels = new Map(
     document.querySelector<HTMLElement>(`#view-${view}`)!,
   ]),
 );
-const facts = new Map(catalogFacts(catalog).map((service) => [service.id, service]));
+const facts = new Map(catalogFacts(catalog, locale).map((service) => [service.id, service]));
 const summary = document.querySelector('#filter-summary');
 // The view is not a filter field, so it is tracked separately and restored from the URL.
 let currentView: string = defaults.view;
 
-const KEY_LABELS: Record<keyof Filters, string> = {
-  q: 'キーワード',
-  category: 'カテゴリ',
-  billing: '課金方式',
-  free: '無料',
-  model: 'モデル',
-  type: '種類',
-  disclosure: '利用枠',
-  currency: '通貨',
-  max: '月額上限',
-  sort: '並べ替え',
-  view: '表示',
-};
+const KEY_LABELS: Record<keyof Filters, string> = t.home.filterNames;
 
 function readForm(): Filters {
   const filters = readFilters(
@@ -50,7 +44,7 @@ function readForm(): Filters {
 
 const visibleServices = (filters: Filters) =>
   new Set(searchCatalog(catalog, filters).map((service) => service.id));
-const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase('ja-JP').trim();
+const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase().trim();
 
 function planVisible(filters: Filters, serviceId: string, planId: string): boolean {
   const service = facts.get(serviceId)!;
@@ -98,15 +92,18 @@ function render(filters: Filters) {
     if (show) planCount++;
   }
   for (const card of cardRows) card.hidden = !visible.has(card.dataset.service!);
-  count.textContent =
-    filters.view === 'plans' ? `${planCount}件のプラン` : `${serviceCount}件のサービス`;
+  count.textContent = interpolate(filters.view === 'plans' ? t.counts.plans : t.counts.services, {
+    count: filters.view === 'plans' ? planCount : serviceCount,
+  });
   empty.hidden = (filters.view === 'plans' ? planCount : serviceCount) > 0;
   setView(filters.view);
   if (summary) {
     const active = (Object.keys(defaults) as (keyof Filters)[])
       .filter((key) => key !== 'view' && filters[key] !== defaults[key])
       .map((key) => KEY_LABELS[key]);
-    summary.textContent = active.length ? `適用中: ${active.join(' / ')}` : 'すべてのサービス';
+    summary.textContent = active.length
+      ? interpolate(t.home.filters.applied, { list: active.join(' / ') })
+      : t.home.filters.allServices;
   }
 }
 

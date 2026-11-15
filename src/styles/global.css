@@ -212,6 +212,18 @@ nav {
 .site-header nav a:hover {
   text-decoration: underline;
 }
+/* Language switch: the only nav item that changes the page language. */
+.site-header nav .lang-switch {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 6px 12px;
+  background: white;
+  font-weight: 600;
+}
+.site-header nav .lang-switch:hover {
+  text-decoration: none;
+  border-color: var(--teal);
+}
 .intro {
   padding-block: 54px 38px;
   display: grid;
@@ -1501,7 +1513,7 @@ details li,
 }
 .cell-quiet,
 .model-summary-quiet {
-  color: #6b7f92;
+  color: #53677b;
   font-size: 0.72rem;
 }
 .service-identity {

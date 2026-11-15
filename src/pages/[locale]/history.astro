@@ -1,0 +1,219 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { catalog as rawCatalog } from '../../lib/catalog';
+import { localizeCatalog } from '../../i18n/data';
+import rawObservations from '../../data/observations.json';
+import {
+  observationsSchema,
+  daysSinceCheck,
+  freshness,
+  freshnessLabels,
+  formatChangeValue,
+} from '../../lib/history';
+import { formatDate } from '../../lib/format';
+import { breadcrumbs } from '../../lib/seo';
+import type { Locale } from '../../i18n/locale';
+import { locales } from '../../i18n/locale';
+import { getMessages, interpolate } from '../../i18n/messages';
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const t = getMessages(locale);
+const h = t.history;
+const catalog = localizeCatalog(rawCatalog, locale);
+const observations = observationsSchema.parse(rawObservations);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const prefix = `${base}/${locale}`;
+const freshnessLabelsForLocale = freshnessLabels(locale);
+const serviceById = new Map(catalog.services.map((service) => [service.id, service]));
+const planById = new Map(catalog.plans.map((plan) => [plan.id, plan]));
+const firstSeen = new Map(
+  observations.entries.map((entry) => [`${entry.kind}:${entry.id}`, entry.firstSeenAt]),
+);
+
+const changes = [...catalog.changes]
+  .filter((change) => change.reviewStatus !== 'rejected')
+  .sort((a, b) => b.observedAt.localeCompare(a.observedAt));
+
+const rows = catalog.services
+  .map((service) => {
+    const days = daysSinceCheck(service.verifiedAt);
+    return {
+      service,
+      days,
+      state: freshness(days),
+      firstSeenAt: firstSeen.get(`service:${service.id}`) ?? null,
+      planCount: catalog.plans.filter((plan) => plan.serviceId === service.id).length,
+    };
+  })
+  .sort((a, b) => a.service.name.localeCompare(b.service.name));
+
+const stale = rows.filter((row) => row.state === 'stale').length;
+const unchecked = observations.entries.length === 0;
+---
+
+<Layout
+  locale={locale}
+  title={h.title}
+  description={h.description}
+  path="/history/"
+  structuredData={breadcrumbs([
+    { name: 'AI Plan Radar', path: `/${locale}/` },
+    { name: h.h1, path: `/${locale}/history/` },
+  ])}
+>
+  <div class="container history-page">
+    <header class="history-header">
+      <h1>{h.h1}</h1>
+      <p>{h.intro}</p>
+    </header>
+
+    <aside class="notice notice-warn">
+      <strong>{h.noticeTitle}</strong>
+      <p>{h.noticeBody}</p>
+    </aside>
+
+    <section class="history-card" aria-labelledby="changes-title">
+      <h2 id="changes-title">{h.changesTitle}</h2>
+      {changes.length ? (
+        <ul class="change-list">
+          {changes.map((change) => {
+            const service = serviceById.get(change.serviceId)!;
+            const plan = change.planId ? planById.get(change.planId) : null;
+            return (
+              <li class="change-item" id={change.id}>
+                <p class="change-meta">
+                  <strong>{service.name}</strong>
+                  {plan && <span> / {plan.name}</span>}
+                  <span class="pill">
+                    {change.reviewStatus === 'approved' ? h.approved : h.pending}
+                  </span>
+                </p>
+                <p class="change-field">{change.field}</p>
+                <dl class="change-values">
+                  <div>
+                    <dt>{h.old}</dt>
+                    <dd>{formatChangeValue(change.before, locale)}</dd>
+                  </div>
+                  <div>
+                    <dt>{h.new}</dt>
+                    <dd>{formatChangeValue(change.after, locale)}</dd>
+                  </div>
+                </dl>
+                <p class="change-dates">
+                  {h.observed}{' '}
+                  <time datetime={change.observedAt}>
+                    {formatDate(change.observedAt.slice(0, 10), locale)}
+                  </time>
+                  {change.effectiveAt && (
+                    <>
+                      {' '}
+                      / {h.effective}{' '}
+                      <time datetime={change.effectiveAt}>
+                        {formatDate(change.effectiveAt.slice(0, 10), locale)}
+                      </time>
+                    </>
+                  )}
+                </p>
+                <a href={change.sourceUrl} rel="noopener noreferrer">
+                  {h.checkSource}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p class="history-empty">{h.changesEmpty}</p>
+      )}
+    </section>
+
+    <section class="history-card" aria-labelledby="freshness-title">
+      <h2 id="freshness-title">{h.freshnessTitle}</h2>
+      <p class="history-note">{interpolate(h.freshnessNote, { stale })}</p>
+      {unchecked ? (
+        <p>{interpolate(h.noListingDate, { command: h.historySyncCommand })}</p>
+      ) : (
+        <div class="table-scroll">
+          <table class="compare-table history-table">
+            <caption>{h.tableCaption}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{h.headers.service}</th>
+                <th scope="col">{h.headers.listed}</th>
+                <th scope="col">{h.headers.checked}</th>
+                <th scope="col">{h.headers.age}</th>
+                <th scope="col">{h.headers.freshness}</th>
+                <th scope="col">{h.headers.plans}</th>
+                <th scope="col">{h.headers.changes}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => {
+                const serviceChanges = changes.filter(
+                  (change) => change.serviceId === row.service.id,
+                ).length;
+                return (
+                  <tr id={`service-${row.service.id}`}>
+                    <th scope="row">
+                      <a href={`${prefix}/services/${row.service.slug}/`}>{row.service.name}</a>
+                    </th>
+                    <td data-label={h.headers.listed}>
+                      {row.firstSeenAt ? (
+                        <time datetime={row.firstSeenAt}>
+                          {formatDate(row.firstSeenAt, locale)}
+                        </time>
+                      ) : (
+                        h.noRecord
+                      )}
+                    </td>
+                    <td data-label={h.headers.checked}>
+                      <time datetime={row.service.verifiedAt}>
+                        {formatDate(row.service.verifiedAt, locale)}
+                      </time>
+                    </td>
+                    <td data-label={h.headers.age}>
+                      {interpolate(t.counts.daysAgo, { count: row.days })}
+                    </td>
+                    <td data-label={h.headers.freshness}>
+                      <span class:list={['pill', `freshness-${row.state}`]}>
+                        {freshnessLabelsForLocale[row.state]}
+                      </span>
+                    </td>
+                    <td data-label={h.headers.plans}>{row.planCount}</td>
+                    <td data-label={h.headers.changes}>
+                      {serviceChanges
+                        ? interpolate(t.counts.changes, { count: serviceChanges })
+                        : h.noRecord}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+
+    <section class="history-card">
+      <h2>{h.rulesTitle}</h2>
+      <ul class="history-rules">
+        {h.rules.map((rule) => (
+          <li>
+            {rule.includes('{command}') ? (
+              <>
+                {rule.split('{command}')[0]}
+                <code>{h.historySyncCommand}</code>
+                {rule.split('{command}')[1]}
+              </>
+            ) : (
+              rule
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Layout>
