@@ -8,7 +8,7 @@
     "harness": "mini-SWE-agent",
     "sourceUrl": "https://www.swebench.com/verified.html",
     "dataUrl": "https://www.swebench.com/index.html",
-    "retrievedAt": "2026-11-14",
+    "retrievedAt": "2026-11-15",
     "notes": "エージェント構成が異なる結果やチーム未確認の自己申告値は除外。スコアは評価条件に依存し、製品での実利用性能を保証しません。1インスタンスあたりのコストは評価時点のAPI料金に基づく概算で、現在の価格ではありません。0は無料または未算定のため非表示。"
   },
   "results": [

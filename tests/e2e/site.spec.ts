@@ -14,6 +14,12 @@ test('CodexとDevinの料金と利用条件を掲載', async ({ page }) => {
 test('モデル性能ページに評価条件と出典を表示', async ({ page }) => {
   await page.goto('./models/');
   await expect(page.getByRole('heading', { name: 'モデル性能', level: 1 })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'ProgramBench' })).toBeVisible();
+  await expect(page.getByRole('rowheader', { name: 'GPT 6 Astra (max)' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'ProgramBench公式リーダーボード' })).toHaveAttribute(
+    'href',
+    'https://programbench.com/',
+  );
   await expect(page.getByRole('rowheader', { name: /Claude 4\.5 Opus/ })).toBeVisible();
   await expect(page.getByText('mini-SWE-agent（全結果で共通）')).toBeVisible();
   await expect(page.getByRole('link', { name: 'SWE-bench公式リーダーボード' })).toHaveAttribute(

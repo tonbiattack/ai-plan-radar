@@ -35,7 +35,7 @@ const results = verified.results
   .filter(
     (result) =>
       result.agent === 'mini-SWE-agent' &&
-      result.checked &&
+      result.checked === true &&
       typeof result.resolved === 'number' &&
       typeof result['mini-swe-agent_version'] === 'string',
   )

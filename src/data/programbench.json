@@ -1,0 +1,21 @@
+{
+  "sourceUrl": "https://programbench.com/",
+  "sourceUpdatedAt": "2026-10-22",
+  "retrievedAt": "2026-11-15",
+  "instances": 200,
+  "results": [
+    { "model": "Claude Opus 5.5 (xhigh)", "resolved": 18.5, "almost": 70.5, "cost": 36.36 },
+    { "model": "Claude Fable 5.1 (xhigh)", "resolved": 9.0, "almost": 55.5, "cost": 56.84 },
+    { "model": "Muse Wonder Full", "resolved": 8.5, "almost": 60.0, "cost": null },
+    { "model": "Muse Wonder (xhigh)", "resolved": 5.5, "almost": 50.5, "cost": 36.53 },
+    { "model": "GPT 6 Astra (max)", "resolved": 5.0, "almost": 52.5, "cost": 11.47 },
+    { "model": "Claude Opus 5 (xhigh)", "resolved": 4.5, "almost": 37.0, "cost": 50.53 },
+    { "model": "Muse Spark 1.3 (max)", "resolved": 2.5, "almost": 25.0, "cost": 6.46 },
+    { "model": "Muse Spark 1.3 (xhigh)", "resolved": 1.0, "almost": 16.5, "cost": 2.02 },
+    { "model": "GPT-5.6 Sol (xhigh)", "resolved": 1.0, "almost": 15.5, "cost": 6.08 },
+    { "model": "GPT 5.5 (xhigh)", "resolved": 0.5, "almost": 13.5, "cost": 8.85 },
+    { "model": "GPT 5.5 (high)", "resolved": 0.5, "almost": 5.0, "cost": 3.65 },
+    { "model": "Gemini 3.6 Flash", "resolved": 0.5, "almost": 4.0, "cost": 4.83 },
+    { "model": "GPT-5.6 Sol", "resolved": 0.5, "almost": 2.5, "cost": 1.0 }
+  ]
+}

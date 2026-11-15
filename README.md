@@ -9,7 +9,7 @@ AIコーディングサービスの料金、対応モデル、利用枠を公式
 - サービス別・プラン別の比較表とカード表示
 - キーワード、課金方式、対応モデル、利用枠、基本月額などによる絞り込み
 - 料金や利用枠の公式出典と確認日を掲載
-- SWE-bench Verified（Bash Only）のモデル性能と評価条件を表示
+- ProgramBenchとSWE-bench Verified（Bash Only）のモデル性能と評価条件を表示
 - RSS・GitHub Releasesから更新候補を収集し、レビュー用に保存
 
 価格や利用枠は変更されることがあります。契約前には各サービスの公式情報を確認してください。本体とモデル提供元が別契約の場合もあります。未確認の上限を「制限なし」として扱いません。
@@ -45,6 +45,7 @@ npm run format:check          # フォーマットを確認
 | -------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | サービス・プラン・モデル・利用枠 | [`src/data/catalog.json`](src/data/catalog.json) を編集                                               |
 | モデル性能                       | `npm run bench:sync` で [`src/data/swebench-verified.json`](src/data/swebench-verified.json) を再生成 |
+| ProgramBench                     | 公式ランキング上位を [`src/data/programbench.json`](src/data/programbench.json) に手動採録            |
 | ニュース                         | [`docs/CONTRIBUTING-NEWS.md`](docs/CONTRIBUTING-NEWS.md) を参照                                       |
 | 更新候補の監視                   | [`docs/WATCH-SOURCES.md`](docs/WATCH-SOURCES.md) を参照                                               |
 
