@@ -2,12 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 import raw from '../data/swebench-verified.json';
 import programbenchRaw from '../data/programbench.json';
+import aiderRaw from '../data/aider-polyglot.json';
+import { aiderSchema } from '../lib/aider';
 import { programbenchSchema } from '../lib/programbench';
 import { benchmarkDataSchema } from '../lib/benchmark';
 import { catalog } from '../lib/catalog';
 import { formatDate } from '../lib/format';
 const data = benchmarkDataSchema.parse(raw);
 const programbench = programbenchSchema.parse(programbenchRaw);
+const aider = aiderSchema.parse(aiderRaw);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const linkedModelIds = new Set(data.results.map((result) => result.modelId).filter(Boolean));
 const linkedModels = catalog.models.filter((model) => linkedModelIds.has(model.id));
@@ -31,7 +34,7 @@ const best = data.results[0].score;
         <div>
           <h2 id="programbench-title">ProgramBench</h2>
           <p>
-            実行ファイルと説明文をもとにソースコードを一から再実装する評価。公式ランキングの上位13件を掲載しています。
+            実行ファイルと説明文をもとにソースコードを一から再実装する評価。公式ランキングの30件を掲載しています。
           </p>
         </div>
         <span class="badge">{programbench.instances}問</span>
@@ -50,7 +53,7 @@ const best = data.results[0].score;
       </p>
       <div class="benchmark-table-scroll">
         <table class="benchmark-table">
-          <caption>ProgramBench公式ランキング上位13件。完全解決率とほぼ解決率を併記。</caption>
+          <caption>ProgramBench公式ランキング30件。完全解決率とほぼ解決率を併記。</caption>
           <thead>
             <tr>
               <th scope="col">順位</th>
@@ -79,6 +82,57 @@ const best = data.results[0].score;
       </div>
       <p class="benchmark-note">
         テストの網羅性には限界があります。コストは評価時のAPI費用で、現在の利用料金ではありません。各結果の評価日・ハーネス版はこの表では未確認です。実サービスの性能や利用可能性を保証しません。
+      </p>
+    </section>
+
+    <section class="benchmark-card" aria-labelledby="aider-title">
+      <div class="benchmark-title">
+        <div>
+          <h2 id="aider-title">Aider Polyglot</h2>
+          <p>DeepSeekを含む公式結果から一部を抜粋。順位ではなく正解率の高い順に掲載しています。</p>
+        </div>
+        <span class="badge">最大225問</span>
+      </div>
+      <p>
+        C++・Go・Java・JavaScript・Python・Rustの課題をAiderで解く評価です。正解率は最大2回の試行後の値。評価日、Aiderの版、編集形式、対象問題数が異なるため単純比較には注意してください。
+      </p>
+      <p>
+        確認日: <time datetime={aider.retrievedAt}>{formatDate(aider.retrievedAt)}</time> /{' '}
+        <a href={aider.sourceUrl}>Aider公式リーダーボード</a>
+      </p>
+      <div class="benchmark-table-scroll">
+        <table class="benchmark-table">
+          <caption>Aider Polyglotの抜粋。掲載結果は2025年の評価です。</caption>
+          <thead>
+            <tr>
+              <th scope="col">モデル・設定</th>
+              <th scope="col">正解率</th>
+              <th scope="col">評価日</th>
+              <th scope="col">Aider版</th>
+              <th scope="col">編集形式</th>
+              <th scope="col">対象問題数</th>
+            </tr>
+          </thead>
+          <tbody>
+            {aider.results.map((result) => (
+              <tr>
+                <th scope="row" data-label="モデル">
+                  {result.model}
+                </th>
+                <td data-label="正解率">{result.score.toFixed(1)}%</td>
+                <td data-label="評価日">
+                  <time datetime={result.date}>{formatDate(result.date)}</time>
+                </td>
+                <td data-label="Aider版">{result.version}</td>
+                <td data-label="編集形式">{result.format}</td>
+                <td data-label="対象問題数">{result.cases}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="benchmark-note">
+        掲載は一部であり、最新のDeepSeekを含むすべてのモデルを評価したものではありません。他のベンチマークの数値と直接比較できません。
       </p>
     </section>
 

@@ -15,6 +15,9 @@ test('モデル性能ページに評価条件と出典を表示', async ({ page 
   await page.goto('./models/');
   await expect(page.getByRole('heading', { name: 'モデル性能', level: 1 })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'ProgramBench' })).toBeVisible();
+  await expect(page.getByRole('rowheader', { name: 'GLM-5.2' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Aider Polyglot' })).toBeVisible();
+  await expect(page.getByRole('rowheader', { name: 'DeepSeek-V3.2-Exp (Reasoner)' })).toBeVisible();
   await expect(page.getByRole('rowheader', { name: 'GPT 6 Astra (max)' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'ProgramBench公式リーダーボード' })).toHaveAttribute(
     'href',

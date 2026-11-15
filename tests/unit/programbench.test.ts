@@ -5,7 +5,7 @@ import { programbenchSchema } from '../../src/lib/programbench';
 describe('ProgramBench', () => {
   it('公式の完全解決率順と値の範囲を検証する', () => {
     const data = programbenchSchema.parse(raw);
-    expect(data.results).toHaveLength(13);
+    expect(data.results).toHaveLength(30);
     const scores = data.results.map((result) => result.resolved);
     expect(scores).toEqual([...scores].sort((a, b) => b - a));
     expect(data.results.every((result) => result.almost >= result.resolved)).toBe(true);
