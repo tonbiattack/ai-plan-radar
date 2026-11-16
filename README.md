@@ -76,6 +76,7 @@ Report bugs, price and limit changes, and new service candidates through [Issues
 - [How to add news](docs/CONTRIBUTING-NEWS.md)
 - [Watched sources and limits](docs/WATCH-SOURCES.md)
 - [Internationalisation](docs/I18N.md)
+- [GitHub Pages limits and Lighthouse results](docs/PAGES-QUALITY.md)
 - [Design](docs/DESIGN.md)
 
 ## Deployment
