@@ -45,6 +45,16 @@ Lighthouse 13.6.0、モバイル設定（`formFactor: mobile`、`throttlingMetho
 
 `/en/` の主要指標は LCP 0.8 秒、CLS 0、TBT 0 ms。再実行 3 回とも全カテゴリ 100 だった。
 
+### 公開サイトの実測（2026-11-16）
+
+デプロイ後の `https://tonbiattack.github.io/ai-plan-radar/en/` を同じ設定で測定した。
+
+| 対象        | Performance | Accessibility | Best Practices | SEO |
+| ----------- | ----------: | ------------: | -------------: | --: |
+| 公開 `/en/` |         100 |           100 |            100 | 100 |
+
+LCP 0.9 秒、CLS 0、TBT 0 ms。ローカルとの差はネットワーク往復の分だけで、スコアの減点はなかった。`/en/`・`/ja/`・`/en/models/`・`/en/services/kiro/`・`/` がいずれも HTTP 200 で、`html lang` は英語ページが `en`、日本語ページが `ja` であることを確認した。
+
 ### 初回のみ検出された事象
 
 最初の 1 回だけ Best Practices が 96 になり、`errors-in-console` に `http://127.0.0.1:4321/favicon.ico` の 404 が記録された。以降の実行（同一ページ 3 回、他 3 ページ）では再現していない。
