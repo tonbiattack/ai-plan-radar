@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { parseGithub, parseRss, toCandidate, watchSourceSchema } from '../../src/lib/watch';
+import {
+  mergeCandidates,
+  parseGithub,
+  parseRss,
+  toCandidate,
+  watchSourceSchema,
+} from '../../src/lib/watch';
 const source = watchSourceSchema.parse({
   id: 'test-feed',
   serviceId: null,
@@ -57,5 +63,19 @@ describe('監視候補', () => {
         urlOrQuery: 'https://example.com/',
       }).success,
     ).toBe(false);
+  });
+  it('候補をURLで重複排除し、検証失敗時は既存配列を変更しない', () => {
+    const make = (url: string) =>
+      toCandidate(source, { title: 'New', url, publishedAt: null }, '2026-01-01T00:00:00Z');
+    const existing = [make('https://example.com/existing')];
+    const incoming = [
+      make('https://example.com/existing?utm_source=feed'),
+      make('https://example.com/new'),
+      make('https://example.com/new?utm_source=feed'),
+    ];
+    expect(mergeCandidates([], existing, incoming, [])).toHaveLength(2);
+    const invalid = { ...make('https://example.com/invalid'), serviceIds: ['missing'] };
+    expect(() => mergeCandidates([], existing, [incoming[1], invalid], [])).toThrow();
+    expect(existing).toHaveLength(1);
   });
 });

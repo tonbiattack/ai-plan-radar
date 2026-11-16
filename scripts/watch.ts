@@ -1,13 +1,14 @@
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rename, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import {
   parseRss,
   parseGithub,
   toCandidate,
+  mergeCandidates,
   watchSourcesSchema,
   type WatchSource,
 } from '../src/lib/watch';
-import { normalizeUrl, validateNews, type NewsItem } from '../src/lib/news';
+import { validateNews, type NewsItem } from '../src/lib/news';
 import { catalog } from '../src/lib/catalog';
 import rawNews from '../src/data/news.json';
 import rawSources from '../src/data/watch-sources.json';
@@ -27,6 +28,17 @@ async function readOptional(path: string, fallback: string): Promise<string> {
     throw error;
   }
 }
+async function writeCandidates(items: NewsItem[]): Promise<void> {
+  const temporary = `${candidatesPath}.${process.pid}.tmp`;
+  try {
+    await writeFile(temporary, JSON.stringify(items, null, 2) + '\n');
+    await rename(temporary, candidatesPath);
+  } finally {
+    await unlink(temporary).catch((error: NodeJS.ErrnoException) => {
+      if (error.code !== 'ENOENT') throw error;
+    });
+  }
+}
 const sources = watchSourcesSchema.parse(rawSources);
 for (const source of sources)
   if (source.serviceId && !catalog.services.some((service) => service.id === source.serviceId))
@@ -36,7 +48,6 @@ const state = JSON.parse(await readOptional(statePath, '{}')) as State;
 const serviceIds = catalog.services.map((service) => service.id);
 const published = validateNews(rawNews, serviceIds);
 let candidates = validateNews(JSON.parse(await readOptional(candidatesPath, '[]')), serviceIds);
-const seen = new Set([...published, ...candidates].map((item) => normalizeUrl(item.sourceUrl)));
 const limit = 1024 * 1024;
 async function get(url: string): Promise<string> {
   // Redirects must not silently bypass robots or move to an unapproved host.
@@ -113,16 +124,10 @@ for (const source of sources.filter((s) => s.enabled).sort((a, b) => a.priority 
   }
   try {
     const items = await collect(source);
-    for (const item of items) {
-      const url = normalizeUrl(item.sourceUrl);
-      if (!seen.has(url)) {
-        candidates.push(item);
-        seen.add(url);
-      }
-    }
-    candidates = validateNews(candidates, serviceIds);
+    const nextCandidates = mergeCandidates(published, candidates, items, serviceIds);
     // Persist candidates before marking the check successful, so a failure cannot lose findings.
-    await writeFile(candidatesPath, JSON.stringify(candidates, null, 2) + '\n');
+    await writeCandidates(nextCandidates);
+    candidates = nextCandidates;
     state[source.id] = { lastCheckedAt: checkedAt, lastSuccessAt: checkedAt, error: null };
     console.log(`${source.id}: ${items.length}件取得、候補累計${candidates.length}件`);
   } catch (error) {

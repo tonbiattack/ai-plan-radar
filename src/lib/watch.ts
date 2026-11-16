@@ -1,7 +1,7 @@
 import { XMLParser } from 'fast-xml-parser';
 import { z } from 'zod';
 import { createHash } from 'node:crypto';
-import { normalizeUrl, newsItemSchema, type NewsItem } from './news';
+import { normalizeUrl, newsItemSchema, validateNews, type NewsItem } from './news';
 
 const httpsUrl = z.url().refine((value) => {
   try {
@@ -47,6 +47,24 @@ export const watchSourceSchema = z
       ctx.addIssue({ code: 'custom', message: 'GitHub Releases APIのURLを指定してください' });
   });
 export type WatchSource = z.infer<typeof watchSourceSchema>;
+/** Validate a complete batch before the caller persists it or changes in-memory state. */
+export function mergeCandidates(
+  published: NewsItem[],
+  existing: NewsItem[],
+  incoming: NewsItem[],
+  serviceIds: string[],
+): NewsItem[] {
+  const seen = new Set([...published, ...existing].map((item) => normalizeUrl(item.sourceUrl)));
+  const additions: NewsItem[] = [];
+  for (const item of incoming) {
+    const url = normalizeUrl(item.sourceUrl);
+    if (!seen.has(url)) {
+      additions.push(item);
+      seen.add(url);
+    }
+  }
+  return validateNews([...existing, ...additions], serviceIds);
+}
 export const watchSourcesSchema = z.array(watchSourceSchema).superRefine((sources, ctx) => {
   if (new Set(sources.map((s) => s.id)).size !== sources.length)
     ctx.addIssue({ code: 'custom', message: '監視元IDが重複しています' });
